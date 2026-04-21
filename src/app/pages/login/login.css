@@ -1,0 +1,63 @@
+.login-signup-page {
+    background-image: url('/image.jpg');
+    background-size: cover;
+    background-position: center;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.login-signup-container {
+    width: 400px;
+    padding: 2rem;
+    border: 2px solid white;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(3px);
+}
+
+.role-slider {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+    background-color: rgba(255, 255, 255, 0.4);
+    padding: 0.4rem;
+    border-radius: 999px;
+}
+.role-slider-element, .slider-slider {
+    width: 100px;
+    height: 2.5rem;
+}
+.role-slider-element {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    border: 2px solid white;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+.role-slider-element input {
+    width: 0;
+    height: 0;
+}
+.slider-slider {
+    position: absolute;
+    top: 50%;
+    left: 0.6rem;
+    transform: translate(0rem, -50%);
+    border: 3px solid var(--accent-dark);
+    background-color: transparent;
+    border-radius: 999px;
+    transition: transform 0.3s;
+    pointer-events: none;
+}
+
+[data-role="FARMER"] { transform: translate(0%, -50%); }
+[data-role="TRADER"] { transform: translate(calc(100% + 0.4rem), -50%); }
+[data-role="OFFICER"] { transform: translate(calc(200% + 0.8rem), -50%); }

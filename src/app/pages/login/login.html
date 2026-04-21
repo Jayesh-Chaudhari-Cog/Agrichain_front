@@ -1,14 +1,37 @@
-<div class="">
-    <h1>Login Page</h1>
-    <form>
-        <div>
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username">
-        </div>
-        <div>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password">
-        </div>
-        <button type="submit">Login</button>
-    </form>
+<div class="a-page login-signup-page">
+    <h1>Login</h1>
+    <div class="login-signup-container">
+        <form>
+            <div class="role-slider">
+                <label class="farmer-role-slider role-slider-element" for="role-farmer"
+                    [class.active]="role_selected() === 'FARMER'">Farmer
+                    <input type="radio" id="role-farmer" name="role" value="FARMER"
+                        [checked]="role_selected() === 'FARMER'" (change)="onRoleChange('FARMER')"
+                        (change)="onRoleChange('FARMER')">
+                </label>
+                <label class="trader-role-slider role-slider-element" for="role-trader"
+                    [class.active]="role_selected() === 'TRADER'">Trader
+                    <input type="radio" id="role-trader" name="role" value="TRADER"
+                        [checked]="role_selected() === 'TRADER'" (change)="onRoleChange('TRADER')"
+                        (change)="onRoleChange('TRADER')">
+                </label>
+                <label class="officer-role-slider role-slider-element" for="role-officer"
+                    [class.active]="role_selected() === 'OFFICER'">Officer
+                    <input type="radio" id="role-officer" name="role" value="OFFICER"
+                        [checked]="role_selected() === 'OFFICER'" (change)="onRoleChange('OFFICER')"
+                        (change)="onRoleChange('OFFICER')">
+                </label>
+                <div class="slider-slider" [attr.data-role]="role_selected()"></div>
+            </div>
+            <div class="input-box">
+                <label for="email" class="input-label">Email:</label>
+                <input type="email" id="email" name="email" class="input-field">
+            </div>
+            <div class="input-box">
+                <label for="password" class="input-label">Password:</label>
+                <input type="password" id="password" name="password" class="input-field">
+            </div>
+            <button type="submit">Login</button>
+        </form>
+    </div>
 </div>
