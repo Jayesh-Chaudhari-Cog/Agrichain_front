@@ -17,12 +17,13 @@ export const routes: Routes = [
         ]
     },
     // PROTECTED PAGES
-    // {
-    //     path: 'app',
-    //     component: AuthLayoutComponent,
-    //     canActivate: [authGuard], // Here JWT check happens
-    //     children: [
-    //         { path: 'admin', component: AdminPage }
-    //     ]
-    // }
+    {
+        path: 'dashboard',
+        component: AuthLayoutComponent,
+        // canActivate: [authGuard], // Here JWT check happens
+        children: [
+            { path: 'admin', component: AdminPage },
+            { path: '', redirectTo: '/dashboard/admin', pathMatch: 'full' }
+        ]
+    }
 ];
