@@ -2,7 +2,7 @@
 * {
     --header-height: 3.5rem;
 
-    --primary-text: #fff;
+    --primary-text: #000;
     --secondary-text: #555;
 
     --primary-color: #f5f5f5;
@@ -17,18 +17,29 @@
 }
 
 body.farmer {
-    --accent-color: #2ac02f;
-    --accent-dark: #255826;
+    /* --accent-color: #2ac02f;
+    --accent-dark: #255826; */
+    --accent-color: #9FCB98;
+    --accent-dark: #346739;
+    --accent-bg: #F2EDC2;
 }
 
 body.trader {
-    --accent-color: #1359c1;
-    --accent-dark: #0A3D7A;
+    /* --accent-color: #1359c1;
+    --accent-dark: #0A3D7A; */
+
+    --accent-color: #8ACBD0;
+    --accent-dark: #170C79;
+    --accent-bg: #F2EDC2;
 }
 
 body.officer {
-    --accent-color: #E65100;
-    --accent-dark: #9f2f0d;
+    /* --accent-color: #E65100;
+    --accent-dark: #9f2f0d; */
+
+    --accent-color: #FFB399;
+    --accent-dark: #b56657;
+    --accent-bg: #F2EDC2;
 }
 
 * {
@@ -57,6 +68,7 @@ main {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    gap: 1rem;
 }
 
 header {

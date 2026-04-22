@@ -17,7 +17,7 @@ export class LoginPage {
 	onAccountMethodChange(newMethod: string) {
 		this.account_method.set(newMethod);
 
-		this.onRoleChange("FARMER");
+		this.onRoleChange("FARMER")
 	}
 
 	onRoleChange(newRole: string) {
@@ -29,5 +29,7 @@ export class LoginPage {
         });
 
         this.renderer.addClass(document.body, newRole.toLowerCase());
+
+		localStorage.setItem('theme-role', newRole);
 	}
 }
