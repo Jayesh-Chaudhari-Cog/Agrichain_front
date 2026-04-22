@@ -11,6 +11,7 @@
     --farmer-green: #2EAD32;
     --trader-blue: #0D47A1;
     --officer-orange: #E65100;
+    --admin-purple: #d93098;
 }
 
 body.farmer {
@@ -111,4 +112,11 @@ main {
     font-size: 1.1rem;
     cursor: pointer;
     transition: background-color 0.3s;
+}
+
+.grad-text {
+    /* background: linear-gradient(to right, #3300fc, #95008a, #eb0000); */
+    background: linear-gradient(120deg, var(--farmer-green), var(--trader-blue), var(--officer-orange), var(--admin-purple));
+    background-clip: text;
+    color: transparent;
 }
