@@ -11,7 +11,14 @@ export class LoginPage {
 	protected readonly title = signal('Agrichain');
 
 	private renderer = inject(Renderer2);
+	account_method = signal("login");
 	role_selected = signal("FARMER");
+
+	onAccountMethodChange(newMethod: string) {
+		this.account_method.set(newMethod);
+
+		this.onRoleChange("FARMER");
+	}
 
 	onRoleChange(newRole: string) {
 		this.role_selected.set(newRole);
@@ -21,7 +28,6 @@ export class LoginPage {
             this.renderer.removeClass(document.body, role.toLowerCase());
         });
 
-        // 3. Add the new role class (e.g., "farmer", "trader")
         this.renderer.addClass(document.body, newRole.toLowerCase());
 	}
 }

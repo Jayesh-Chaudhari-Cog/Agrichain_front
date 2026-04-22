@@ -9,7 +9,7 @@ import { App } from "./app";
     imports: [RouterLink, MainHeader, Footer, App, RouterOutlet],
     template: `
     <app-main-header></app-main-header>
-    <main>
+    <main class="auth-main">
         <router-outlet></router-outlet>
     </main>
     <app-footer></app-footer>
