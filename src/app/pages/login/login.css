@@ -1,3 +1,7 @@
+.login-signup-page, .login-signup-container {
+    transition: all 0.2s;
+}
+
 .login-signup-page {
     /* background-image: url('/image.jpg'); */
     /* background-color: var(--primary-color); */
@@ -10,10 +14,11 @@
 .login-signup-container {
     width: 400px;
     padding: 1.5rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     border-radius: 8px;
     background-color: var(--accent-color);
     backdrop-filter: blur(3px);
+    transition: 0.2s ease;
 }
 
 .role-slider {
@@ -41,7 +46,8 @@
     justify-content: center;
     align-items: center;
     font-size: 1.1rem;
-    border: 2px solid white;
+    border: 2px solid var(--primary-text);
+    color: var(--secondary-text);
     border-radius: 999px;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
@@ -49,10 +55,11 @@
 .role-slider-element:hover {
     border: 2px solid var(--accent-color);
     background-color: var(--accent-color);
-    color: white;
+    font-weight: 600;
 }
 .role-slider-element.active {
     border: 2px solid transparent;
+    color: var(--primary-text);
 }
 .role-slider-element input {
     width: 0;
@@ -63,7 +70,7 @@
     top: 50%;
     left: 0.4rem;
     transform: translate(0rem, -50%);
-    border: 3px solid var(--accent-dark);
+    border: 3px solid var(--accent-color);
     background-color: transparent;
     border-radius: 999px;
     transition: transform 0.3s;

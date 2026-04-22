@@ -4,6 +4,7 @@ footer {
   color: #e0e0e0;
   padding: 40px 20px 20px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: all 0.2s;
 }
 
 .footer-container {
