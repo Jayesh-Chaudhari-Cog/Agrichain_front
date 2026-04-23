@@ -10,3 +10,4 @@ import { RouterLink } from '@angular/router';
 export class WelcomePage {
   protected readonly title = signal('Agrichain');
 }
+
