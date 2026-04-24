@@ -17,12 +17,7 @@ footer {
 }
 
 .footer-logo {
-  color: #ffffff;
-  margin-bottom: 15px;
-}
-
-.footer-logo span {
-  color: var(--accent-color);
+  font-size: 2.2rem;
 }
 
 .footer-section.footer-2 {

@@ -1,3 +1,5 @@
+
+
 .login-signup-page, .login-signup-container {
     transition: all 0.2s;
 }
@@ -41,7 +43,7 @@
     justify-content: center;
     align-items: center;
     font-size: 1.1rem;
-    border: 2px solid var(--primary-text);
+    border: 2px solid var(--accent-color);
     color: var(--secondary-text);
     border-radius: 999px;
     cursor: pointer;

@@ -4,7 +4,7 @@ import { WelcomePage } from './pages/welcome/welcome';
 import { AdminPage } from "./pages/admin/admin";
 import { PublicLayoutComponent } from './public-layout';
 import { AuthLayoutComponent } from './auth-layout';
-// import { authGuard } from './guards/auth.guard';
+import { authGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
     {

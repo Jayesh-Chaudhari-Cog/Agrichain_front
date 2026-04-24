@@ -9,7 +9,7 @@ import { Footer } from './header-footer/footer';
     imports: [RouterLink, PublicHeader, Footer, RouterOutlet],
     template: `
     <app-public-header></app-public-header>
-    <main class="public-main">
+    <main>
         <router-outlet></router-outlet>
     </main>
     <app-footer></app-footer>
