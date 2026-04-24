@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-web-name',
+  selector: 'website-name',
   template: `
     <style>
       .web-name {
