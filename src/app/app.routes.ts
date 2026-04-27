@@ -5,6 +5,7 @@ import { AdminPage } from "./pages/admin/admin";
 import { TraderPage } from "./pages/trader/trader";
 import { PublicLayoutComponent } from './public-layout';
 import { AuthLayoutComponent } from './auth-layout';
+import { RegisterPage } from './pages/register/register';
 
 export const routes: Routes = [
     {
@@ -22,6 +23,7 @@ export const routes: Routes = [
         component: AuthLayoutComponent,
         children: [
             { path: 'admin', component: AdminPage },
+            { path: 'register', component: RegisterPage },
             { path: 'trader', component: TraderPage }
         ]
     }
