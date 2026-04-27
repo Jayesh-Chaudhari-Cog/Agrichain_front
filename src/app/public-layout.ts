@@ -1,8 +1,8 @@
 import { Component, signal } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { PublicHeader } from './header-footer/public-header';
+import { PublicHeader } from './common-components/public-header';
 import { App } from "./app";
-import { Footer } from './header-footer/footer';
+import { Footer } from './common-components/footer';
 
 @Component({
     selector: 'public-layout',
