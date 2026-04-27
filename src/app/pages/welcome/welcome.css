@@ -1,0 +1,68 @@
+:host {
+	background: url('/welcome.jpg');
+	background-size: cover;
+	background-position: center;
+	background-attachment: fixed;
+}
+
+.center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	/* padding: 2rem; */
+}
+
+/* 1. REMOVE ALL BACKGROUND FROM THE CARD */
+.glass-card {
+	background: transparent;
+	/* Fully see-through */
+	border: none;
+	/* Remove the border if you want it totally invisible */
+	box-shadow: none;
+	/* Remove shadows */
+	text-align: center;
+	max-width: 800px;
+	color: white;
+	/* Ensure text is white to stay readable on the image */
+}
+
+.hero-title {
+	font-size: 3.5rem;
+	font-weight: 800;
+	margin-bottom: 2rem;
+	text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+	/* Adds a shadow to text so it pops */
+}
+
+.hero-description {
+	font-size: 1.2rem;
+	line-height: 1.6;
+	margin-bottom: 40px;
+}
+
+/* 2. REMOVE BACKGROUND FROM INDICATORS */
+.trust-indicators {
+	display: flex;
+	justify-content: space-around;
+	background: transparent;
+	/* Remove the grey bar */
+	margin-bottom: 40px;
+}
+
+.indicator p {
+	color: #7dc971;
+	/* Keep the green for contrast */
+	font-weight: bold;
+	margin-top: 10px;
+}
+
+/* 3. KEEP THE BUTTON SOLID (So users know where to click) */
+.btn-primary {
+	background-color: #2d5a27;
+	color: white;
+	padding: 18px 60px;
+	border: none;
+	border-radius: 50px;
+	font-weight: bold;
+	cursor: pointer;
+}

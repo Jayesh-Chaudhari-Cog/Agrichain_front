@@ -6,7 +6,7 @@ import { App } from "./app";
 
 @Component({
     selector: 'auth-layout',
-    imports: [RouterLink, MainHeader, Footer, App, RouterOutlet],
+    imports: [RouterLink, MainHeader, Footer, RouterOutlet],
     template: `
     <app-main-header></app-main-header>
     <main class="auth-main">

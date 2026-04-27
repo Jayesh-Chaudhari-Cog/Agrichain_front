@@ -6,7 +6,7 @@ import { Footer } from './header-footer/footer';
 
 @Component({
     selector: 'public-layout',
-    imports: [RouterLink, PublicHeader, App, Footer, RouterOutlet],
+    imports: [RouterLink, PublicHeader, Footer, RouterOutlet],
     template: `
     <app-public-header></app-public-header>
     <main>

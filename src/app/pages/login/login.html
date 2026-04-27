@@ -1,5 +1,5 @@
-<div class="a-page login-signup-page">
-    <h1>Login</h1>
+<div class="a-public-page login-signup-page">
+    <h1>{{account_method() === 'login' ? 'Login' : 'Sign Up'}}</h1>
     <div class="login-signup-container">
         <form class="form-container">
             <div class="role-slider {{account_method() === 'login' ? 'login-mode' : 'signup-mode'}}">
@@ -49,6 +49,7 @@
                 <div class="input-box">
                     <p>Don't have an account? <span class="method-change-text" (click)="onAccountMethodChange('signup')">Sign up</span></p>
                 </div>
+                <button type="submit" class="form-submit">Login</button>
             }
             @if(account_method() === 'signup') {
                 <div class="input-box">
@@ -58,8 +59,8 @@
                 <div class="input-box">
                     <p>Already have an account? <span class="method-change-text" (click)="onAccountMethodChange('login')">Login</span></p>
                 </div>
+                <button type="submit" class="form-submit">Sign Up</button>
             }
-            <button type="submit" class="form-submit">{{account_method() === 'login' ? 'Login' : 'Sign Up'}}</button>
         </form>
     </div>
 </div>

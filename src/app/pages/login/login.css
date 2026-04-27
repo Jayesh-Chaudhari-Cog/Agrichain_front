@@ -1,14 +1,11 @@
+
+
 .login-signup-page, .login-signup-container {
     transition: all 0.2s;
 }
 
 .login-signup-page {
-    /* background-image: url('/image.jpg'); */
-    /* background-color: var(--primary-color); */
     background-color: var(--accent-bg);
-    /* background: radial-gradient(circle at 50% 100%, rgba(0, 0, 0, 0.3) 0%, transparent 50%), linear-gradient(to bottom, var(--accent-dark), var(--accent-dark)); */
-    background-size: cover;
-    background-position: center;
 }
 
 .login-signup-container {
@@ -46,7 +43,7 @@
     justify-content: center;
     align-items: center;
     font-size: 1.1rem;
-    border: 2px solid var(--primary-text);
+    border: 2px solid var(--accent-color);
     color: var(--secondary-text);
     border-radius: 999px;
     cursor: pointer;
@@ -70,7 +67,7 @@
     top: 50%;
     left: 0.4rem;
     transform: translate(0rem, -50%);
-    border: 3px solid var(--accent-color);
+    border: 3px solid var(--accent-dark);
     background-color: transparent;
     border-radius: 999px;
     transition: transform 0.3s;
