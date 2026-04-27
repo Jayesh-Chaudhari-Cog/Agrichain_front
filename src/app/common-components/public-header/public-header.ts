@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { WebNameElement } from "../elements/web-name";
+import { WebNameElement } from "../../elements/web-name";
 
 @Component({
   selector: 'app-public-header',
