@@ -1,22 +1,22 @@
 :host {
   --primary: #1a4d2e;
-  --bg: #f4f7f5;
   --text: #2d3436;
   --border: #e2ddd5;
 }
 
 .page-content {
-  padding: 2rem;
-  background-color: var(--bg);
   min-height: 100vh;
   font-family: 'Inter', sans-serif;
 }
 
 /* Header Section */
 .dashboard-header {
+  width: 100%;
   background: white;
   padding: 2rem 2.5rem;
+  border-radius: 0.5rem;
   border-bottom: 1px solid var(--border);
+  box-shadow: 0 4px 4px rgba(0,0,0,0.05);
 }
 
 .dashboard-header h1 {

@@ -2,6 +2,8 @@
 * {
     --header-height: 3.5rem;
 
+    --bg: #eee;
+
     --primary-text: #000;
     --secondary-text: #222;
 
@@ -80,6 +82,7 @@ app-welcome, app-login {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    background-color: var(--bg);
     gap: 1rem;
 }
 .a-page {
