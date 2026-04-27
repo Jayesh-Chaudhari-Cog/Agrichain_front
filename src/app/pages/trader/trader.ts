@@ -9,7 +9,7 @@ import { RouterLink } from '@angular/router';
   templateUrl: './trader.html',
   styleUrl: './trader.css'
 })
-export class DashboardComponent {
+export class TraderPage {
   mockUser = {
     email: 'trader.central@agrichain.in',
     role: 'TRADER'

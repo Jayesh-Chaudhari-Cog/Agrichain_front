@@ -2,8 +2,7 @@ import { Routes } from '@angular/router';
 import { LoginPage } from './pages/login/login';
 import { WelcomePage } from './pages/welcome/welcome';
 import { AdminPage } from "./pages/admin/admin";
-// Import your new DashboardComponent
-import { DashboardComponent } from './pages/trader/trader'; 
+import { TraderPage } from "./pages/trader/trader";
 import { PublicLayoutComponent } from './public-layout';
 import { AuthLayoutComponent } from './auth-layout';
 
@@ -23,9 +22,7 @@ export const routes: Routes = [
         component: AuthLayoutComponent,
         children: [
             { path: 'admin', component: AdminPage },
-            // Add the trader route here pointing to your component
-            { path: 'trader', component: DashboardComponent }, 
-            { path: '', redirectTo: 'admin', pathMatch: 'full' }
+            { path: 'trader', component: TraderPage }
         ]
     }
 ];
