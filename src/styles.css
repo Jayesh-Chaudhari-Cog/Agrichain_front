@@ -1,49 +1,50 @@
 /* You can add global styles to this file, and also import other style files */
 * {
     --header-height: 3.5rem;
-
     --bg: #eee;
 
     --primary-text: #000;
     --secondary-text: #222;
-    --white: #fff;
 
-    --primary-color: #f5f5f5;
-    --secondary-color: #d0d0d0;
+    --primary-color: #fff;
+    --secondary-color: #ddd;
 
     --farmer-green: #2EAD32;
     --trader-blue: #0D47A1;
     --officer-orange: #E65100;
     --admin-purple: #d93098;
+
+
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body.farmer {
     --accent-color: #9FCB98;
+    --accent-transparent: #9fcb9822;
     --accent-dark: #346739;
     --accent-bg: #b5ce98;
 }
 
 body.trader {
     --accent-color: #8ACBD0;
+    --accent-transparent: #8ACBD022;
     --accent-dark: #170C79;
     --accent-bg: #ABABDD;
 }
 
 body.officer {
     --accent-color: #FFB199;
+    --accent-transparent: #FFB19922;
     --accent-dark: #b56657;
     --accent-bg: #DDABAB;
 }
 body.admin {
     --accent-color: #D552A3;
+    --accent-transparent: #D552A320;
     --accent-dark: #831C91;
     --accent-bg: #F9D0F9;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
 }
 
 body, html, app-root {
@@ -102,15 +103,31 @@ app-welcome, app-login {
     color: var(--primary-text);
 }
 .input-label {
+    width: fit-content;
     font-size: 1.1rem;
     font-weight: 600;
+    transform: translate(5%, 150%);
+    transition: all 0.3s;
+    background-color: red;
 }
+/* Input fields */
 .input-field {
     padding: 0.4rem 0.6rem;
-    border: 2px solid var(--secondary-text);
-    border-radius: 6px;
+    border: none;
+    background-color: var(--accent-transparent);
+    /* border-radius: 99px; */
+    border-bottom: 2px solid var(--accent-dark);
     font-size: 1rem;
 }
+.input-field:focus {
+    border: none;
+    outline: 2px solid var(--accent-dark);
+
+    & .input-label {
+        transform: translate(0, 0);
+    }
+}
+
 .form-submit {
     padding: 0.4rem 0.6rem;
     background-color: var(--accent-dark);

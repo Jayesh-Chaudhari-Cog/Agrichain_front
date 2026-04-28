@@ -1,15 +1,10 @@
 .welcome-page {
-	/* background: url('/landing-image2.png');
-
-	background-size: cover;
-	background-position: center;
-	background-attachment: fixed; */
-
 	flex-direction: row;
 }
 .lander-image {
 	width: 35%;
 	height: auto;
+	border-radius: 2rem;
 	animation: lander-rotate 360s linear infinite;
 }
 @keyframes lander-rotate {
@@ -21,7 +16,6 @@
 	}
 }
 
-/* 1. REMOVE ALL BACKGROUND FROM THE CARD */
 .glass-card {
 	background: transparent;
 	border: none;
@@ -66,4 +60,30 @@
 	border-radius: 99px;
 	font-weight: bold;
 	cursor: pointer;
+}
+
+@media(max-width: 800px) {
+	.welcome-page {
+		flex-direction: column-reverse;
+		gap: 2rem;
+	}
+	.lander-image  {
+		width: 40%;
+	}
+}
+@media(max-width: 600px) {
+	.lander-image {
+		width: 60%;
+	}
+	.hero-title {
+		font-size: 2.3rem;
+	}
+	.hero-description {
+		font-size: 1rem;
+	}
+}
+@media(max-width: 460px) {
+	.indicator {
+		font-size: 0.8rem;
+	}
 }
