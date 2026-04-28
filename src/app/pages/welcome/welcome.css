@@ -1,10 +1,12 @@
 .welcome-page {
 	flex-direction: row;
+	gap: 2rem;
 }
 .lander-image {
 	width: 35%;
 	height: auto;
 	border-radius: 2rem;
+	margin-top: 3rem;
 	animation: lander-rotate 360s linear infinite;
 }
 @keyframes lander-rotate {
@@ -17,10 +19,11 @@
 }
 
 .glass-card {
+	width: 50%;
+	padding: 0.7rem;
 	background: transparent;
 	border: none;
 	box-shadow: none;
-	max-width: 650px;
 	color: var(--primary-text);
 }
 
@@ -63,6 +66,9 @@
 }
 
 @media(max-width: 800px) {
+	.glass-card {
+		width: 100%;
+	}
 	.welcome-page {
 		flex-direction: column-reverse;
 		gap: 2rem;

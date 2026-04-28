@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
       .web-name {
         display: inline-block;
         font-size: inherit;
-        color: #bebebe;
+        color: #dadada;
         font-weight: bolder;
         text-shadow: -1px 2px 3px rgba(0, 0, 0, 0.3);
       }

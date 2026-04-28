@@ -1,7 +1,20 @@
 <div class="a-public-page login-signup-page">
-    <h1>{{account_method() === 'login' ? 'Sign In' : 'Create Account'}}</h1>
-    <div class="login-signup-container">
-        <form class="form-container">
+    <div class="{{account_method() === 'login' ? 'login-signup-container' : 'login-signup-container active-signup'}}">
+        @if(account_method() === 'login') {
+            <div class="login-ball1"></div>
+            <div class="login-wave1"></div>
+        } @else {
+            <div class="login-ball2"></div>
+            <div class="login-wave2"></div>
+        }
+        <div class="side-info-container">
+            <div class="side-info-welcome">
+                <website-name></website-name>
+                <h1 class="login-heading">{{account_method() === 'login' ? 'Welcome Back' : 'Create New Account'}}</h1>
+                <p class="login-description">{{account_method() === 'login' ? 'Login now to access dashboard' : 'Create your account now to access your dashboard'}}</p>
+            </div>
+        </div>
+        <form class="form-container login-form-container">
             <div class="role-slider {{account_method() === 'login' ? 'login-mode' : 'signup-mode'}}">
                 <label class="farmer-role-slider role-slider-element" for="role-farmer"
                     [class.active]="role_selected() === 'FARMER'">Farmer
@@ -53,12 +66,12 @@
                 <div class="input-box">
                     <p>Already have an account? <span class="method-change-text" (click)="onAccountMethodChange('login')">Login</span></p>
                 </div>
-                <button type="submit" class="form-submit">Sign Up</button>
+                <button type="submit" class="btn-primary form-submit">Sign Up</button>
             } @else {
                 <div class="input-box">
                     <p>Don't have an account? <span class="method-change-text" (click)="onAccountMethodChange('signup')">Sign up</span></p>
                 </div>
-                <button type="submit" class="form-submit">Login</button>
+                <button type="submit" class="btn-primary form-submit">Login</button>
             }
         </form>
     </div>

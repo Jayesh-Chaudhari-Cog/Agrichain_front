@@ -1,24 +1,125 @@
-
-
-.login-signup-page, .login-signup-container {
-    transition: all 0.2s;
-}
-
 .login-signup-page {
+    position: relative;
+    padding-top: 1rem;
     background-color: var(--bg);
 }
 
 .login-signup-container {
-    width: 400px;
-    padding: 1.5rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    border-radius: 8px;
-    /* background-color: var(--accent-transparent); */
-    background-color: var(--bg);
+    position: relative;
+    width: clamp(300px, 70%, 800px);
+    height: 545px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    background-color: var(--accent-color);
+    border-radius: 0.5rem;
     backdrop-filter: blur(3px);
-    transition: 0.2s ease;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+}
+.login-ball1, .login-ball2, .login-wave1, .login-wave2 {
+    position: absolute;
+    width: 50%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    transform-origin: center;
+    transform: translate(-50%, -50%);
+}
+.login-ball1, .login-ball2 {
+    background-color: var(--accent-color);
+    box-shadow: 0 0 1rem var(--accent-bg);
+    z-index: 8;
+    animation: login-ball-ani 0.6s linear;
+}
+.login-ball1, .login-wave1 {
+    top: 100%;
+    left: 25%;
+}
+.login-ball2, .login-wave2 {
+    top: 0%;
+    left: 75%;
+}
+@keyframes login-ball-ani {
+    0% {
+        width: 0%;
+    }
+    90% {
+        width: 55%;
+    }
+    95% {
+        width: 45%;
+    }
+    100% {
+        width: 50%;
+    }
+}
+.login-wave1, .login-wave2 {
+    width: 30%;
+    background-color: red;
+    background: radial-gradient(circle at 50% 50%, transparent calc(100% - 10rem), rgb(255, 255, 255) calc(100% - 3rem));
+    z-index: 7;
+    animation: login-wave-ani 3s linear infinite;
+}
+@keyframes login-wave-ani {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 100%;
+    }
+}
+/* Moving.. */
+.login-signup-container.active-signup .login-form-container{
+    left: 0%;
+}
+.login-signup-container.active-signup .side-info-container{
+    left: 50%;
+    background: linear-gradient(to right bottom, transparent, rgba(0, 0, 0, 0.4)),
+                linear-gradient(to right bottom, var(--accent-bg), var(--accent-color));
 }
 
+.side-info-container, .login-form-container {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    transition: all 0.3s;
+}
+.login-form-container {
+    left: 50%;
+    padding: 0.5rem 1rem;
+    background-color: var(--primary-color);
+    z-index: 10;
+}
+.side-info-container {
+    left: 0%;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    color: white;
+    background-color: var(--accent-bg);
+    z-index: 5;
+    background: linear-gradient(to right bottom, rgba(0, 0, 0, 0.4), transparent),
+                linear-gradient(to right bottom, var(--accent-bg), var(--accent-color));
+}
+.side-info-welcome {
+    font-size: 3rem;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    text-align: center;
+
+    & h1 {
+        font-size: 2rem;
+    }
+    & p {
+        font-size: 1rem;
+    }
+}
+
+/* Form start */
 .role-slider {
     position: relative;
     display: flex;
@@ -88,8 +189,4 @@
     &:hover {
         text-decoration: underline;
     }
-}
-
-.form-submit {
-    color: white;
 }

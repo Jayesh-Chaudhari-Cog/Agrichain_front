@@ -1,9 +1,10 @@
 import { Component, signal, inject, Renderer2 } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { WebNameElement } from "../../elements/web-name";
 
 @Component({
 	selector: 'app-login',
-	imports: [RouterLink],
+	imports: [RouterLink, WebNameElement],
 	templateUrl: './login.html',
 	styleUrl: './login.css'
 })

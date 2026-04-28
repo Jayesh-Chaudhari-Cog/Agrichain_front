@@ -22,27 +22,27 @@
 
 body.farmer {
     --accent-color: #9FCB98;
-    --accent-transparent: #9fcb9822;
+    --accent-transparent: #9fcb9844;
     --accent-dark: #346739;
     --accent-bg: #b5ce98;
 }
 
 body.trader {
     --accent-color: #8ACBD0;
-    --accent-transparent: #8ACBD022;
+    --accent-transparent: #8ACBD044;
     --accent-dark: #170C79;
     --accent-bg: #ABABDD;
 }
 
 body.officer {
     --accent-color: #FFB199;
-    --accent-transparent: #FFB19922;
+    --accent-transparent: #FFB19944;
     --accent-dark: #b56657;
     --accent-bg: #DDABAB;
 }
 body.admin {
     --accent-color: #D552A3;
-    --accent-transparent: #D552A320;
+    --accent-transparent: #D552A340;
     --accent-dark: #831C91;
     --accent-bg: #F9D0F9;
 }
@@ -79,7 +79,6 @@ app-welcome, app-login {
 .a-public-page, .a-page {
     flex-grow: 1;
     width: 100%;
-    padding: 1rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -93,46 +92,42 @@ app-welcome, app-login {
 
 .form-container {
     display: flex;
+    justify-content: center;
     flex-direction: column;
-    gap: 0.7rem;
+    padding: 0.5rem;
+    gap: 0.5rem;
 }
 .input-box {
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    gap: 0.3rem;
     color: var(--primary-text);
 }
 .input-label {
     width: fit-content;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 600;
-    transform: translate(5%, 150%);
     transition: all 0.3s;
-    background-color: red;
 }
 /* Input fields */
 .input-field {
     padding: 0.4rem 0.6rem;
     border: none;
     background-color: var(--accent-transparent);
-    /* border-radius: 99px; */
     border-bottom: 2px solid var(--accent-dark);
     font-size: 1rem;
 }
 .input-field:focus {
     border: none;
     outline: 2px solid var(--accent-dark);
-
-    & .input-label {
-        transform: translate(0, 0);
-    }
 }
-
-.form-submit {
-    padding: 0.4rem 0.6rem;
+.btn-primary {
+    width: fit-content;
+    padding: 0.4rem 0.8rem;
     background-color: var(--accent-dark);
-    color: var(--primary-text);
+    color: white;
     border: none;
+    margin: 0 auto;
     border-radius: 6px;
     font-size: 1.1rem;
     cursor: pointer;
