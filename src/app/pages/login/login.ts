@@ -24,7 +24,7 @@ export class LoginPage {
 	onRoleChange(newRole: string) {
 		this.role_selected.set(newRole);
 
-		const roles = ['FARMER', 'TRADER', 'OFFICER'];
+		const roles = ['FARMER', 'TRADER', 'OFFICER', 'ADMIN'];
         roles.forEach(role => {
             this.renderer.removeClass(document.body, role.toLowerCase());
         });

@@ -21,35 +21,41 @@
 }
 
 body.farmer {
-    --accent-color: #9FCB98;
-    --accent-transparent: #9fcb9844;
-    --accent-dark: #346739;
+    --accent-color: #97cd8f;
+    --accent-transparent: #9fcb9845;
+    --accent-dark: #3b7841;
     --accent-bg: #b5ce98;
 }
 
 body.trader {
-    --accent-color: #8ACBD0;
-    --accent-transparent: #8ACBD044;
-    --accent-dark: #170C79;
+    --accent-color: #8ACBDA;
+    --accent-transparent: #8ACBD045;
+    --accent-dark: #1d1181;
     --accent-bg: #ABABDD;
 }
 
 body.officer {
     --accent-color: #FFB199;
-    --accent-transparent: #FFB19944;
-    --accent-dark: #b56657;
+    --accent-transparent: #FFB19945;
+    --accent-dark: #b06455;
     --accent-bg: #DDABAB;
 }
 body.admin {
-    --accent-color: #D552A3;
-    --accent-transparent: #D552A340;
-    --accent-dark: #831C91;
-    --accent-bg: #F9D0F9;
+    /* --accent-color: #f324ec;
+    --accent-transparent: #f324ec22;
+    --accent-dark: #9e20af;
+    --accent-bg: #ffa6ff; */
+
+    --accent-color: #c28ce8;
+    --accent-transparent: #c28ce835;
+    --accent-dark: #741594;
+    --accent-bg: #ec9df3;
 }
 
 body, html, app-root {
     width: 100%;
     height: 100%;
+    min-width: 300px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -135,7 +141,6 @@ app-welcome, app-login {
 }
 
 .grad-text {
-    /* background: linear-gradient(to right, #3300fc, #95008a, #eb0000); */
     background: linear-gradient(120deg, var(--farmer-green), var(--trader-blue), var(--officer-orange), var(--admin-purple));
     background-clip: text;
     color: transparent;
