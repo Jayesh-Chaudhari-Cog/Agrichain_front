@@ -8,11 +8,11 @@ import { App } from "./app";
     selector: 'auth-layout',
     imports: [RouterLink, MainHeader, Footer, RouterOutlet],
     template: `
-    <app-main-header></app-main-header>
+    <app-main-header />
     <main class="auth-main">
-        <router-outlet></router-outlet>
+        <router-outlet />
     </main>
-    <app-footer></app-footer>
+    <app-footer />
   `
 })
 export class AuthLayoutComponent {
