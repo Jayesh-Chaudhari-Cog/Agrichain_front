@@ -3,49 +3,49 @@ import { HttpClient } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs';
+import { LoggedInUser } from '../models/user.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-	private http = inject(HttpClient);
-	private router = inject(Router);
-	private jwtHelper = new JwtHelperService();
+    private http = inject(HttpClient);
+    private router = inject(Router);
+    private jwtHelper = new JwtHelperService();
 
-	private readonly API_URL = 'http://localhost:8080/api/auth';
-	private readonly TOKEN_KEY = 'agrichain_token';
+    
 
-	// Signals for easy UI updates
-	userEmail = signal<string | null>(null);
-	userRole = signal<string | null>(null);
+    loggedInUser = signal<LoggedInUser | null>(null);
 
-	login(credentials: any) {
-		return this.http.post<{ token: string }>(`${this.API_URL}/login`, credentials).pipe(
-			tap(response => {
-				this.saveToken(response.token);
-				this.decodeAndStore(response.token);
-			})
-		);
-	}
+    private decodeAndStore(token: string) {
+        const decoded = this.jwtHelper.decodeToken(token);
+        
+        const loggedIn: LoggedInUser = {
+            email: decoded.sub || decoded.email,
+            role: decoded.role
+        };
 
-	private saveToken(token: string) {
-		localStorage.setItem(this.TOKEN_KEY, token);
-	}
+        this.loggedInUser.set(loggedIn);
 
-	private decodeAndStore(token: string) {
-		const decoded = this.jwtHelper.decodeToken(token);
-		this.userEmail.set(decoded.email);
-		this.userRole.set(decoded.role);
-	}
+        localStorage.setItem(this.LOGIN_INFO, JSON.stringify(loggedIn));
+    }
 
-	isLoggedIn(): boolean {
-		const token = localStorage.getItem(this.TOKEN_KEY);
-		// Returns true if token exists and is NOT expired
-		return token ? !this.jwtHelper.isTokenExpired(token) : false;
-	}
+    logout() {
+        localStorage.removeItem(this.TOKEN_KEY);
+        localStorage.removeItem(this.LOGIN_INFO);
+        
+        // 4. Reset the signal to null
+        this.loggedInUser.set(null);
+        
+        this.router.navigate(['/login']);
+    }
 
-	logout() {
-		localStorage.removeItem(this.TOKEN_KEY);
-		this.userEmail.set(null);
-		this.userRole.set(null);
-		this.router.navigate(['/login']);
-	}
+    constructor() {
+        const savedUser = localStorage.getItem(this.LOGIN_INFO);
+        if (savedUser) {
+            try {
+                this.loggedInUser.set(JSON.parse(savedUser));
+            } catch (e) {
+                localStorage.removeItem(this.LOGIN_INFO);
+            }
+        }
+    }
 }

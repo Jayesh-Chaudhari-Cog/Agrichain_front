@@ -1,0 +1,9 @@
+<div class="navigation-header">
+    <nav class="nav">
+      <ul>
+        <li *ngFor="let link of menuLinks">
+          <a [routerLink]="link.path" routerLinkActive="active">{{ link.label }}</a>
+        </li>
+      </ul>
+    </nav>
+</div>
