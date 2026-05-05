@@ -52,13 +52,14 @@ export class AuthService {
 		return token ? !this.jwtHelper.isTokenExpired(token) : false;
 	}
 
-	logout() {
+	logout(shouldRedirect: boolean = true) {
 		localStorage.removeItem(TOKEN_KEY);
 		localStorage.removeItem(LOGIN_INFO);
 
 		this._loggedInUser.set(null);
 
-		this.router.navigate(['/login']);
+		if(shouldRedirect)
+			this.router.navigate(['/login']);
 	}
 
 	constructor() {
@@ -67,6 +68,7 @@ export class AuthService {
 		if (token && savedUser) {
 			if(this.jwtHelper.isTokenExpired(token)) {
 				// TODO Expired toast + redirect to login
+				this.logout();
 			}
 			try {
 				this._loggedInUser.set(JSON.parse(savedUser));
@@ -78,7 +80,7 @@ export class AuthService {
 				this.logout();
 			}
 		} else {
-			this.logout();
+			this.logout(false);
 		}
 	}
 }
