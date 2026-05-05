@@ -1,1 +1,19 @@
-<h1>Notificaitons</h1>
+<div class="a-page admin-panel admin-subpage">
+	<section class="section-header">
+		<h1>Notifications</h1>
+		<p>Latest notifications for administrative review and action.</p>
+	</section>
+
+	<div class="notification-list">
+		@for(notification of notifications; track notification.id) {
+			<article class="notification-card">
+				<header>
+					<strong>{{ notification.category }}</strong>
+					<span class="status">{{ notification.status }}</span>
+				</header>
+				<p>{{ notification.message }}</p>
+				<small>{{ notification.date }}</small>
+			</article>
+		}
+	</div>
+</div>

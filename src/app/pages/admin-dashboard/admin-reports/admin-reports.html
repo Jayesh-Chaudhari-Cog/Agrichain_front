@@ -1,1 +1,30 @@
-<h1>Reports</h1>
+<div class="a-page admin-panel admin-subpage">
+	<section class="section-header">
+		<h1>Reports</h1>
+		<p>Review report history, status, and summaries from the admin console.</p>
+	</section>
+
+	<div class="admin-cards">
+		<article class="report-card">
+			<strong>112</strong>
+			<span>Total Reports</span>
+		</article>
+		<article class="report-card">
+			<strong>18</strong>
+			<span>Active Scopes</span>
+		</article>
+		<article class="report-card">
+			<strong>47</strong>
+			<span>Transactions Pending</span>
+		</article>
+	</div>
+
+	<section class="report-list">
+		<h2>Recent report activity</h2>
+		<ul>
+			@for(report of reports(); track report) {
+				<li>{{ report }}</li>
+			}
+		</ul>
+	</section>
+</div>

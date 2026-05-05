@@ -1,13 +1,15 @@
-import { Component, signal, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { Loader } from '../../../common-components/loader/loader';
+import { Component, signal } from '@angular/core';
 
 @Component({
 	selector: 'admin-reports',
-	imports: [RouterLink, Loader],
 	templateUrl: './admin-reports.html',
 	styleUrl: './admin-reports.css'
 })
 export class AdminReports {
-	
+	readonly reports = signal([
+		'Q1 Audit summary ready for export',
+		'Monthly compliance report generated',
+		'Corporate transaction status overview refreshed'
+	]);
 }
+
