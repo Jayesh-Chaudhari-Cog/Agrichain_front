@@ -24,12 +24,13 @@ export const routes: Routes = [
     {
         path: 'dashboard',
         component: AuthLayoutComponent,
-        // canActivate: [authGuard],
+        canActivate: [authGuard],
         children: [
             { path: 'admin', component: AdminPage },
             { path: 'register', component: RegisterPage },
             { path: 'trader', component: TraderPage },
             { path: 'market-officer', component: MarketOfficer },
+            { path: '', redirectTo: '/admin', pathMatch: 'full' }
         ]
     }
 ];
