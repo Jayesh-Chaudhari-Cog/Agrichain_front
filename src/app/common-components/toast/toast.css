@@ -1,0 +1,88 @@
+/* Container styling */
+.toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 1rem;
+    width: clamp(240px, 35%, 420px);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    color: white;
+    box-shadow: 0 4px 0.5rem rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    z-index: 40;
+    animation: slideIn 0.4s ease;
+}
+.toast::after, .toast::before {
+    content: '';
+    position: absolute;
+    border-radius: inherit;
+    inset: 0;
+    pointer-events: none;
+}
+@property --toast-angle {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 0deg;
+}
+.toast::after {
+    inset: -3px;
+    background: conic-gradient(
+        from var(--toast-angle), 
+        #ff00c8, #ffaa00, #9d00ff, #00eeff, #ff00c8
+    );
+    animation: toastRotate 2s linear infinite;
+    z-index: -2;
+}
+@keyframes toastRotate {
+    from {
+        --toast-angle: 0deg;
+    }
+    to {
+        --toast-angle: 360deg;
+    }
+}
+.toast::before {
+    background-image: linear-gradient(60deg, transparent 35%, rgba(255, 255, 255, 0.2) 50%, transparent 65%);
+    background-size: 200% 100%;
+    animation: shineToast 1.8s linear infinite;
+    z-index: -1;
+}
+@keyframes shineToast {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.toast.success::before { 
+    background-color: #20b55e; 
+}
+.toast.alert::before { 
+    background-color: #e74c3c; 
+}
+.toast.info::before { 
+    background-color: #3498db;
+}
+
+.toast-close {
+    background: none;
+    padding: 0.4rem 0.5rem;
+    border-radius: 50%;
+    border: none;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 0 0.5rem rgba(0,0,0,0.3);
+    z-index: 2;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(-100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@media(max-width: 420px) {
+    .toast {
+        font-size: 1rem;
+    }
+}
