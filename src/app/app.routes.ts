@@ -13,6 +13,7 @@ import { DashboardRedirectComponent } from './guards/dashboard-redirect';
 import { inject } from '@angular/core';
 import { AuthService } from './services/auth-service';
 import { guestGuard } from './guards/guest-guard';
+import { roleGuard } from './guards/role-guard';
 import { AdminNotifications } from './pages/admin-dashboard/admin-notifications/admin-notifications';
 
 export const routes: Routes = [
@@ -33,7 +34,10 @@ export const routes: Routes = [
         component: AuthLayoutComponent,
         canActivate: [authGuard],
         children: [
-            { path: 'admin', 
+            { 
+                path: 'admin', 
+                canActivate: [roleGuard],
+                data: {role: ['ADMIN']},
                 children: [
                     { path: 'home', component: AdminHome },
                     { path: 'reports', component: AdminReports },
@@ -43,6 +47,8 @@ export const routes: Routes = [
             },
             {
                 path: 'farmer', 
+                canActivate: [roleGuard],
+                data: {role: ['FARMER']},
                 children: [
                     { path: 'register', component: RegisterPage },
                 ]
