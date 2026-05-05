@@ -37,7 +37,7 @@ export const routes: Routes = [
             { 
                 path: 'admin', 
                 canActivate: [roleGuard],
-                data: {role: ['ADMIN']},
+                data: {roles: ['ADMIN']},
                 children: [
                     { path: 'home', component: AdminHome },
                     { path: 'reports', component: AdminReports },
@@ -48,7 +48,7 @@ export const routes: Routes = [
             {
                 path: 'farmer', 
                 canActivate: [roleGuard],
-                data: {role: ['FARMER']},
+                data: {roles: ['FARMER']},
                 children: [
                     { path: 'register', component: RegisterPage },
                 ]
