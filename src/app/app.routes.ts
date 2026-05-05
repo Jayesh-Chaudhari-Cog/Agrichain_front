@@ -8,6 +8,8 @@ import { AuthLayoutComponent } from './auth-layout';
 import { RegisterPage } from './pages/register/register';
 import { authGuard } from './guards/auth-guard';
 import { MarketOfficer } from './pages/market-officer/market-officer';
+import { AuditComponent } from './pages/audit/audit';
+import { ComplianceComponent } from './pages/compliance/compliance';
 
 export const routes: Routes = [
     {
@@ -30,6 +32,8 @@ export const routes: Routes = [
             { path: 'register', component: RegisterPage },
             { path: 'trader', component: TraderPage },
             { path: 'market-officer', component: MarketOfficer },
+            {path: 'app-audit',component:AuditComponent},
+            {path:'app-compliance',component:ComplianceComponent}
         ]
     }
 ];

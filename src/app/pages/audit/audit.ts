@@ -9,23 +9,21 @@ import { AuditDTO, AuditScope, AuditStatus } from '../../models/audit.model';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './audit.html',
-  styleUrl: './audit.css'
+  styleUrls: ['./audit.css'] // Ensure this file exists or remove this line
 })
 export class AuditComponent implements OnInit {
-  audits: AuditDTO[] = [];
   
-  // Initialize form with default values
-  newAudit: AuditDTO = {
-    officerId: 101, // Mock ID: Replace with actual logic later
-    scope: AuditScope.PROGRAM,
-    findings: '',
-    date: new Date().toISOString().split('T')[0],
-    status: AuditStatus.OPEN
-  };
+  // 1. Define the list to hold records
+  audits: AuditDTO[] = [];
 
-  // Enums for dropdown menus
-  scopes = Object.values(AuditScope);
-  statuses = Object.values(AuditStatus);
+  // 2. Initialize the form object with default values
+  newAudit: AuditDTO = {
+    officerId: 101,
+    scope: AuditScope.PROGRAM,
+    status: AuditStatus.OPEN,
+    findings: '',
+    date: new Date().toISOString().split('T')[0]
+  };
 
   constructor(private auditService: AuditService) {}
 
@@ -33,31 +31,40 @@ export class AuditComponent implements OnInit {
     this.loadAudits();
   }
 
+  // 3. Load all audits from the backend
   loadAudits(): void {
     this.auditService.getAllAudits().subscribe({
-      next: (data) => this.audits = data,
-      error: (err) => console.error('Error fetching audits:', err)
-    });
-  }
-
-  onSubmit(): void {
-    this.auditService.createAudit(this.newAudit).subscribe({
-      next: (res) => {
-        console.log('Audit created successfully');
-        this.loadAudits(); // Refresh the table
-        this.resetForm();
+      next: (data) => {
+        this.audits = data;
       },
-      error: (err) => alert('Failed to create audit. Check console for details.')
+      error: (err) => {
+        console.error('Error fetching audits:', err);
+      }
     });
   }
 
-  resetForm() {
+  // 4. THE MISSING METHOD: This fixes your error
+  submitAudit(): void {
+    this.auditService.createAudit(this.newAudit).subscribe({
+      next: (response) => {
+        console.log('Audit created successfully:', response);
+        this.loadAudits(); // Refresh the table
+        this.resetForm();  // Clear the form
+      },
+      error: (err) => {
+        console.error('Error creating audit:', err);
+        alert('Could not save audit. Is the backend running?');
+      }
+    });
+  }
+
+  resetForm(): void {
     this.newAudit = {
       officerId: 101,
       scope: AuditScope.PROGRAM,
+      status: AuditStatus.OPEN,
       findings: '',
-      date: new Date().toISOString().split('T')[0],
-      status: AuditStatus.OPEN
+      date: new Date().toISOString().split('T')[0]
     };
   }
 }
