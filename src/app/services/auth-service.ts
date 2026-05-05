@@ -1,24 +1,24 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, inject, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs';
+import { LoggedInUser } from '../models/user.model';
+import { API_URL, TOKEN_KEY, LOGIN_INFO, USER_PATH } from '../elements/constants';
+import { ThemeService } from './theme';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 	private http = inject(HttpClient);
 	private router = inject(Router);
 	private jwtHelper = new JwtHelperService();
+	private themeService = inject(ThemeService);
 
-	private readonly API_URL = 'http://localhost:8080/api/auth';
-	private readonly TOKEN_KEY = 'agrichain_token';
+	private _loggedInUser = signal<LoggedInUser | null>(null);
+	readonly loggedInUser = this._loggedInUser.asReadonly();
 
-	// Signals for easy UI updates
-	userEmail = signal<string | null>(null);
-	userRole = signal<string | null>(null);
-
-	login(credentials: any) {
-		return this.http.post<{ token: string }>(`${this.API_URL}/login`, credentials).pipe(
+	onLogin(credentials: any) {
+		return this.http.post<{ token: string }>(`${API_URL}${USER_PATH}/login`, credentials).pipe(
 			tap(response => {
 				this.saveToken(response.token);
 				this.decodeAndStore(response.token);
@@ -26,26 +26,59 @@ export class AuthService {
 		);
 	}
 
+	onRegister(userData: any) {
+		return this.http.post(`${API_URL}${USER_PATH}/register`, userData);
+	}
+
 	private saveToken(token: string) {
-		localStorage.setItem(this.TOKEN_KEY, token);
+		localStorage.setItem(TOKEN_KEY, token);
 	}
 
 	private decodeAndStore(token: string) {
 		const decoded = this.jwtHelper.decodeToken(token);
-		this.userEmail.set(decoded.email);
-		this.userRole.set(decoded.role);
+
+		const loggedIn: LoggedInUser = {
+			email: decoded.sub || decoded.email,
+			role: decoded.role
+		};
+
+		this._loggedInUser.set(loggedIn);
+
+		localStorage.setItem(LOGIN_INFO, JSON.stringify(loggedIn));
 	}
 
 	isLoggedIn(): boolean {
-		const token = localStorage.getItem(this.TOKEN_KEY);
-		// Returns true if token exists and is NOT expired
+		const token = localStorage.getItem(TOKEN_KEY);
 		return token ? !this.jwtHelper.isTokenExpired(token) : false;
 	}
 
 	logout() {
-		localStorage.removeItem(this.TOKEN_KEY);
-		this.userEmail.set(null);
-		this.userRole.set(null);
+		localStorage.removeItem(TOKEN_KEY);
+		localStorage.removeItem(LOGIN_INFO);
+
+		this._loggedInUser.set(null);
+
 		this.router.navigate(['/login']);
+	}
+
+	constructor() {
+		const token = localStorage.getItem(TOKEN_KEY);
+		const savedUser = localStorage.getItem(LOGIN_INFO);
+		if (token && savedUser) {
+			if(this.jwtHelper.isTokenExpired(token)) {
+				// TODO Expired toast + redirect to login
+			}
+			try {
+				this._loggedInUser.set(JSON.parse(savedUser));
+				const currentUser = this.loggedInUser();
+				if (currentUser) {
+					this.themeService.themeChange(currentUser.role);
+				}
+			} catch (e) {
+				this.logout();
+			}
+		} else {
+			this.logout();
+		}
 	}
 }

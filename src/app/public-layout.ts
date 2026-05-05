@@ -8,9 +8,9 @@ import { Footer } from './common-components/footer/footer';
     imports: [RouterLink, Footer, RouterOutlet],
     template: `
     <main>
-        <router-outlet></router-outlet>
+        <router-outlet />
     </main>
-    <app-footer></app-footer>
+    <app-footer />
   `
 })
 export class PublicLayoutComponent {

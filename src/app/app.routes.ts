@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import { Routes, Router } from '@angular/router';
 import { LoginPage } from './pages/login/login';
 import { WelcomePage } from './pages/welcome/welcome';
 import { AdminPage } from "./pages/admin/admin";
@@ -8,32 +8,39 @@ import { AuthLayoutComponent } from './auth-layout';
 import { RegisterPage } from './pages/register/register';
 import { authGuard } from './guards/auth-guard';
 import { MarketOfficer } from './pages/market-officer/market-officer';
-import { AuditComponent } from './pages/audit/audit';
-import { ComplianceComponent } from './pages/compliance/compliance';
+import { DashboardRedirectComponent } from './guards/dashboard-redirect';
+import { inject } from '@angular/core';
+import { AuthService } from './services/auth-service';
+import { guestGuard } from './guards/guest-guard';
 
 export const routes: Routes = [
     {
         path: '',
         component: PublicLayoutComponent,
+        canActivate: [guestGuard],
         children: [
             { path: 'welcome', component: WelcomePage },
             { path: 'login', component: LoginPage },
-            { path: '', redirectTo: '/welcome', pathMatch: 'full' }
+            { path: '', pathMatch: 'full', component: DashboardRedirectComponent }
         ]
     },
     
-    // PROTECTED PAGES (View-only for now)
+    // PROTECTED PAGES
     {
         path: 'dashboard',
         component: AuthLayoutComponent,
-        // canActivate: [authGuard],
+        canActivate: [authGuard],
         children: [
             { path: 'admin', component: AdminPage },
-            { path: 'register', component: RegisterPage },
+            {
+                path: 'farmer', 
+                children:[
+                    { path: 'register', component: RegisterPage }
+                ]
+            },
             { path: 'trader', component: TraderPage },
             { path: 'market-officer', component: MarketOfficer },
-            {path: 'app-audit',component:AuditComponent},
-            {path:'app-compliance',component:ComplianceComponent}
+            { path: '', pathMatch: 'full', component: DashboardRedirectComponent }
         ]
     }
 ];
