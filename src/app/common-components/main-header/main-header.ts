@@ -1,13 +1,13 @@
 import { Component, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { WebNameElement } from "../elements/web-name";
+import { WebNameElement } from "../../elements/web-name";
 
 @Component({
-  selector: 'app-public-header',
+  selector: 'app-main-header',
   imports: [RouterLink, WebNameElement],
-  templateUrl: './public-header.html',
-  styleUrl: './public-header.css'
+  templateUrl: './main-header.html',
+  styleUrl: './main-header.css'
 })
-export class PublicHeader {
+export class MainHeader {
   protected readonly title = signal('Agrichain');
 }

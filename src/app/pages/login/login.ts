@@ -1,9 +1,10 @@
 import { Component, signal, inject, Renderer2 } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { WebNameElement } from "../../elements/web-name";
 
 @Component({
 	selector: 'app-login',
-	imports: [RouterLink],
+	imports: [RouterLink, WebNameElement],
 	templateUrl: './login.html',
 	styleUrl: './login.css'
 })
@@ -23,7 +24,7 @@ export class LoginPage {
 	onRoleChange(newRole: string) {
 		this.role_selected.set(newRole);
 
-		const roles = ['FARMER', 'TRADER', 'OFFICER'];
+		const roles = ['FARMER', 'TRADER', 'OFFICER', 'ADMIN'];
         roles.forEach(role => {
             this.renderer.removeClass(document.body, role.toLowerCase());
         });

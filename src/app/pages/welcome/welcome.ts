@@ -2,7 +2,7 @@ import { Component, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { WebNameElement } from "../../elements/web-name";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faShieldHalved, faTractor } from '@fortawesome/free-solid-svg-icons';
+import { faShieldHalved, faTractor, faThunderstorm } from '@fortawesome/free-solid-svg-icons';
 
 
 @Component({
@@ -14,5 +14,5 @@ import { faShieldHalved, faTractor } from '@fortawesome/free-solid-svg-icons';
 export class WelcomePage {
 	faShield = faShieldHalved;
 	faTractor = faTractor;
+	faThunderstorm = faThunderstorm;
 }
-
