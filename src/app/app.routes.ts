@@ -27,7 +27,6 @@ export const routes: Routes = [
         // canActivate: [authGuard],
         children: [
             { path: 'admin', component: AdminPage },
-            { path: 'register', component: RegisterPage },
             { path: 'trader', component: TraderPage },
             { path: 'market-officer', component: MarketOfficer },
         ]
