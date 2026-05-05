@@ -1,4 +1,4 @@
-import { Component, signal, inject } from '@angular/core';
+import { Component, signal, inject, computed } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { WebNameElement } from "../../elements/web-name";
 import { FormsModule } from '@angular/forms';
@@ -22,7 +22,7 @@ export class LoginPage {
 	constructor() {
 		this.themeService.themeChange("FARMER");
 	}
-	role_selected = this.themeService.themeRole();
+	role_selected = computed(() => this.themeService.themeRole());
 
 	formData = {
 		name: '',
@@ -83,6 +83,5 @@ export class LoginPage {
 
 	onRoleChange(newRole: string) {
 		this.themeService.themeChange(newRole);
-		this.role_selected = this.themeService.themeRole();
 	}
 }
