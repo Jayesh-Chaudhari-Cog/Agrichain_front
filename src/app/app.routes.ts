@@ -1,7 +1,8 @@
 import { Routes, Router } from '@angular/router';
 import { LoginPage } from './pages/login/login';
 import { WelcomePage } from './pages/welcome/welcome';
-import { AdminPage } from "./pages/admin/admin";
+import { AdminHome } from "./pages/admin-dashboard/admin-home/admin-home";
+import { AdminReports } from './pages/admin-dashboard/admin-reports/admin-reports';
 import { TraderPage } from "./pages/trader/trader";
 import { PublicLayoutComponent } from './public-layout';
 import { AuthLayoutComponent } from './auth-layout';
@@ -12,6 +13,7 @@ import { DashboardRedirectComponent } from './guards/dashboard-redirect';
 import { inject } from '@angular/core';
 import { AuthService } from './services/auth-service';
 import { guestGuard } from './guards/guest-guard';
+import { AdminNotifications } from './pages/admin-dashboard/admin-notifications/admin-notifications';
 
 export const routes: Routes = [
     {
@@ -21,7 +23,7 @@ export const routes: Routes = [
         children: [
             { path: 'welcome', component: WelcomePage },
             { path: 'login', component: LoginPage },
-            { path: '', pathMatch: 'full', component: DashboardRedirectComponent }
+            { path: '', pathMatch: 'full', redirectTo: '/welcome' }
         ]
     },
     
@@ -31,11 +33,18 @@ export const routes: Routes = [
         component: AuthLayoutComponent,
         canActivate: [authGuard],
         children: [
-            { path: 'admin', component: AdminPage },
+            { path: 'admin', 
+                children: [
+                    { path: 'home', component: AdminHome },
+                    { path: 'reports', component: AdminReports },
+                    { path: 'notifications', component: AdminNotifications },
+                    { path: '', pathMatch: 'full', redirectTo: 'home'}
+                ]
+            },
             {
                 path: 'farmer', 
-                children:[
-                    { path: 'register', component: RegisterPage }
+                children: [
+                    { path: 'register', component: RegisterPage },
                 ]
             },
             { path: 'trader', component: TraderPage },

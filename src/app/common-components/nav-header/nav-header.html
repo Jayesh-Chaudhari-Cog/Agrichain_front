@@ -1,9 +1,11 @@
-<div class="navigation-header">
-    <nav class="nav">
-      <ul>
-        <li *ngFor="let link of menuLinks">
-          <a [routerLink]="link.path" routerLinkActive="active">{{ link.label }}</a>
-        </li>
-      </ul>
-    </nav>
+<div class="navigation-header d-flex">
+	<nav class="nav d-flex">
+		@for(link of menuLinks; track link.label) {
+			<a class="nav-links d-flex" 
+				[routerLink]="link.path" 
+				routerLinkActive="active">
+					{{ link.label }}
+			</a>
+		}
+	</nav>
 </div>

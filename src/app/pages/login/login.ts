@@ -83,5 +83,6 @@ export class LoginPage {
 
 	onRoleChange(newRole: string) {
 		this.themeService.themeChange(newRole);
+		this.role_selected = this.themeService.themeRole();
 	}
 }

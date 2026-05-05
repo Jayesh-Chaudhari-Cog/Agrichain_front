@@ -93,7 +93,7 @@ app-welcome, app-login {
     gap: 1rem;
 }
 .a-page {
-    min-height: calc(100vh - var(--header-height));
+    min-height: calc(100vh - (2 * var(--header-height)));
 }
 
 .form-container {
