@@ -1,36 +1,87 @@
-import { Component, signal, inject, Renderer2 } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, signal, inject } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 import { WebNameElement } from "../../elements/web-name";
+import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../services/auth-service';
+import { ThemeService } from '../../services/theme';
+import { LOGIN_INFO } from '../../elements/constants';
+import { LoggedInUser } from '../../models/user.model';
 
 @Component({
 	selector: 'app-login',
-	imports: [RouterLink, WebNameElement],
+	imports: [RouterLink, WebNameElement, FormsModule],
 	templateUrl: './login.html',
 	styleUrl: './login.css'
 })
 export class LoginPage {
-	protected readonly title = signal('Agrichain');
+	private router = inject(Router);
+	private authService = inject(AuthService);
+	themeService = inject(ThemeService);
 
-	private renderer = inject(Renderer2);
 	account_method = signal("login");
-	role_selected = signal("FARMER");
+	constructor() {
+		this.themeService.themeChange("FARMER");
+	}
+	role_selected = this.themeService.themeRole();
+
+	formData = {
+		name: '',
+		email: '',
+		phone: '',
+		password: '',
+		confirmPassword: ''
+	};
+
+	onSubmit() {
+		const payload = {
+			...this.formData,
+			role: this.themeService.role_selected()
+		};
+
+		if (this.account_method() === 'login') {
+			this.authService.onLogin({
+				email: payload.email,
+				password: payload.password
+			}).subscribe({
+				next: () => {
+					const loggedUser = this.authService.loggedInUser();
+					if(loggedUser) {
+						this.themeService.themeChange(loggedUser.role);
+					}
+					this.router.navigate([`/dashboard/${loggedUser?.role.toLocaleLowerCase()}`]);
+				},
+				error: (err) => {
+					console.error("Login failed", err);
+					if (err.status === 409) {
+						alert("Incorrect password. Please try again."); // TODO: Toast
+					} else if (err.status === 404) {
+						alert("User account not found.");
+					} else {
+						alert("An unexpected error occurred. Please try again later.");
+					}
+				}
+			});
+		} else {
+			if (this.formData.password !== this.formData.confirmPassword) {
+				alert("Passwords do not match!"); // TODO Toast
+				return;
+			}
+			this.authService.onRegister(payload).subscribe({
+				next: () => {
+					alert("Registration successful! Please login."); // TODO Toast
+					this.onAccountMethodChange('login');
+				},
+				error: (err) => console.error("Signup failed", err)
+			});
+		}
+	}
 
 	onAccountMethodChange(newMethod: string) {
 		this.account_method.set(newMethod);
-
-		this.onRoleChange("FARMER")
+		this.onRoleChange("FARMER");
 	}
 
 	onRoleChange(newRole: string) {
-		this.role_selected.set(newRole);
-
-		const roles = ['FARMER', 'TRADER', 'OFFICER', 'ADMIN'];
-        roles.forEach(role => {
-            this.renderer.removeClass(document.body, role.toLowerCase());
-        });
-
-        this.renderer.addClass(document.body, newRole.toLowerCase());
-
-		localStorage.setItem('theme-role', newRole);
+		this.themeService.themeChange(newRole);
 	}
 }

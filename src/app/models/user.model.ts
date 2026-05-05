@@ -6,6 +6,6 @@ export interface LoggedInUser {
 export interface user {
     name: string;
     email: string;
-    phoneNumber: string;
+    phone: string;
     role: string;
 }

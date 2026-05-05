@@ -5,23 +5,29 @@ import { Router } from '@angular/router';
 import { tap } from 'rxjs';
 import { LoggedInUser } from '../models/user.model';
 import { API_URL, TOKEN_KEY, LOGIN_INFO, USER_PATH } from '../elements/constants';
+import { ThemeService } from './theme';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 	private http = inject(HttpClient);
 	private router = inject(Router);
 	private jwtHelper = new JwtHelperService();
+	private themeService = inject(ThemeService);
 
 	private _loggedInUser = signal<LoggedInUser | null>(null);
-	readonly loggedInUser = this._loggedInUser.asReadonly(); // readoinly
+	readonly loggedInUser = this._loggedInUser.asReadonly();
 
 	onLogin(credentials: any) {
-		return this.http.post<{ token: string }>(`${API_URL}${USER_PATH}`, credentials).pipe(
+		return this.http.post<{ token: string }>(`${API_URL}${USER_PATH}/login`, credentials).pipe(
 			tap(response => {
 				this.saveToken(response.token);
 				this.decodeAndStore(response.token);
 			})
 		);
+	}
+
+	onRegister(userData: any) {
+		return this.http.post(`${API_URL}${USER_PATH}/register`, userData);
 	}
 
 	private saveToken(token: string) {
@@ -64,6 +70,10 @@ export class AuthService {
 			}
 			try {
 				this._loggedInUser.set(JSON.parse(savedUser));
+				const currentUser = this.loggedInUser();
+				if (currentUser) {
+					this.themeService.themeChange(currentUser.role);
+				}
 			} catch (e) {
 				this.logout();
 			}

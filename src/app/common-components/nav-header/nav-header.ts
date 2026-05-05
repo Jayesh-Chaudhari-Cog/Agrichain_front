@@ -3,11 +3,11 @@ import { AuthService } from "../../services/auth-service";
 import { ROLE_CONFIG, NavLink } from "../../models/nav.model";
 import { RouterLink } from "@angular/router";
 import { LOGIN_INFO } from "../../elements/constants";
-import { LoggedInUser } from "../../models/user.model";
+import { CommonModule } from "@angular/common";
 
 @Component({
     selector: "nav-header",
-    imports: [RouterLink],
+    imports: [RouterLink, CommonModule],
     templateUrl: "./nav-header.html",
     styleUrl: "nav-header.css"
 })

@@ -69,7 +69,7 @@ main {
     min-height: 100vh;
 }
 .auth-main {
-    min-height: calc(100vh - var(--header-height));
+    min-height: calc(100vh - (2 * var(--header-height)));
     margin-top: var(--header-height);
 }
 
