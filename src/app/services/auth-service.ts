@@ -6,6 +6,7 @@ import { tap } from 'rxjs';
 import { LoggedInUser } from '../models/user.model';
 import { API_URL, TOKEN_KEY, LOGIN_INFO, USER_PATH } from '../elements/constants';
 import { ThemeService } from './theme';
+import { ToastService } from './toast-service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -13,6 +14,7 @@ export class AuthService {
 	private router = inject(Router);
 	private jwtHelper = new JwtHelperService();
 	private themeService = inject(ThemeService);
+	private toast = inject(ToastService);
 
 	private _loggedInUser = signal<LoggedInUser | null>(null);
 	readonly loggedInUser = this._loggedInUser.asReadonly();
@@ -52,13 +54,14 @@ export class AuthService {
 		return token ? !this.jwtHelper.isTokenExpired(token) : false;
 	}
 
-	logout() {
+	logout(shouldRedirect: boolean = true) {
 		localStorage.removeItem(TOKEN_KEY);
 		localStorage.removeItem(LOGIN_INFO);
 
 		this._loggedInUser.set(null);
 
-		this.router.navigate(['/login']);
+		if(shouldRedirect)
+			this.router.navigate(['/login']);
 	}
 
 	constructor() {
@@ -66,7 +69,8 @@ export class AuthService {
 		const savedUser = localStorage.getItem(LOGIN_INFO);
 		if (token && savedUser) {
 			if(this.jwtHelper.isTokenExpired(token)) {
-				// TODO Expired toast + redirect to login
+				this.toast.show('Session Expired! Login again', 'alert')
+				this.logout();
 			}
 			try {
 				this._loggedInUser.set(JSON.parse(savedUser));
@@ -78,7 +82,7 @@ export class AuthService {
 				this.logout();
 			}
 		} else {
-			this.logout();
+			this.logout(false);
 		}
 	}
 }

@@ -1,7 +1,8 @@
 import { Routes, Router } from '@angular/router';
 import { LoginPage } from './pages/login/login';
 import { WelcomePage } from './pages/welcome/welcome';
-import { AdminPage } from "./pages/admin/admin";
+import { AdminHome } from "./pages/admin-dashboard/admin-home/admin-home";
+import { AdminReports } from './pages/admin-dashboard/admin-reports/admin-reports';
 import { TraderPage } from "./pages/trader/trader";
 import { PublicLayoutComponent } from './public-layout';
 import { AuthLayoutComponent } from './auth-layout';
@@ -12,6 +13,8 @@ import { DashboardRedirectComponent } from './guards/dashboard-redirect';
 import { inject } from '@angular/core';
 import { AuthService } from './services/auth-service';
 import { guestGuard } from './guards/guest-guard';
+import { roleGuard } from './guards/role-guard';
+import { AdminNotifications } from './pages/admin-dashboard/admin-notifications/admin-notifications';
 
 export const routes: Routes = [
     {
@@ -21,7 +24,7 @@ export const routes: Routes = [
         children: [
             { path: 'welcome', component: WelcomePage },
             { path: 'login', component: LoginPage },
-            { path: '', pathMatch: 'full', component: DashboardRedirectComponent }
+            { path: '', pathMatch: 'full', redirectTo: '/welcome' }
         ]
     },
     
@@ -31,11 +34,28 @@ export const routes: Routes = [
         component: AuthLayoutComponent,
         canActivate: [authGuard],
         children: [
-            { path: 'admin', component: AdminPage },
+            { 
+                path: 'admin', 
+                canActivate: [roleGuard],
+                data: {roles: ['ADMIN']},
+                children: [
+                    { path: 'home', component: AdminHome },
+                    { path: 'reports', component: AdminReports },
+                    { path: 'notifications', component: AdminNotifications },
+                    { path: '', pathMatch: 'full', redirectTo: 'home'}
+                ]
+            },
             {
                 path: 'farmer', 
+<<<<<<< HEAD
                 children:[
                     { path: 'register', component: RegisterComponent }
+=======
+                canActivate: [roleGuard],
+                data: {roles: ['FARMER']},
+                children: [
+                    { path: 'register', component: RegisterPage },
+>>>>>>> c3175e2d9e464fe15718aca569e28c2ba3ecfb9e
                 ]
             },
             { path: 'trader', component: TraderPage },

@@ -11,10 +11,10 @@ export class ThemeService {
     }
 
     themeRole() {
-        return this.role_selected;
+        return this.role_selected();
     }
     themeChange(newRole: string) {
-        if(newRole === "OFFICER" || "MANAGER" || "COMPLIANCE" || "AUDITOR") {
+        if(["OFFICER", "MANAGER", "COMPLIANCE", "AUDITOR"].includes(newRole)) {
             this._role_selected.set("OFFICER")
         } else {
             this._role_selected.set(newRole);
