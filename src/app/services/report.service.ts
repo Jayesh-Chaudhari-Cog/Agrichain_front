@@ -30,4 +30,8 @@ export class ReportService {
 	deleteReport(id: number): Observable<any> {
 		return this.http.delete(`${this.baseUrl}/delete/${id}`, { responseType: 'text' });
 	}
+
+	getTransactionReport(status: string): Observable<Report> {
+		return this.http.get<Report>(`${this.baseUrl}/transactionsreport/${status}`);
+	}
 }

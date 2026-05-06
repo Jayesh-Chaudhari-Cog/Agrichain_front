@@ -15,44 +15,58 @@
 	</div>
 
 	@if (showForm()) {
-		<section class="form-section" style="margin-bottom: 2rem; background: var(--bg-surface); padding: 1rem; border-radius: 8px;">
+		<section class="card-form-section">
 			<h2>{{ editingId() ? 'Edit' : 'Generate' }} Report</h2>
-			<form (ngSubmit)="submitForm()">
-				<div class="form-group" style="margin-bottom: 1rem;">
-					<label>Scope</label>
-					<input type="text" class="form-control" [(ngModel)]="reportForm.scope" name="scope" required />
+			<form (ngSubmit)="submitForm()" class="form-container">
+				<div class="input-box" >
+					<label class="input-label">Scope</label>
+					<input type="text" class="input-field" [(ngModel)]="reportForm.scope" name="scope" required />
 				</div>
-				<div class="form-group" style="margin-bottom: 1rem;">
-					<label>Metrics</label>
-					<textarea class="form-control" [(ngModel)]="reportForm.metrics" name="metrics" rows="3" required></textarea>
+				<div class="input-box">
+					<label class="input-label">Metrics</label>
+					<textarea class="input-field" [(ngModel)]="reportForm.metrics" name="metrics" rows="3" required></textarea>
 				</div>
-				<button type="submit" class="btn btn-success" style="margin-right: 0.5rem;">Save</button>
-				<button type="button" class="btn btn-secondary" (click)="cancelForm()">Cancel</button>
+				<div class="form-buttons-box">
+					<button type="submit" class="btn btn-primary">Save</button>
+					<button type="button" class="btn btn-secondary" (click)="cancelForm()">Cancel</button>
+				</div>
 			</form>
 		</section>
 	}
 
 	<section class="report-list">
-		<h2>Recent report activity</h2>
+		<h2>Recent reports</h2>
 		@if (loading()) {
-			<p>Loading reports...</p>
+			<loader />
 		} @else {
-			<ul>
-				@for(report of reports(); track report.reportId) {
-					<li style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding: 1rem; background: var(--bg-card); border-radius: 6px;">
-						<div>
-							<strong>{{ report.scope }}</strong> <small>({{ report.generatedDate }})</small>
-							<p style="margin: 0.5rem 0 0 0; color: var(--text-secondary);">{{ report.metrics }}</p>
-						</div>
-						<div>
-							<button class="btn btn-sm btn-info" style="margin-right: 0.5rem;" (click)="openEditForm(report)">Edit</button>
-							<button class="btn btn-sm btn-danger" (click)="deleteReport(report.reportId)">Delete</button>
-						</div>
-					</li>
-				} @empty {
-					<li>No reports found.</li>
-				}
-			</ul>
+			<table>
+				<thead>
+					<th>Scope</th>
+					<th>Metrics</th>
+					<th>Generated date</th>
+					<th>Edit</th>
+					<th>Delete</th>
+				</thead>
+				<tbody>
+					@for(report of reports(); track report.reportId) {
+						<tr>
+							<td>{{ report.scope }}</td>
+							<td>{{ report.metrics }}</td>
+							<td>{{ report.generatedDate }}</td>
+							<td>
+								<button class="btn btn-info" (click)="openEditForm(report)">
+									<fa-icon [icon]="faEdit" />
+								</button>
+							</td>
+							<td>
+								<button class="btn btn-danger" (click)="deleteReport(report.reportId)">
+									<fa-icon [icon]="faDelete" />
+								</button>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
 		}
 	</section>
 </div>

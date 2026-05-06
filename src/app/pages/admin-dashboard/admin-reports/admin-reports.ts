@@ -3,16 +3,22 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ReportService } from '../../../services/report.service';
 import { Report, ReportDTO } from '../../../models/dto.model';
+import { Loader } from "../../../common-components/loader/loader";
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 
 @Component({
 	selector: 'admin-reports',
-	imports: [FormsModule, CommonModule],
+	imports: [FormsModule, CommonModule, Loader, FaIconComponent],
 	templateUrl: './admin-reports.html',
 	styleUrl: './admin-reports.css'
 })
 export class AdminReports implements OnInit {
 	reports = signal<Report[]>([]);
 	loading = signal(false);
+
+	faEdit = faEdit;
+	faDelete = faTrash;
 
 	// Form state
 	showForm = signal(false);

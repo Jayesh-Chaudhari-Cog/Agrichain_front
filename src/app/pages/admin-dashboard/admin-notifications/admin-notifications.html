@@ -8,7 +8,7 @@
 	</section>
 
 	@if (showForm()) {
-		<section class="notification-form-section">
+		<section class="card-form-section">
 			<h2>Create Broadcast Notification</h2>
 			<form (ngSubmit)="submitForm()" class="form-container">
 				<div class="input-box">
@@ -22,7 +22,7 @@
 				<div class="input-box">
 					<label class="input-label">Target Role (Leave blank for all)</label>
 					<select class="input-field" [(ngModel)]="notificationForm.role" name="role">
-						<option value="0">All Roles</option>
+						<option value="">All Roles</option>
 						@for(r of roles; track r) {
 							<option [value]="r">{{ r }}</option>
 						}
@@ -56,7 +56,7 @@
 						<tr>
 							<td>{{ notification.subject }}</td>
 							<td>{{ notification.message }}</td>
-							<td><p class="notification-role">{{ notification.role || 'ALL' }}</p></td>
+							<td><p class="notification-role">{{ notification.role || 'ALL'}}</p></td>
 							<td>{{ notification.createdDate }}</td>
 							<td>
 								<button class="btn btn-danger" (click)="deleteNotification(notification.notificationID)">
