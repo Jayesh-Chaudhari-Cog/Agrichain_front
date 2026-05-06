@@ -20,10 +20,13 @@ export class AuthService {
 	readonly loggedInUser = this._loggedInUser.asReadonly();
 
 	onLogin(credentials: any) {
-		return this.http.post<{ token: string }>(`${API_URL}${USER_PATH}/login`, credentials).pipe(
+		return this.http.post<{ token: string, user?: any }>(`${API_URL}${USER_PATH}/login`, credentials).pipe(
 			tap(response => {
 				this.saveToken(response.token);
 				this.decodeAndStore(response.token);
+				if (response.user) {
+					localStorage.setItem('currentUser', JSON.stringify(response.user));
+				}
 			})
 		);
 	}
@@ -57,6 +60,7 @@ export class AuthService {
 	logout(shouldRedirect: boolean = true) {
 		localStorage.removeItem(TOKEN_KEY);
 		localStorage.removeItem(LOGIN_INFO);
+		localStorage.removeItem('currentUser');
 
 		this._loggedInUser.set(null);
 
