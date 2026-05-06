@@ -34,7 +34,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
             } else {
                 switch (error.status) {
                     case 401:
-                        errorMessage = 'Session expired or unauthorized. Please log in again.';
+                        errorMessage = 'Session expired. Please log in again.';
                         authService.logout();
                         break;
                     case 403:

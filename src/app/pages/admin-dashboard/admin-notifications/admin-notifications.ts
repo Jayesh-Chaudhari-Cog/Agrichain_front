@@ -5,7 +5,7 @@ import { NotificationService } from '../../../services/notification.service';
 import { Notification, NotificationDTO } from '../../../models/dto.model';
 import { NotificationCategory, UserRole } from '../../../models/enum.model';
 import { Loader } from "../../../common-components/loader/loader";
-import { FontAwesomeModule, FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -22,7 +22,7 @@ export class AdminNotifications implements OnInit {
 
 	// Form state
 	showForm = signal(false);
-	notificationForm: NotificationDTO = { subject: '', message: '', category: NotificationCategory.BROADCAST };
+	notificationForm: NotificationDTO = { subject: '', message: '', category: NotificationCategory.BROADCAST, role: '' };
 	roles = Object.values(UserRole);
 
 	constructor(private notificationService: NotificationService) {}
@@ -47,7 +47,7 @@ export class AdminNotifications implements OnInit {
 	}
 
 	openCreateForm() {
-		this.notificationForm = { subject: '', message: '', category: NotificationCategory.BROADCAST };
+		this.notificationForm = { subject: '', message: '', category: NotificationCategory.BROADCAST, role: '' };
 		this.showForm.set(true);
 	}
 
@@ -58,8 +58,10 @@ export class AdminNotifications implements OnInit {
 	submitForm() {
 		const payload: NotificationDTO = {
 			...this.notificationForm,
-			role: this.notificationForm.role || "0"
 		};
+		if (!payload.role || payload.role === '') {
+            delete payload.role;
+        }
 		this.notificationService.createNotification(payload).subscribe({
 			next: () => {
 				this.fetchNotifications();

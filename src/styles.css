@@ -120,6 +120,14 @@ app-welcome, app-login {
     justify-content: space-between;
     padding: 0 0.5rem;
 }
+.card-form-section {
+	width: clamp(300px, 100%, 500px);
+	min-width: 300px;
+	background-color: var(--primary-color);
+	padding: 1rem;
+	border-radius: 0.5rem;
+	box-shadow: 0 2px 0.5rem rgba(0, 0, 0, 0.3);
+}
 /* Input fields */
 .input-field {
     padding: 0.4rem 0.6rem;
@@ -166,17 +174,28 @@ app-welcome, app-login {
     color: white;
 }
 
+.btn-danger, .btn-info {
+    color: white;
+    border: none;
+}
+.btn-danger:hover, .btn-info:hover {
+    color: black;
+}
 .btn-danger {
     background-color: rgb(200, 50, 50);
     box-shadow: 0 0 0.2rem rgb(200, 50, 50);
-    color: white;
-    border: none;
 }
 .btn-danger:hover {
     background-color: rgb(240, 60, 100);
     box-shadow: 0 0 0.5rem rgb(240, 60, 100);
-    color: black;
-    border: none;
+}
+.btn-info {
+    background-color: rgb(50, 100, 200);
+    box-shadow: 0 0 0.2rem rgb(50, 100, 200);
+}
+.btn-info:hover {
+    background-color: rgb(60, 130, 240);
+    box-shadow: 0 0 0.5rem rgb(60, 130, 240);
 }
 
 .grad-text {
