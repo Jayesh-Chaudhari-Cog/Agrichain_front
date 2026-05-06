@@ -6,7 +6,7 @@ import { AdminReports } from './pages/admin-dashboard/admin-reports/admin-report
 import { TraderPage } from "./pages/trader/trader";
 import { PublicLayoutComponent } from './public-layout';
 import { AuthLayoutComponent } from './auth-layout';
-import { RegisterPage } from './pages/register/register';
+import { RegisterComponent } from './pages/register/register';
 import { authGuard } from './guards/auth-guard';
 import { MarketOfficer } from './pages/market-officer/market-officer';
 import { DashboardRedirectComponent } from './guards/dashboard-redirect';
@@ -50,7 +50,7 @@ export const routes: Routes = [
                 canActivate: [roleGuard],
                 data: {roles: ['FARMER']},
                 children: [
-                    { path: 'register', component: RegisterPage },
+                    { path: 'register', component: RegisterComponent},
                 ]
             },
             { path: 'trader', component: TraderPage },
