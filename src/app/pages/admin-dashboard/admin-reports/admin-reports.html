@@ -1,30 +1,58 @@
 <div class="a-page admin-panel admin-subpage">
-	<section class="section-header">
-		<h1>Reports</h1>
-		<p>Review report history, status, and summaries from the admin console.</p>
+	<section class="section-header" style="display: flex; justify-content: space-between; align-items: center;">
+		<div>
+			<h1>Reports</h1>
+			<p>Review report history, status, and summaries from the admin console.</p>
+		</div>
+		<button class="btn btn-primary" (click)="openCreateForm()">Generate Report</button>
 	</section>
 
 	<div class="admin-cards">
 		<article class="report-card">
-			<strong>112</strong>
+			<strong>{{ reports().length }}</strong>
 			<span>Total Reports</span>
-		</article>
-		<article class="report-card">
-			<strong>18</strong>
-			<span>Active Scopes</span>
-		</article>
-		<article class="report-card">
-			<strong>47</strong>
-			<span>Transactions Pending</span>
 		</article>
 	</div>
 
+	@if (showForm()) {
+		<section class="form-section" style="margin-bottom: 2rem; background: var(--bg-surface); padding: 1rem; border-radius: 8px;">
+			<h2>{{ editingId() ? 'Edit' : 'Generate' }} Report</h2>
+			<form (ngSubmit)="submitForm()">
+				<div class="form-group" style="margin-bottom: 1rem;">
+					<label>Scope</label>
+					<input type="text" class="form-control" [(ngModel)]="reportForm.scope" name="scope" required />
+				</div>
+				<div class="form-group" style="margin-bottom: 1rem;">
+					<label>Metrics</label>
+					<textarea class="form-control" [(ngModel)]="reportForm.metrics" name="metrics" rows="3" required></textarea>
+				</div>
+				<button type="submit" class="btn btn-success" style="margin-right: 0.5rem;">Save</button>
+				<button type="button" class="btn btn-secondary" (click)="cancelForm()">Cancel</button>
+			</form>
+		</section>
+	}
+
 	<section class="report-list">
 		<h2>Recent report activity</h2>
-		<ul>
-			@for(report of reports(); track report) {
-				<li>{{ report }}</li>
-			}
-		</ul>
+		@if (loading()) {
+			<p>Loading reports...</p>
+		} @else {
+			<ul>
+				@for(report of reports(); track report.reportId) {
+					<li style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding: 1rem; background: var(--bg-card); border-radius: 6px;">
+						<div>
+							<strong>{{ report.scope }}</strong> <small>({{ report.generatedDate }})</small>
+							<p style="margin: 0.5rem 0 0 0; color: var(--text-secondary);">{{ report.metrics }}</p>
+						</div>
+						<div>
+							<button class="btn btn-sm btn-info" style="margin-right: 0.5rem;" (click)="openEditForm(report)">Edit</button>
+							<button class="btn btn-sm btn-danger" (click)="deleteReport(report.reportId)">Delete</button>
+						</div>
+					</li>
+				} @empty {
+					<li>No reports found.</li>
+				}
+			</ul>
+		}
 	</section>
 </div>

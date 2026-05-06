@@ -7,3 +7,4 @@ export const ADMIN_DASHBOARD = '/dashboard/admin/';
 
 export const USER_PATH = "users"
 export const REPORT_PATH = "api/report";
+export const NOTIFICATION_PATH = "api/notification";
