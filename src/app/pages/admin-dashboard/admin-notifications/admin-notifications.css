@@ -1,16 +1,7 @@
-.admin-panel {
-	padding: 1.5rem;
-}
-
-.section-header h1 {
-	margin: 0;
-	color: var(--accent-dark);
-}
-
-.section-header p {
-	margin-top: 0.5rem;
-	color: var(--accent-dark);
-	opacity: 0.8;
+.form-section {
+	background-color: var(--accent-bg);
+	padding: 1rem;
+	border-radius: 0.5rem;
 }
 
 .notification-list {
