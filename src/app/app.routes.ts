@@ -47,15 +47,10 @@ export const routes: Routes = [
             },
             {
                 path: 'farmer', 
-<<<<<<< HEAD
-                children:[
-                    { path: 'register', component: RegisterComponent }
-=======
                 canActivate: [roleGuard],
                 data: {roles: ['FARMER']},
                 children: [
-                    { path: 'register', component: RegisterPage },
->>>>>>> c3175e2d9e464fe15718aca569e28c2ba3ecfb9e
+                    { path: 'register', component: RegisterComponent},
                 ]
             },
             { path: 'trader', component: TraderPage },
