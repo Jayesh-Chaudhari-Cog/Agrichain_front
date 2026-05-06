@@ -6,6 +6,7 @@ export interface CropListingDTO {
   price: number;
   location: string;
   status?: string;
+  documentUrl?: string;
 }
 
 export interface OrderDTO {

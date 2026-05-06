@@ -11,7 +11,7 @@
 
     --farmer-green: #2EAD32;
     --trader-blue: #0D47A1;
-    --officer-orange: #E65100;
+    --officer-cyan: #00ACC1;
     --admin-purple: #d93098;
 
 
@@ -35,10 +35,10 @@ body.trader {
 }
 
 body.officer {
-    --accent-color: #FFB199;
-    --accent-transparent: #FFB19945;
-    --accent-dark: #b06455;
-    --accent-bg: #DDABAB;
+    --accent-color: #00ACC1;
+    --accent-transparent: #00ACC145;
+    --accent-dark: #007FAA;
+    --accent-bg: #B2EBF2;
 }
 body.admin {
     /* --accent-color: #f324ec;

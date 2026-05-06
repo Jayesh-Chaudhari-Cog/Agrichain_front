@@ -14,6 +14,10 @@ import { inject } from '@angular/core';
 import { AuthService } from './services/auth-service';
 import { guestGuard } from './guards/guest-guard';
 import { AdminNotifications } from './pages/admin-dashboard/admin-notifications/admin-notifications';
+import { OfficerHome } from './pages/marketOfficer-dashboard/officer-home/officer-home';
+import { OfficerInventory } from './pages/marketOfficer-dashboard/officer-inventory/officer-inventory';
+import { OfficerHistory } from './pages/marketOfficer-dashboard/officer-history/officer-history';
+import { OfficerDocument } from './pages/marketOfficer-dashboard/officer-document/officer-document';
 
 export const routes: Routes = [
     {
@@ -48,7 +52,16 @@ export const routes: Routes = [
                 ]
             },
             { path: 'trader', component: TraderPage },
-            { path: 'market-officer', component: MarketOfficer },
+            
+            { path: 'officer', 
+                children: [
+                    { path: 'home', component: OfficerHome },
+                    { path: 'inventory', component: OfficerInventory },
+                    { path: 'history', component: OfficerHistory },
+                    //{ path: 'documents', component: OfficerDocument },
+                    { path: '', pathMatch: 'full', redirectTo: 'home'}
+                ]
+             },
             { path: '', pathMatch: 'full', component: DashboardRedirectComponent }
         ]
     }

@@ -4,11 +4,12 @@ import { MarketService } from '../../services/market'; // Assuming your service 
 import { CropListingStatus } from '../../models/enum.model';
 import { CropListingDTO } from '../../models/dto.model';
 import { WebNameElement } from '../../elements/web-name';
+import { Loader } from '../../common-components/loader/loader';
 
 @Component({
   selector: 'app-market-officer',
   standalone: true,
-  imports: [CommonModule, WebNameElement],
+  imports: [CommonModule, WebNameElement, Loader],
   templateUrl: './market-officer.html',
   styleUrl: './market-officer.css',
 })
