@@ -15,7 +15,8 @@ export class ThemeService {
     }
     themeChange(newRole: string) {
         if(["OFFICER", "MANAGER", "COMPLIANCE", "AUDITOR"].includes(newRole)) {
-            this._role_selected.set("OFFICER")
+            this._role_selected.set("OFFICER");
+            newRole = "OFFICER";
         } else {
             this._role_selected.set(newRole);
         }
