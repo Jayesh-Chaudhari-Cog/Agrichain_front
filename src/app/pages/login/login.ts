@@ -6,6 +6,7 @@ import { AuthService } from '../../services/auth-service';
 import { ThemeService } from '../../services/theme';
 import { LOGIN_INFO } from '../../elements/constants';
 import { LoggedInUser } from '../../models/user.model';
+import { ToastService } from '../../services/toast-service';
 
 @Component({
 	selector: 'app-login',
@@ -16,6 +17,7 @@ import { LoggedInUser } from '../../models/user.model';
 export class LoginPage {
 	private router = inject(Router);
 	private authService = inject(AuthService);
+	private toast = inject(ToastService);
 	themeService = inject(ThemeService);
 
 	account_method = signal("login");
@@ -39,6 +41,14 @@ export class LoginPage {
 		};
 
 		if (this.account_method() === 'login') {
+			if(payload.email === "") {
+				this.toast.show('Please enter Email', 'alert');
+				return;
+			} else if(payload.password === "") {
+				this.toast.show('Please enter password', 'alert');
+				return;
+			}
+
 			this.authService.onLogin({
 				email: payload.email,
 				password: payload.password
@@ -53,22 +63,22 @@ export class LoginPage {
 				error: (err) => {
 					console.error("Login failed", err);
 					if (err.status === 409) {
-						alert("Incorrect password. Please try again."); // TODO: Toast
+						this.toast.show('Incorrect password. Please try again.', 'alert');
 					} else if (err.status === 404) {
-						alert("User account not found.");
+						this.toast.show('User account not found', 'alert');
 					} else {
-						alert("An unexpected error occurred. Please try again later.");
+						this.toast.show('An unexpected error occurred. Please try again later.', 'alert');
 					}
 				}
 			});
 		} else {
 			if (this.formData.password !== this.formData.confirmPassword) {
-				alert("Passwords do not match!"); // TODO Toast
+				this.toast.show('Passwords do not match!', 'alert');
 				return;
 			}
 			this.authService.onRegister(payload).subscribe({
 				next: () => {
-					alert("Registration successful! Please login."); // TODO Toast
+					this.toast.show('Registration successful! Please login.', 'success');
 					this.onAccountMethodChange('login');
 				},
 				error: (err) => console.error("Signup failed", err)

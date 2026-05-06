@@ -1,1 +1,58 @@
-<h1>Notificaitons</h1>
+<div class="a-page admin-panel admin-subpage">
+	<section class="section-header" style="display: flex; justify-content: space-between; align-items: center;">
+		<div>
+			<h1>Notifications</h1>
+			<p>Latest broadcast notifications for administrative review and action.</p>
+		</div>
+		<button class="btn btn-primary" (click)="openCreateForm()">Broadcast Notification</button>
+	</section>
+
+	@if (showForm()) {
+		<section class="form-section" style="margin-bottom: 2rem; background: var(--bg-surface); padding: 1rem; border-radius: 8px;">
+			<h2>Create Broadcast Notification</h2>
+			<form (ngSubmit)="submitForm()">
+				<div class="form-group" style="margin-bottom: 1rem;">
+					<label>Subject</label>
+					<input type="text" class="form-control" [(ngModel)]="notificationForm.subject" name="subject" required />
+				</div>
+				<div class="form-group" style="margin-bottom: 1rem;">
+					<label>Message</label>
+					<textarea class="form-control" [(ngModel)]="notificationForm.message" name="message" rows="3" required></textarea>
+				</div>
+				<div class="form-group" style="margin-bottom: 1rem;">
+					<label>Target Role (Leave blank for all)</label>
+					<select class="form-control" [(ngModel)]="notificationForm.role" name="role">
+						<option value="">All Roles</option>
+						@for(r of roles; track r) {
+							<option [value]="r">{{ r }}</option>
+						}
+					</select>
+				</div>
+				<button type="submit" class="btn btn-success" style="margin-right: 0.5rem;">Broadcast</button>
+				<button type="button" class="btn btn-secondary" (click)="cancelForm()">Cancel</button>
+			</form>
+		</section>
+	}
+
+	<div class="notification-list">
+		@if (loading()) {
+			<p>Loading notifications...</p>
+		} @else {
+			@for(notification of notifications(); track notification.notificationID) {
+				<article class="notification-card" style="display: flex; justify-content: space-between; align-items: start;">
+					<div style="flex: 1;">
+						<header>
+							<strong>{{ notification.subject }}</strong>
+							<span class="status">{{ notification.role || 'ALL ROLES' }}</span>
+						</header>
+						<p>{{ notification.message }}</p>
+						<small>{{ notification.createdDate }}</small>
+					</div>
+					<button class="btn btn-sm btn-danger" style="margin-left: 1rem;" (click)="deleteNotification(notification.notificationID)">Delete</button>
+				</article>
+			} @empty {
+				<p>No broadcast notifications found.</p>
+			}
+		}
+	</div>
+</div>

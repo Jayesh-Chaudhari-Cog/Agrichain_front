@@ -16,3 +16,35 @@ export interface OrderDTO {
   orderDate: string;
   orderStatus?: string;
 }
+
+export interface ReportDTO {
+  scope: string;
+  metrics: string;
+}
+
+export interface Report {
+  reportId: number;
+  scope: string;
+  metrics: string;
+  generatedDate: string;
+}
+
+export interface NotificationDTO {
+  userId?: number;
+  role?: string;
+  subject: string;
+  message: string;
+  category: string;
+  status?: string;
+}
+
+export interface Notification {
+  notificationID: number;
+  userId?: number;
+  role?: string;
+  subject: string;
+  message: string;
+  category: string;
+  status: string;
+  createdDate: string;
+}
