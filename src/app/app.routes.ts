@@ -7,13 +7,13 @@ import { TraderPage } from "./pages/trader/trader";
 import { PublicLayoutComponent } from './public-layout';
 import { AuthLayoutComponent } from './auth-layout';
 import { RegisterComponent } from './pages/register/register';
-import { authGuard } from './guards/auth-guard';
+import { authGuard } from './core/guards/auth-guard';
 import { MarketOfficer } from './pages/market-officer/market-officer';
-import { DashboardRedirectComponent } from './guards/dashboard-redirect';
+import { DashboardRedirectComponent } from './core/guards/dashboard-redirect';
 import { inject } from '@angular/core';
 import { AuthService } from './services/auth-service';
-import { guestGuard } from './guards/guest-guard';
-import { roleGuard } from './guards/role-guard';
+import { guestGuard } from './core/guards/guest-guard';
+import { roleGuard } from './core/guards/role-guard';
 import { AdminNotifications } from './pages/admin-dashboard/admin-notifications/admin-notifications';
 import { AuditComponent } from './pages/auditor-dashboard/audit/audit';
 import { ComplianceComponent } from './pages/compliance/compliance';
@@ -68,7 +68,16 @@ export const routes: Routes = [
                 ]
             },
             { path: 'trader', component: TraderPage },
-            { path: 'market-officer', component: MarketOfficer },
+            
+            { path: 'officer', 
+                children: [
+                    { path: 'home', component: OfficerHome },
+                    { path: 'inventory', component: OfficerInventory },
+                    { path: 'history', component: OfficerHistory },
+                    //{ path: 'documents', component: OfficerDocument },
+                    { path: '', pathMatch: 'full', redirectTo: 'home'}
+                ]
+             },
             { path: '', pathMatch: 'full', component: DashboardRedirectComponent }
 
         ]

@@ -1,4 +1,4 @@
-import { ADMIN_DASHBOARD } from "../elements/constants";
+import { ADMIN_DASHBOARD, OFFICER_DASHBOARD } from "../elements/constants";
 
 export interface NavLink {
     label: string;
@@ -11,7 +11,10 @@ export const ROLE_CONFIG: Record<string, NavLink[]> = {
         { label: 'Home', path: 'farmer/home' }
     ],
     OFFICER: [
-        { label: 'Home', path: '/officer/home' }
+        { label: 'Home', path: `${OFFICER_DASHBOARD}home` },
+        { label: 'Inventory', path: `${OFFICER_DASHBOARD}inventory` },
+        { label: 'History', path: `${OFFICER_DASHBOARD}history` }
+        //{label: 'Documents', path: `${OFFICER_DASHBOARD}documents` } 
     ],
     ADMIN: [
         { label: 'Home', path: `${ADMIN_DASHBOARD}home` },

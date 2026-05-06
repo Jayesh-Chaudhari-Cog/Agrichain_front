@@ -22,7 +22,7 @@
 				<div class="form-group" style="margin-bottom: 1rem;">
 					<label>Target Role (Leave blank for all)</label>
 					<select class="form-control" [(ngModel)]="notificationForm.role" name="role">
-						<option value="">All Roles</option>
+						<option value="0">All Roles</option>
 						@for(r of roles; track r) {
 							<option [value]="r">{{ r }}</option>
 						}
