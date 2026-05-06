@@ -8,8 +8,6 @@ import { AuthService } from '../../services/auth-service';
 // Auth Interceptor: Automatically injects the JWT Bearer token into headers
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
     const token = localStorage.getItem(TOKEN_KEY);
-
-    // Clone the request and inject the authorization header if the token exists
     if (token) {
         const clonedRequest = req.clone({
             setHeaders: {

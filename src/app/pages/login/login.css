@@ -217,6 +217,10 @@
     }
 }
 
+.form-submit {
+    margin: 0 auto;
+}
+
 @media(max-width: 600px) {
     .login-signup-page {
         padding: 1.5rem;
