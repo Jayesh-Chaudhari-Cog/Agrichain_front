@@ -11,9 +11,9 @@ import { NotificationService } from '../../../services/notification.service';
 })
 export class AdminHome implements OnInit {
 	readonly totalReports = signal(0);
-	readonly pendingReviews = signal(0); // Optional placeholder or derived data
+	readonly pendingReviews = signal(0);
 	readonly totalNotifications = signal(0);
-	readonly transactionSuccess = signal(0); // Optional placeholder or derived data
+	readonly transactionSuccess = signal(0);
 
 	readonly metrics = signal([
 		{ label: 'Report coverage', value: 0 },
@@ -35,7 +35,6 @@ export class AdminHome implements OnInit {
 		this.reportService.getAllReports().subscribe(reports => {
 			this.totalReports.set(reports.length);
 			
-			// Simulate some analytics based on reports count
 			const coverage = Math.min(100, reports.length * 5); 
 			
 			const currentMetrics = [...this.metrics()];
@@ -44,7 +43,6 @@ export class AdminHome implements OnInit {
 		});
 
 		this.notificationService.getAllNotifications().subscribe(notifications => {
-			// Count only broadcast notifications as admin's purview or all notifications
 			const broadcasts = notifications.filter(n => n.userId == null);
 			this.totalNotifications.set(broadcasts.length);
 
