@@ -8,51 +8,67 @@
 	</section>
 
 	@if (showForm()) {
-		<section class="form-section">
+		<section class="notification-form-section">
 			<h2>Create Broadcast Notification</h2>
-			<form (ngSubmit)="submitForm()">
-				<div class="form-group" style="margin-bottom: 1rem;">
-					<label>Subject</label>
-					<input type="text" class="form-control" [(ngModel)]="notificationForm.subject" name="subject" required />
+			<form (ngSubmit)="submitForm()" class="form-container">
+				<div class="input-box">
+					<label class="input-label" for="notification-subject">Subject</label>
+					<input type="text" class="input-field" id="notification-subject" [(ngModel)]="notificationForm.subject" name="notification-subject" required />
 				</div>
-				<div class="form-group" style="margin-bottom: 1rem;">
-					<label>Message</label>
-					<textarea class="form-control" [(ngModel)]="notificationForm.message" name="message" rows="3" required></textarea>
+				<div class="input-box">
+					<label class="input-label" for="notification-message">Message</label>
+					<textarea class="input-field" id="notification-message" [(ngModel)]="notificationForm.message" name="notification-message" rows="3" required></textarea>
 				</div>
-				<div class="form-group" style="margin-bottom: 1rem;">
-					<label>Target Role (Leave blank for all)</label>
-					<select class="form-control" [(ngModel)]="notificationForm.role" name="role">
+				<div class="input-box">
+					<label class="input-label">Target Role (Leave blank for all)</label>
+					<select class="input-field" [(ngModel)]="notificationForm.role" name="role">
 						<option value="0">All Roles</option>
 						@for(r of roles; track r) {
 							<option [value]="r">{{ r }}</option>
 						}
 					</select>
 				</div>
-				<button type="submit" class="btn btn-success" style="margin-right: 0.5rem;">Broadcast</button>
-				<button type="button" class="btn btn-secondary" (click)="cancelForm()">Cancel</button>
+				<div class="form-buttons-box">
+					<button type="submit" class="btn btn-primary" style="margin-right: 0.5rem;">Broadcast</button>
+					<button type="button" class="btn btn-secondary" (click)="cancelForm()">Cancel</button>
+				</div>
 			</form>
 		</section>
 	}
 
 	<div class="notification-list">
+		<h3>Past Notifications</h3>
 		@if (loading()) {
-			<p>Loading notifications...</p>
+			<loader />
 		} @else {
-			@for(notification of notifications(); track notification.notificationID) {
-				<article class="notification-card" style="display: flex; justify-content: space-between; align-items: start;">
-					<div style="flex: 1;">
-						<header>
-							<strong>{{ notification.subject }}</strong>
-							<span class="status">{{ notification.role || 'ALL ROLES' }}</span>
-						</header>
-						<p>{{ notification.message }}</p>
-						<small>{{ notification.createdDate }}</small>
-					</div>
-					<button class="btn btn-sm btn-danger" style="margin-left: 1rem;" (click)="deleteNotification(notification.notificationID)">Delete</button>
-				</article>
-			} @empty {
-				<p>No broadcast notifications found.</p>
-			}
+			<table class="a-table">
+				<thead>
+					<tr>
+						<th>Subject</th>
+						<th>Message</th>
+						<th>Role</th>
+						<th>Created Date</th>
+						<th>Delete</th>
+					</tr>
+				</thead>
+				<tbody>
+					@for(notification of notifications(); track notification.notificationID) {
+						<tr>
+							<td>{{ notification.subject }}</td>
+							<td>{{ notification.message }}</td>
+							<td><p class="notification-role">{{ notification.role || 'ALL' }}</p></td>
+							<td>{{ notification.createdDate }}</td>
+							<td>
+								<button class="btn btn-danger" (click)="deleteNotification(notification.notificationID)">
+									<fa-icon [icon]="faDelete" />
+								</button>
+							</td>
+						</tr>
+					} @empty {
+						<p>No broadcast notifications found.</p>
+					}
+				</tbody>
+			</table>
 		}
 	</div>
 </div>

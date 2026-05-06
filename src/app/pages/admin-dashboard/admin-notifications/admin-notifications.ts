@@ -4,16 +4,21 @@ import { CommonModule } from '@angular/common';
 import { NotificationService } from '../../../services/notification.service';
 import { Notification, NotificationDTO } from '../../../models/dto.model';
 import { NotificationCategory, UserRole } from '../../../models/enum.model';
+import { Loader } from "../../../common-components/loader/loader";
+import { FontAwesomeModule, FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
 	selector: 'admin-notifications',
-	imports: [FormsModule, CommonModule],
+	imports: [FormsModule, CommonModule, Loader, FaIconComponent],
 	templateUrl: './admin-notifications.html',
 	styleUrl: './admin-notifications.css'
 })
 export class AdminNotifications implements OnInit {
 	notifications = signal<Notification[]>([]);
 	loading = signal(false);
+
+	faDelete = faTrash;
 
 	// Form state
 	showForm = signal(false);
@@ -30,7 +35,6 @@ export class AdminNotifications implements OnInit {
 		this.loading.set(true);
 		this.notificationService.getAllNotifications().subscribe({
 			next: (data) => {
-				// Admin should only view broadcast notifications as per requirement
 				const broadcasts = data.filter(n => n.userId == null);
 				this.notifications.set(broadcasts);
 				this.loading.set(false);
@@ -52,10 +56,9 @@ export class AdminNotifications implements OnInit {
 	}
 
 	submitForm() {
-		// role can be empty (meaning for everyone) or a specific role
 		const payload: NotificationDTO = {
 			...this.notificationForm,
-			role: this.notificationForm.role || undefined
+			role: this.notificationForm.role || "0"
 		};
 		this.notificationService.createNotification(payload).subscribe({
 			next: () => {
