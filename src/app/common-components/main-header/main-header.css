@@ -5,6 +5,7 @@ header {
     width: 100%;
     height: var(--header-height);
     background-color: var(--accent-color);
+    border-bottom: 1px solid var(--accent-bg);
     padding: 0.5rem 1rem;
     display: flex;
     align-items: center;
