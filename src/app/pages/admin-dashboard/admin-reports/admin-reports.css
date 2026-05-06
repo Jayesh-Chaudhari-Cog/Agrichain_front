@@ -1,0 +1,50 @@
+.admin-panel {
+	padding: 1.5rem;
+}
+
+.section-header h1 {
+	margin: 0;
+	color: var(--accent-dark);
+}
+
+.section-header p {
+	margin-top: 0.5rem;
+	color: var(--accent-dark);
+	opacity: 0.8;
+}
+
+.admin-cards {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(160px, 1fr));
+	gap: 1rem;
+	margin: 1.4rem 0;
+}
+
+.report-card {
+	padding: 1rem;
+	border-radius: 16px;
+	background-color: var(--accent-bg);
+	border: 1px solid var(--accent-color);
+	color: var(--accent-dark);
+}
+
+.report-card strong {
+	display: block;
+	font-size: 2rem;
+	margin-bottom: 0.5rem;
+}
+
+.report-list h2 {
+	margin-bottom: 0.8rem;
+	color: var(--accent-dark);
+}
+
+.report-list ul {
+	list-style: disc;
+	padding-left: 1.2rem;
+	color: var(--accent-dark);
+}
+
+.report-list li {
+	margin-bottom: 0.6rem;
+}

@@ -6,13 +6,14 @@ import { AdminReports } from './pages/admin-dashboard/admin-reports/admin-report
 import { TraderPage } from "./pages/trader/trader";
 import { PublicLayoutComponent } from './public-layout';
 import { AuthLayoutComponent } from './auth-layout';
-import { RegisterPage } from './pages/register/register';
-import { authGuard } from './guards/auth-guard';
+import { RegisterComponent } from './pages/register/register';
+import { authGuard } from './core/guards/auth-guard';
 import { MarketOfficer } from './pages/market-officer/market-officer';
-import { DashboardRedirectComponent } from './guards/dashboard-redirect';
+import { DashboardRedirectComponent } from './core/guards/dashboard-redirect';
 import { inject } from '@angular/core';
 import { AuthService } from './services/auth-service';
-import { guestGuard } from './guards/guest-guard';
+import { guestGuard } from './core/guards/guest-guard';
+import { roleGuard } from './core/guards/role-guard';
 import { AdminNotifications } from './pages/admin-dashboard/admin-notifications/admin-notifications';
 import { OfficerHome } from './pages/marketOfficer-dashboard/officer-home/officer-home';
 import { OfficerInventory } from './pages/marketOfficer-dashboard/officer-inventory/officer-inventory';
@@ -37,7 +38,10 @@ export const routes: Routes = [
         component: AuthLayoutComponent,
         canActivate: [authGuard],
         children: [
-            { path: 'admin', 
+            { 
+                path: 'admin', 
+                canActivate: [roleGuard],
+                data: {roles: ['ADMIN']},
                 children: [
                     { path: 'home', component: AdminHome },
                     { path: 'reports', component: AdminReports },
@@ -47,8 +51,10 @@ export const routes: Routes = [
             },
             {
                 path: 'farmer', 
+                canActivate: [roleGuard],
+                data: {roles: ['FARMER']},
                 children: [
-                    { path: 'register', component: RegisterPage },
+                    { path: 'register', component: RegisterComponent},
                 ]
             },
             { path: 'trader', component: TraderPage },

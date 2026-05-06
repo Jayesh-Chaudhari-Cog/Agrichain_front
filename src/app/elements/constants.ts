@@ -8,3 +8,4 @@ export const OFFICER_DASHBOARD = '/dashboard/officer/';
 
 export const USER_PATH = "users"
 export const REPORT_PATH = "api/report";
+export const NOTIFICATION_PATH = "api/notification";
