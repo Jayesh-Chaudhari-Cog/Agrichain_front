@@ -6,7 +6,7 @@ import { AdminReports } from './pages/admin-dashboard/admin-reports/admin-report
 import { TraderPage } from "./pages/trader/trader";
 import { PublicLayoutComponent } from './public-layout';
 import { AuthLayoutComponent } from './auth-layout';
-import { RegisterPage } from './pages/register/register';
+import { RegisterComponent } from './pages/register/register';
 import { authGuard } from './core/guards/auth-guard';
 import { MarketOfficer } from './pages/market-officer/market-officer';
 import { DashboardRedirectComponent } from './core/guards/dashboard-redirect';
@@ -15,6 +15,10 @@ import { AuthService } from './services/auth-service';
 import { guestGuard } from './core/guards/guest-guard';
 import { roleGuard } from './core/guards/role-guard';
 import { AdminNotifications } from './pages/admin-dashboard/admin-notifications/admin-notifications';
+import { OfficerHome } from './pages/marketOfficer-dashboard/officer-home/officer-home';
+import { OfficerInventory } from './pages/marketOfficer-dashboard/officer-inventory/officer-inventory';
+import { OfficerHistory } from './pages/marketOfficer-dashboard/officer-history/officer-history';
+import { OfficerDocument } from './pages/marketOfficer-dashboard/officer-document/officer-document';
 
 export const routes: Routes = [
     {
@@ -50,11 +54,20 @@ export const routes: Routes = [
                 canActivate: [roleGuard],
                 data: {roles: ['FARMER']},
                 children: [
-                    { path: 'register', component: RegisterPage },
+                    { path: 'register', component: RegisterComponent},
                 ]
             },
             { path: 'trader', component: TraderPage },
-            { path: 'market-officer', component: MarketOfficer },
+            
+            { path: 'officer', 
+                children: [
+                    { path: 'home', component: OfficerHome },
+                    { path: 'inventory', component: OfficerInventory },
+                    { path: 'history', component: OfficerHistory },
+                    //{ path: 'documents', component: OfficerDocument },
+                    { path: '', pathMatch: 'full', redirectTo: 'home'}
+                ]
+             },
             { path: '', pathMatch: 'full', component: DashboardRedirectComponent }
         ]
     }

@@ -1,0 +1,80 @@
+<div class="dashboard-container">
+  <!-- Top Stat Cards -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-icon warning">🕒</div>
+      <div class="stat-content">
+        <span class="stat-label">Awaiting Approval</span>
+        <h2 class="stat-value">{{ stats.pendingCount }}</h2>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-icon alert">⚠️</div>
+      <div class="stat-content">
+        <span class="stat-label">High Bulk Loads</span>
+        <h2 class="stat-value">{{ stats.urgentReviews }}</h2>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Table Section -->
+  <div class="data-section">
+    <div class="section-header">
+      <h3>Incoming Crop Listings</h3>
+    </div>
+    
+    <div class="table-responsive">
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>Farmer ID</th>
+            <th>Crop</th>
+            <th>Quantity</th>
+            <th>Verification</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of filteredListings; track item.listingId) {
+            <tr>
+              <td>#{{ item.farmerId }}</td>
+              <td><strong>{{ item.cropType }}</strong></td>
+              <td>{{ item.quantity }} kg</td>
+              <td>
+                <button class="view-btn" (click)="openDocumentReview(item)">
+                  View Proof
+                </button>
+              </td>
+              <td>
+                <button class="approve-btn" (click)="approveListing(item.listingId!)">
+                  Approve
+                </button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5" class="empty-msg">No pending listings found.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Sliding Document Side-Pane -->
+  <div class="side-panel" *ngIf="selectedListing">
+    <div class="panel-header">
+      <h4>Document Review</h4>
+      <button class="close-panel" (click)="closeReview()">×</button>
+    </div>
+    <div class="panel-body">
+      <iframe [src]="selectedListing.documentUrl"></iframe>
+    </div>
+    <div class="panel-footer">
+      <button class="full-width-approve" (click)="approveListing(selectedListing.listingId!)">
+        Verify & Approve #{{selectedListing.listingId}}
+      </button>
+    </div>
+  </div>
+</div>
