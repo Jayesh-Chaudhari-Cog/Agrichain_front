@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AuditService } from '../../services/audit.service';
-import { AuditDTO, AuditScope, AuditStatus } from '../../models/audit.model';
+import { AuditService } from '../../../services/audit.service';
+import { AuditDTO, AuditScope, AuditStatus } from '../../../models/audit.model';
 
 @Component({
   selector: 'app-audit',

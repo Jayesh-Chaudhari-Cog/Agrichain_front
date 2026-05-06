@@ -1,19 +1,25 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuditDTO, AuditScope, AuditStatus } from '../models/audit.model';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuditService {
   private apiUrl = 'http://localhost:8080/api/audits'; // Update port if needed
+  
 
   constructor(private http: HttpClient) {}
 
   createAudit(auditDto: AuditDTO): Observable<AuditDTO> {
     return this.http.post<AuditDTO>(`${this.apiUrl}/create`, auditDto);
+    
   }
+  getAuditStats(): Observable<any> {
+  return this.http.get(`${this.apiUrl}/stats`);
+}
 
   getAllAudits(): Observable<AuditDTO[]> {
     return this.http.get<AuditDTO[]>(`${this.apiUrl}/all`);

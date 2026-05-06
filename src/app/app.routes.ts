@@ -15,6 +15,9 @@ import { AuthService } from './services/auth-service';
 import { guestGuard } from './guards/guest-guard';
 import { roleGuard } from './guards/role-guard';
 import { AdminNotifications } from './pages/admin-dashboard/admin-notifications/admin-notifications';
+import { AuditComponent } from './pages/auditor-dashboard/audit/audit';
+import { ComplianceComponent } from './pages/compliance/compliance';
+import { AuditorHome } from './pages/auditor-dashboard/auditor-home/auditor-home';
 
 export const routes: Routes = [
     {
@@ -53,9 +56,21 @@ export const routes: Routes = [
                     { path: 'register', component: RegisterComponent},
                 ]
             },
+            {
+                path: 'auditor',
+                canActivate: [roleGuard],
+                data: {roles: ['AUDITOR']},
+                children: [
+                   
+                    { path: 'home', component: AuditorHome },      // View this code above
+        { path: 'entry', component: AuditComponent },
+                    { path: '', pathMatch: 'full', redirectTo: 'home'}
+                ]
+            },
             { path: 'trader', component: TraderPage },
             { path: 'market-officer', component: MarketOfficer },
             { path: '', pathMatch: 'full', component: DashboardRedirectComponent }
+
         ]
     }
 ];
