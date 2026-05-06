@@ -63,7 +63,7 @@ export class AuthService {
 		if(shouldRedirect)
 			this.router.navigate(['/login']);
 	}
-
+	
 	constructor() {
 		const token = localStorage.getItem(TOKEN_KEY);
 		const savedUser = localStorage.getItem(LOGIN_INFO);
