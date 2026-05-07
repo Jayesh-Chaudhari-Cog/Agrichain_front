@@ -1,6 +1,7 @@
 <header>
     <website-name />
-    <div class="">
+    <div class="header-user-info">
+        <h3>{{ user.name }}</h3>
         <button (click)="this.authService.logout()" class="btn btn-logout" title="Logout">
             <fa-icon [icon]="faLogout" />
         </button>

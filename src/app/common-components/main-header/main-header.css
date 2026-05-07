@@ -13,3 +13,9 @@ header {
     font-size: 2rem;
     z-index: 99;
 }
+
+.header-user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
