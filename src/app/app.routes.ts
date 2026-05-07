@@ -1,4 +1,4 @@
-import { Routes, Router } from '@angular/router';
+import { Routes } from '@angular/router';
 import { LoginPage } from './pages/login/login';
 import { WelcomePage } from './pages/welcome/welcome';
 import { AdminHome } from "./pages/admin-dashboard/admin-home/admin-home";
@@ -10,15 +10,15 @@ import { RegisterComponent } from './pages/register/register';
 import { authGuard } from './core/guards/auth-guard';
 import { MarketOfficer } from './pages/market-officer/market-officer';
 import { DashboardRedirectComponent } from './core/guards/dashboard-redirect';
-import { inject } from '@angular/core';
-import { AuthService } from './services/auth-service';
 import { guestGuard } from './core/guards/guest-guard';
 import { roleGuard } from './core/guards/role-guard';
 import { AdminNotifications } from './pages/admin-dashboard/admin-notifications/admin-notifications';
 import { OfficerHome } from './pages/marketOfficer-dashboard/officer-home/officer-home';
 import { OfficerInventory } from './pages/marketOfficer-dashboard/officer-inventory/officer-inventory';
 import { OfficerHistory } from './pages/marketOfficer-dashboard/officer-history/officer-history';
-import { OfficerDocument } from './pages/marketOfficer-dashboard/officer-document/officer-document';
+
+// IMPORT YOUR NEW FARMER DASHBOARD COMPONENT HERE
+import { FarmerDashboardPage } from './pages/farmer-dashboard/farmer-dashboard'; 
 
 export const routes: Routes = [
     {
@@ -38,6 +38,7 @@ export const routes: Routes = [
         component: AuthLayoutComponent,
         canActivate: [authGuard],
         children: [
+            // ADMIN SECTION
             { 
                 path: 'admin', 
                 canActivate: [roleGuard],
@@ -49,25 +50,34 @@ export const routes: Routes = [
                     { path: '', pathMatch: 'full', redirectTo: 'home'}
                 ]
             },
+
+            // FARMER SECTION (Updated with Dashboard)
             {
                 path: 'farmer', 
                 canActivate: [roleGuard],
                 data: {roles: ['FARMER']},
                 children: [
-                    { path: 'register', component: RegisterComponent},
+                    { path: 'home', component: FarmerDashboardPage }, // Added Dashboard
+                    { path: 'register', component: RegisterComponent },
+                    { path: '', pathMatch: 'full', redirectTo: 'home' } // Default redirect
                 ]
             },
+
+            // TRADER SECTION
             { path: 'trader', component: TraderPage },
             
-            { path: 'officer', 
+            // MARKET OFFICER SECTION
+            { 
+                path: 'officer', 
                 children: [
                     { path: 'home', component: OfficerHome },
                     { path: 'inventory', component: OfficerInventory },
                     { path: 'history', component: OfficerHistory },
-                    //{ path: 'documents', component: OfficerDocument },
-                    { path: '', pathMatch: 'full', redirectTo: 'home'}
+                    { path: '', pathMatch: 'full', redirectTo: 'home' }
                 ]
              },
+
+            // SHARED REDIRECT LOGIC
             { path: '', pathMatch: 'full', component: DashboardRedirectComponent }
         ]
     }
