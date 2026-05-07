@@ -8,6 +8,10 @@
 .summary-card {
 	padding: 1.2rem 1rem;
 	border-radius: 16px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 	background-color: var(--accent-bg);
 	border: 1px solid var(--accent-color);
 	color: var(--accent-dark);
@@ -114,4 +118,15 @@
 .donut-hole strong {
 	font-size: 1.8rem;
 	color: var(--accent-dark);
+}
+
+@media(max-width: 700px) {
+	.summary-grid {
+		grid-template-columns: repeat(2, minmax(200px, 1fr));
+	}
+}
+@media(max-width: 450px) {
+	.summary-grid {
+		grid-template-columns: repeat(1, minmax(300px, 1fr));
+	}
 }

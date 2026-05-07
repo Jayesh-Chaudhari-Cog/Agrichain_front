@@ -1,18 +1,11 @@
 <div class="a-page admin-panel">
 	<section class="section-header">
 		<div class="section-header-subsection">
-			<h1>Reports</h1>
+			<h1 class="grad-text">Reports</h1>
 			<p>Create & Manage Reports</p>
 		</div>
 		<button class="btn btn-primary" (click)="openCreateForm()">Generate Report</button>
 	</section>
-
-	<div class="admin-cards">
-		<article class="report-card">
-			<strong>{{ reports().length }}</strong>
-			<span>Total Reports</span>
-		</article>
-	</div>
 
 	@if (showForm()) {
 		<section class="card-form-section">
@@ -35,7 +28,10 @@
 	}
 
 	<section class="report-list">
-		<h2>Recent reports</h2>
+		<div class="report-list-header">
+			<h2>Recent reports</h2>
+			<p>Total: <strong>{{ reports().length }}</strong></p>
+		</div>
 		@if (loading()) {
 			<loader />
 		} @else {

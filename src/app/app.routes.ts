@@ -3,7 +3,7 @@ import { LoginPage } from './pages/login/login';
 import { WelcomePage } from './pages/welcome/welcome';
 import { AdminHome } from "./pages/admin-dashboard/admin-home/admin-home";
 import { AdminReports } from './pages/admin-dashboard/admin-reports/admin-reports';
-import { TraderPage } from "./pages/trader/trader";
+import { TraderPage } from "./pages/trader-dashboard/trader-home/trader";
 import { PublicLayoutComponent } from './public-layout';
 import { AuthLayoutComponent } from './auth-layout';
 import { RegisterComponent } from './pages/register/register';
@@ -19,6 +19,7 @@ import { OfficerHome } from './pages/marketOfficer-dashboard/officer-home/office
 import { OfficerInventory } from './pages/marketOfficer-dashboard/officer-inventory/officer-inventory';
 import { OfficerHistory } from './pages/marketOfficer-dashboard/officer-history/officer-history';
 import { OfficerDocument } from './pages/marketOfficer-dashboard/officer-document/officer-document';
+import { TraderCroplistings } from './pages/trader-dashboard/trader-croplistings/trader-croplistings';
 
 export const routes: Routes = [
     {
@@ -57,7 +58,15 @@ export const routes: Routes = [
                     { path: 'register', component: RegisterComponent},
                 ]
             },
-            { path: 'trader', component: TraderPage },
+            {
+                path: 'trader',
+                canActivate: [roleGuard],
+                data: {roles: ['TRADER']},
+                children: [
+                    { path: 'home', component: TraderPage},
+                    { path: 'croplistings', component: TraderCroplistings}
+                ]
+            },
             
             { path: 'officer', 
                 children: [

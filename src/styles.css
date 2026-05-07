@@ -69,6 +69,10 @@ main {
     margin-top: var(--header-height);
 }
 
+p, h1, h2 {
+    margin: 0;
+}
+
 app-welcome, app-login {
     height: 100%;
     width: 100%;
@@ -149,6 +153,9 @@ app-welcome, app-login {
     cursor: pointer;
     transition: all 0.2s;
 }
+.btn.active {
+    border: none;
+}
 .btn-primary {
     background-color: var(--accent-dark);
     color: white;
@@ -199,7 +206,7 @@ app-welcome, app-login {
 }
 
 .grad-text {
-    background: linear-gradient(120deg, var(--farmer-green), var(--trader-blue), var(--officer-orange), var(--admin-purple));
+    background: linear-gradient(120deg, var(--accent-color), var(--accent-dark));
     background-clip: text;
     color: transparent;
 }
@@ -224,10 +231,6 @@ app-welcome, app-login {
 
 	& h1 {
         font-size: clamp(2rem, 2.4vw, 2.8rem);
-		margin: 0;
-	}
-	& p {
-        margin: 0;
 	}
 }
 
