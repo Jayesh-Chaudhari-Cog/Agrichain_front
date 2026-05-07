@@ -13,9 +13,13 @@ import { CommonModule } from '@angular/common';
 export class OfficerHome implements OnInit {
   activeModule: 'dashboard' | 'crops' | 'documents' | 'subsidies' | 'farmers' = 'dashboard';
   
+  pendingDocs: any[] = [];
+  pendingDocsCount: number = 0; // Add this line
+  pendingSubsidiesCount: number = 0; // Add this for the subsidies too
+  totalFarmersCount: number = 0;
   // Data Arrays
   pendingListings: CropListingDTO[] = [];
-  pendingDocs: any[] = [];
+  //pendingDocs: any[] = [];
   pendingSubsidies: any[] = [];
   farmersList: any[] = [];
   
@@ -36,16 +40,15 @@ export class OfficerHome implements OnInit {
     });
 
     // Fetch Documents
-    this.marketService.getPendingDocuments().subscribe(data => {
-      this.pendingDocs = data;
-      this.stats.awaitingDocs = data.length;
-    });
-
+    // Add : any[] to the data parameter
+this.marketService.getPendingDocuments().subscribe((data: any[]) => {
+  this.pendingDocsCount = data.length;
+});
     // Fetch Subsidies
-    this.marketService.getPendingSubsidies().subscribe(data => {
-      this.pendingSubsidies = data;
-      this.stats.subsidyApps = data.length;
-    });
+    // this.marketService.getPendingSubsidies().subscribe(data => {
+    //   this.pendingSubsidies = data;
+    //   this.stats.subsidyApps = data.length;
+    // });
 
     // Fetch Farmers (for the directory)
     this.marketService.getAllFarmers().subscribe(data => {
@@ -86,4 +89,15 @@ export class OfficerHome implements OnInit {
       this.refreshAllData();
     });
   }
+
+  approveSubsidy(id: number) {
+  // 'APPROVED' must match exactly what your DisbursementStatus Enum expects
+  this.marketService.reviewSubisdy(id, 'APPROVED').subscribe({
+    next: (res) => {
+      alert('Subsidy approved and funds disbursed!');
+      this.refreshAllData(); // Reload the counts and lists
+    },
+    error: (err) => console.error('Disbursement failed', err)
+  });
+}
 }
