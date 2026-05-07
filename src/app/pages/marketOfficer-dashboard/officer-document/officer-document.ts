@@ -44,13 +44,12 @@ export class OfficerDocument implements OnInit {
   }
 
   approve(id: number): void {
-    this.marketService.validateListing(id).subscribe({
-      next: () => {
-        alert('Document Verified & Listing Approved');
-        this.selectedListing = null;
-        this.loadDocs();
-      },
-      error: (err: any) => alert(err.message)
-    });
+    this.marketService.validateListing(id, 'APPROVED').subscribe({
+  next: (res) => {
+    alert('Document verified and listing updated!');
+    //this.refreshAllData();
+  },
+  error: (err) => console.error('Verification failed', err)
+});
   }
 }

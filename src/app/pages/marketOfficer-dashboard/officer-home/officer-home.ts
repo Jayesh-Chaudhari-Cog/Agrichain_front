@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MarketService } from '../../../services/market'; 
 import { CropListingDTO } from '../../../models/dto.model';
-import { CommonModule } from '@angular/common'; // Import CommonModule for structural directives
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-officer-home',
@@ -11,54 +11,79 @@ import { CommonModule } from '@angular/common'; // Import CommonModule for struc
   styleUrl: './officer-home.css'
 })
 export class OfficerHome implements OnInit {
-  pendingListings: CropListingDTO[] = [];
-  filteredListings: CropListingDTO[] = [];
-  stats = { pendingCount: 0, urgentReviews: 0 };
+  activeModule: 'dashboard' | 'crops' | 'documents' | 'subsidies' | 'farmers' = 'dashboard';
   
-  // Track document for the inline preview
-  selectedListing: CropListingDTO | null = null;
+  // Data Arrays
+  pendingListings: CropListingDTO[] = [];
+  pendingDocs: any[] = [];
+  pendingSubsidies: any[] = [];
+  farmersList: any[] = [];
+  
+  stats = { pendingCrops: 0, awaitingDocs: 0, subsidyApps: 0, totalApprovedToday: 0 };
 
   constructor(private marketService: MarketService) {}
 
   ngOnInit(): void {
-    this.fetchPendingListings();
+    this.refreshAllData();
   }
 
-  fetchPendingListings(): void {
-    this.marketService.getListingsByStatus('PENDING').subscribe({
-      next: (data: CropListingDTO[]) => {
-        this.pendingListings = data;
-        this.filteredListings = data;
-        this.stats.pendingCount = data.length;
-        this.stats.urgentReviews = data.filter((item: CropListingDTO) => item.quantity > 500).length;
-      },
-      error: (err: any) => console.error('Error fetching listings', err)
+  // Unified data loader to keep Stats Cards accurate
+  refreshAllData() {
+    // Fetch Crops
+    this.marketService.getListingsByStatus('PENDING').subscribe(data => {
+      this.pendingListings = data;
+      this.stats.pendingCrops = data.length;
+    });
+
+    // Fetch Documents
+    this.marketService.getPendingDocuments().subscribe(data => {
+      this.pendingDocs = data;
+      this.stats.awaitingDocs = data.length;
+    });
+
+    // Fetch Subsidies
+    this.marketService.getPendingSubsidies().subscribe(data => {
+      this.pendingSubsidies = data;
+      this.stats.subsidyApps = data.length;
+    });
+
+    // Fetch Farmers (for the directory)
+    this.marketService.getAllFarmers().subscribe(data => {
+      this.farmersList = data;
     });
   }
 
-  // Opens the inline review pane
-  openDocumentReview(listing: CropListingDTO): void {
-    if (listing.documentUrl) {
-      this.selectedListing = listing;
-    } else {
-      alert('No document proof was uploaded for this listing.');
-    }
+  setModule(moduleName: any) {
+    this.activeModule = moduleName;
   }
 
-  closeReview(): void {
-    this.selectedListing = null;
+  // Backend Actions
+  approveCrop(id: number) { 
+  // Use 'id' here, not 'listingId', because 'id' is what the function received
+ this.marketService.validateListing(id, 'APPROVED').subscribe({
+  next: (response) => {
+    console.log('Success!', response);
+    this.refreshAllData(); // Refresh your table
+  },
+  error: (err) => console.error(err)
+});
+}
+
+  rejectCrop(id: number) {
+    const reason = prompt("Enter reason for rejection:");
+    if (!reason) return;
+    this.marketService.validateListing(id, 'REJECTED', reason).subscribe({
+      next: () => {
+        alert('Listing Rejected');
+        this.refreshAllData();
+      }
+    });
   }
 
-  approveListing(id: number): void {
-    if(confirm('Verify that farmer documents are valid and approve this listing?')) {
-      this.marketService.validateListing(id).subscribe({
-        next: () => {
-          alert('Listing approved successfully.');
-          this.closeReview();
-          this.fetchPendingListings();
-        },
-        error: (err: any) => alert('Action failed: ' + (err.message || 'Unknown error'))
-      });
-    }
+  verifyDoc(id: number, status: string) {
+    this.marketService.verifyDocument(id, status).subscribe(() => {
+      alert(`Document ${status}`);
+      this.refreshAllData();
+    });
   }
 }
