@@ -19,6 +19,7 @@ import { OfficerHome } from './pages/marketOfficer-dashboard/officer-home/office
 import { OfficerInventory } from './pages/marketOfficer-dashboard/officer-inventory/officer-inventory';
 import { OfficerHistory } from './pages/marketOfficer-dashboard/officer-history/officer-history';
 import { OfficerDocument } from './pages/marketOfficer-dashboard/officer-document/officer-document';
+import { ProfilePage } from './pages/profile/profile';
 
 export const routes: Routes = [
     {
@@ -68,6 +69,7 @@ export const routes: Routes = [
                     { path: '', pathMatch: 'full', redirectTo: 'home'}
                 ]
              },
+            { path: 'profile', component: ProfilePage },
             { path: '', pathMatch: 'full', component: DashboardRedirectComponent }
         ]
     }

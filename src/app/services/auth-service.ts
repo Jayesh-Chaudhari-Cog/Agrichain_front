@@ -35,6 +35,25 @@ export class AuthService {
 		return this.http.post(`${API_URL}${USER_PATH}/register`, userData);
 	}
 
+	updateUser(userData: any) {
+		return this.http.put(`${API_URL}${USER_PATH}/update`, userData).pipe(
+			tap(() => {
+				localStorage.setItem('currentUser', JSON.stringify(userData));
+				
+				// Update loggedInUser signal if email or role changed (though role usually doesn't)
+				const currentLoggedIn = this._loggedInUser();
+				if (currentLoggedIn) {
+					const updatedLoggedIn: LoggedInUser = {
+						email: userData.email,
+						role: userData.role
+					};
+					this._loggedInUser.set(updatedLoggedIn);
+					localStorage.setItem(LOGIN_INFO, JSON.stringify(updatedLoggedIn));
+				}
+			})
+		);
+	}
+
 	private saveToken(token: string) {
 		localStorage.setItem(TOKEN_KEY, token);
 	}
