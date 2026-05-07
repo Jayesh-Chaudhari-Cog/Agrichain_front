@@ -1,9 +1,19 @@
 <header>
     <website-name />
     <div class="header-user-info">
-        <h3>{{ user.name }}</h3>
+        <button class="btn btn-bell" (click)="toggleNotifications()">
+            <fa-icon [icon]="faBell" class="bell-icon"/>
+        </button>
+        <div class="header-profile">
+            <p>{{ user.name }}</p>
+            <fa-icon [icon]="faDown" />
+        </div>
         <button (click)="this.authService.logout()" class="btn btn-logout" title="Logout">
             <fa-icon [icon]="faLogout" />
         </button>
     </div>
 </header>
+
+@if(this.showNoti()) {
+    <notifications-pop (close)="toggleNotifications()"/>
+}
