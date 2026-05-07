@@ -42,7 +42,7 @@ body.officer {
     --accent-bg: #B2EBF2;
 }
 body.admin {
-    --accent-color: #dc91f4;
+    --accent-color: #cb80e4;
     --accent-transparent: #c28ce835;
     --accent-dark: #741594;
     --accent-bg: #ec9df3;
@@ -151,21 +151,32 @@ app-welcome, app-login {
     border-radius: 0.4rem;
     font-size: 1.1rem;
     cursor: pointer;
+    border: none;
     transition: all 0.2s;
 }
-.btn.active {
+.btn.active, .btn:active {
     border: none;
+    outline: none;
 }
-.btn-primary {
+
+.btn-primary, .btn-logout {
     background-color: var(--accent-dark);
     color: white;
     box-shadow: 0 0 0.2rem var(--accent-dark);
-    border: none;
 }
 .btn-primary:hover {
     background-color: var(--accent-color);
     box-shadow: 0 0 0.6rem var(--accent-color);
     color: black;
+}
+.btn-logout {
+    padding: 0.6rem 0.8rem;
+}
+.btn-logout:hover {
+    border-radius: 50%;
+    background-color: rgb(200, 50, 50);
+    box-shadow: 0 0 0.5rem rgb(200, 50, 50);
+    color: white;
 }
 
 .btn-secondary {
@@ -183,7 +194,6 @@ app-welcome, app-login {
 
 .btn-danger, .btn-info {
     color: white;
-    border: none;
 }
 .btn-danger:hover, .btn-info:hover {
     color: black;

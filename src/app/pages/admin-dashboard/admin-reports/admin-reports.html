@@ -4,7 +4,7 @@
 			<h1 class="grad-text">Reports</h1>
 			<p>Create & Manage Reports</p>
 		</div>
-		<button class="btn btn-primary" (click)="openCreateForm()">Generate Report</button>
+		<button class="btn btn-primary" (click)="openCreateForm()" title="Generate Report">Generate Report</button>
 	</section>
 
 	@if (showForm()) {
@@ -50,12 +50,12 @@
 							<td>{{ report.metrics }}</td>
 							<td>{{ report.generatedDate }}</td>
 							<td>
-								<button class="btn btn-info" (click)="openEditForm(report)">
+								<button class="btn btn-info" (click)="openEditForm(report)" title="Edit Report">
 									<fa-icon [icon]="faEdit" />
 								</button>
 							</td>
 							<td>
-								<button class="btn btn-danger" (click)="deleteReport(report.reportId)">
+								<button class="btn btn-danger" (click)="deleteReport(report.reportId)" title="Delete Report">
 									<fa-icon [icon]="faDelete" />
 								</button>
 							</td>

@@ -24,9 +24,10 @@
     font-size: var(--font-s);
     color: var(--primary-text);
     cursor: pointer;
+    transition: color 0.2s ease;
 }
 .nav-links:hover {
-    background: var(--accent-dark);
+    background: linear-gradient(to bottom, var(--accent-dark), var(--accent-color) 70%);
     color: white;
 }
 
@@ -38,9 +39,10 @@
     background: linear-gradient(to right, var(--accent-dark), rgb(241, 78, 179));
     bottom: -3px;
     left: 50%;
+    border-radius: 99px;
     transform-origin: center;
     transform: translateX(-50%);
-    transition: 0.6s ease;
+    transition: width 0.6s ease-in-out;
 }
 
 .nav-links.active::after {
