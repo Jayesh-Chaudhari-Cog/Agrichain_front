@@ -13,3 +13,26 @@ header {
     font-size: 2rem;
     z-index: 99;
 }
+
+.header-user-info, .header-profile {
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+}
+
+.header-user-info {
+    gap: 0.6rem;
+}
+
+.header-profile {
+    gap: 0.3rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.4rem;
+    color: black;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.header-profile:hover {
+    background-color: var(--accent-dark);
+    color: white;
+}

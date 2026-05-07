@@ -1,0 +1,34 @@
+<div class="notification-pop-cover" (click)="onCloseClick()">
+    <div class="notification-popup" (click)="$event.stopPropagation()">
+        <div class="notification-pop-head">
+            <h3>Notifications</h3>
+            <button class="btn btn-logout" (click)="onCloseClick()">
+                <fa-icon [icon]="faClose" />
+            </button>
+        </div>
+        <hr />
+        <div class="notification-cover">
+            @if(loading()) {
+                <loader />
+            } @else {
+                @for(n of notifications(); track n) {
+                    <div class="notification-card" [class.read]="n.status === 'READ'">
+                        <div class="notification-content-top">
+                            <h4>{{ n.subject }}</h4>
+                            <p class="notification-date">{{ n.createdDate }}</p>
+                        </div>
+                        <div class="notification-content-bottom">
+                            <p class="notification-message">{{ n.message }}</p>
+                            <div class="notification-options">
+                                <p class="notification-category" [class]="n.category.toLowerCase()">{{ n.category }}</p>
+                                @if(n.userId != null && n.userId == user.id) {
+                                    <button class="btn" (click)="markAsRead(n.notificationID)">{{n.status !== 'READ' ? 'Mark as Read' : 'Read'}}</button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>

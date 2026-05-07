@@ -1,132 +1,3 @@
-<!-- <div class="officer-console">
-  <div class="console-body">
-    
-    <header class="section-header">
-      <h1>Market Officer Console</h1>
-      <p>Select a department to manage agricultural compliance and approvals.</p>
-    </header>
-
-    <div class="features-grid">
-      <div class="feature-box" [class.active]="activeModule === 'crops'" (click)="setModule('crops')">
-        <div class="icon">🌱</div>
-        <h3>Verify Listings</h3>
-        <p>Review and approve pending crop market entries.</p>
-        <span class="count-pill">{{stats.pendingCrops}} Pending</span>
-      </div>
-
-      <div class="feature-box" [class.active]="activeModule === 'documents'" (click)="setModule('documents')">
-        <div class="icon">📄</div>
-        <h3>Verify Documents</h3>
-        <p>Validate farmer licenses and land certificates.</p>
-        <span class="count-pill">{{stats.awaitingDocs}} Review</span>
-      </div>
-
-      <div class="feature-box" [class.active]="activeModule === 'subsidies'" (click)="setModule('subsidies')">
-        <div class="icon">💰</div>
-        <h3>Subsidy Programs</h3>
-        <p>Manage applications and fund allocations.</p>
-        <span class="count-pill">{{stats.subsidyApps}} Apps</span>
-      </div>
-
-      <div class="feature-box" [class.active]="activeModule === 'farmers'" (click)="setModule('farmers')">
-        <div class="icon">👥</div>
-        <h3>Active Farmers</h3>
-        <p>View verified farmer profiles and history.</p>
-      </div>
-    </div>
-
-    <hr class="divider">
-
-    <div *ngIf="activeModule === 'crops'" class="fade-in content-area">
-      <div class="area-header">
-        <h2>🌱 Pending Crop Listings</h2>
-      </div>
-      <div class="table-container">
-        <table class="agri-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Farmer</th>
-              <th>Crop</th>
-              <th>Quantity</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of pendingListings">
-              <td>#{{item.listingId}}</td>
-              <td>Farmer-{{item.farmerId}}</td>
-              <td><strong>{{item.cropType}}</strong></td>
-              <td>{{item.quantity}} Quintal</td>
-              <td>
-                <button class="btn-cyan" (click)="approve(item.listingId!)">Approve</button>
-                <button class="btn-outline">Reject</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div *ngIf="activeModule === 'documents'" class="fade-in content-area">
-      <div class="area-header">
-        <h2>📄 Document Verification</h2>
-      </div>
-      <div class="table-container">
-        <table class="agri-table">
-          <thead>
-            <tr>
-              <th>Doc ID</th>
-              <th>Farmer</th>
-              <th>Type</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>DOC-003</td>
-              <td>Suresh Patil</td>
-              <td>Land Record</td>
-              <td>
-                <button class="btn-cyan">Verify</button>
-                <button class="btn-outline red">Reject</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div *ngIf="activeModule === 'farmers'" class="fade-in content-area">
-      <div class="area-header">
-        <h2>👥 Active Farmers List</h2>
-      </div>
-      <div class="table-container">
-        <table class="agri-table">
-          <thead>
-            <tr>
-              <th>Farmer ID</th>
-              <th>Name</th>
-              <th>Verification Date</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>F-102</td>
-              <td>Ramesh Singh</td>
-              <td>05-May-2026</td>
-              <td><span class="badge active-badge">Verified</span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-  </div>
-</div> -->
-
-
 <div class="officer-console">
   <div class="console-hero">
     <div class="hero-content">
@@ -142,11 +13,17 @@
       <div class="stats-grid">
         <div class="stat-card">
           <div class="stat-icon yellow">🕒</div>
-          <div class="stat-info"><span>Items Awaiting Action</span> <h3>{{stats.pendingCrops + stats.awaitingDocs + stats.subsidyApps}}</h3></div>
+          <div class="stat-info">
+            <span>Items Awaiting Action</span> 
+            <h3>{{stats.pendingCrops + stats.awaitingDocs + stats.subsidyApps}}</h3>
+          </div>
         </div>
         <div class="stat-card">
           <div class="stat-icon blue">👤</div>
-          <div class="stat-info"><span>Active System Farmers</span> <h3>142</h3></div>
+          <div class="stat-info">
+            <span>Active System Farmers</span> 
+            <h3>{{stats.totalFarmersCount}}</h3>
+          </div>
         </div>
         <div class="stat-card">
           <div class="stat-icon cyan">📈</div>
@@ -263,15 +140,22 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>DOC-003</td>
-              <td>F-102</td>
-              <td>Land Record (7/12 Extract)</td>
-              <td><a href="#" class="file-link">📄 7_12_extract_nashik.pdf</a></td>
+            <tr *ngFor="let doc of listingsWithDocs">
+              <td>#{{doc.id}}</td>
+              <td>F-{{doc.farmerId}}</td>
+              <td>{{doc.docType}}</td>
               <td>
-                <button class="btn-cyan">Verify & Approve</button>
+                <a [href]="getFileUrl(doc)" target="_blank" class="file-link">
+                  📄 View {{doc.fileName || 'Document'}}
+                </a>
+              </td>
+              <td>
+                <button class="btn-cyan" (click)="approveDoc(doc.id)">Verify & Approve</button>
                 <button class="btn-outline red">Reject</button>
               </td>
+            </tr>
+            <tr *ngIf="listingsWithDocs.length === 0">
+               <td colspan="5" style="text-align:center;">No pending documents found.</td>
             </tr>
           </tbody>
         </table>
@@ -298,24 +182,18 @@
         <table class="agri-table">
           <thead>
             <tr>
-              <th>Farmer Code</th>
+              <th>Farmer ID</th>
               <th>Full Name</th>
-              <th>Primary Region</th>
-              <th>Verification Level</th>
+              <th>Contact</th>
+              <th>City</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>#F-102</td>
-              <td>Suresh Patil</td>
-              <td>Nashik, Maharashtra</td>
-              <td><span class="badge yellow">Level 1 Complete</span></td>
-            </tr>
-            <tr>
-              <td>#F-103</td>
-              <td>Anil Kumar</td>
-              <td>Meerut, Uttar Pradesh</td>
-              <td><span class="badge yellow">Fully Certified</span></td>
+            <tr *ngFor="let farmer of allFarmers">
+              <td>#F-{{farmer.farmerId}}</td>
+              <td>{{farmer.firstName}} {{farmer.lastName}}</td>
+              <td>{{farmer.phoneNumber}}</td>
+              <td>{{farmer.city}}</td>
             </tr>
           </tbody>
         </table>

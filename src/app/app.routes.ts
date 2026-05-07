@@ -19,7 +19,7 @@ import { OfficerHome } from './pages/marketOfficer-dashboard/officer-home/office
 import { OfficerInventory } from './pages/marketOfficer-dashboard/officer-inventory/officer-inventory';
 import { OfficerHistory } from './pages/marketOfficer-dashboard/officer-history/officer-history';
 import { OfficerDocument } from './pages/marketOfficer-dashboard/officer-document/officer-document';
-import { TraderCroplisting } from './pages/trader-dashboard/trader-croplistings/trader-croplistings';
+import { TraderCroplistings } from './pages/trader-dashboard/trader-croplistings/trader-croplistings';
 
 export const routes: Routes = [
     {
@@ -58,14 +58,13 @@ export const routes: Routes = [
                     { path: 'register', component: RegisterComponent},
                 ]
             },
-            { 
+            {
                 path: 'trader',
                 canActivate: [roleGuard],
                 data: {roles: ['TRADER']},
                 children: [
                     { path: 'home', component: TraderPage},
-                    { path: 'croplistings', component: TraderCroplisting},
-                    { path: '', pathMatch: 'full', redirectTo: 'home'}
+                    { path: 'croplistings', component: TraderCroplistings}
                 ]
             },
             

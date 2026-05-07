@@ -1,10 +1,10 @@
 <div class="a-page admin-panel">
 	<section class="section-header">
 		<div class="section-header-subsection">
-			<h1>Notifications</h1>
+			<h1 class="grad-text">Notifications</h1>
 			<p>Broadcast & Manage notifications</p>
 		</div>
-		<button class="btn btn-primary" (click)="openCreateForm()">Broadcast Notification</button>
+		<button class="btn btn-primary" (click)="openCreateForm()" title="Broadcast Notification">Broadcast Notification</button>
 	</section>
 
 	@if (showForm()) {
@@ -59,7 +59,7 @@
 							<td><p class="notification-role">{{ notification.role || 'ALL'}}</p></td>
 							<td>{{ notification.createdDate }}</td>
 							<td>
-								<button class="btn btn-danger" (click)="deleteNotification(notification.notificationID)">
+								<button class="btn btn-danger" (click)="deleteNotification(notification.notificationID)" title="Delete Notification">
 									<fa-icon [icon]="faDelete" />
 								</button>
 							</td>

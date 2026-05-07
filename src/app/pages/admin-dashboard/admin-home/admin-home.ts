@@ -11,15 +11,18 @@ import { NotificationService } from '../../../services/notification.service';
 })
 export class AdminHome implements OnInit {
 	readonly totalReports = signal(0);
-	readonly pendingReviews = signal(0);
 	readonly totalNotifications = signal(0);
+	
+	// Transaction Metrics from Report Service
+	readonly totalTransactions = signal(0);
+	readonly transactionAmount = signal(0);
 	readonly transactionSuccess = signal(0);
 
 	readonly metrics = signal([
-		{ label: 'Report coverage', value: 0 },
-		{ label: 'Audit readiness', value: 0 },
-		{ label: 'Pending approvals', value: 0 },
-		{ label: 'Transaction closure', value: 0 },
+		{ label: 'System Coverage', value: 0 },
+		{ label: 'Audit Readiness', value: 0 },
+		{ label: 'Transaction Health', value: 0 },
+		{ label: 'Alert Resolution', value: 0 },
 	]);
 
 	constructor(
@@ -34,24 +37,44 @@ export class AdminHome implements OnInit {
 	fetchData() {
 		this.reportService.getAllReports().subscribe(reports => {
 			this.totalReports.set(reports.length);
-			
-			const coverage = Math.min(100, reports.length * 5); 
-			
-			const currentMetrics = [...this.metrics()];
-			currentMetrics[0].value = coverage;
-			this.metrics.set(currentMetrics);
+			const coverage = Math.min(100, Math.round(reports.length * 4.5)); 
+			this.updateMetric(0, coverage);
 		});
 
 		this.notificationService.getAllNotifications().subscribe(notifications => {
 			const broadcasts = notifications.filter(n => n.userId == null);
 			this.totalNotifications.set(broadcasts.length);
-
-			const readiness = Math.min(100, broadcasts.length * 10);
+			const readiness = Math.min(100, Math.round(broadcasts.length * 8));
+			this.updateMetric(1, readiness);
 			
-			const currentMetrics = [...this.metrics()];
-			currentMetrics[1].value = readiness;
-			this.metrics.set(currentMetrics);
+			const readNotifs = broadcasts.filter(n => n.status === 'READ').length;
+			const resRate = broadcasts.length > 0 ? Math.round((readNotifs / broadcasts.length) * 100) : 100;
+			this.updateMetric(3, resRate);
+		});
+
+		this.reportService.getTransactionReport('COMPLETED').subscribe(report => {
+			if (report && report.metrics) {
+				// Try to extract numbers from the metrics string using Regex
+				// E.g. "Total Transactions: 150, Total Amount: 45000"
+				const numbers = report.metrics.match(/\d+/g);
+				
+				if (numbers && numbers.length >= 2) {
+					this.totalTransactions.set(parseInt(numbers[0], 10));
+					this.transactionAmount.set(parseInt(numbers[1], 10));
+				} else if (numbers && numbers.length === 1) {
+					this.totalTransactions.set(parseInt(numbers[0], 10));
+				}
+				
+				// Assuming success rate is high if we have completed transactions
+				this.transactionSuccess.set(this.totalTransactions() > 0 ? 95 : 0);
+				this.updateMetric(2, this.transactionSuccess());
+			}
 		});
 	}
-}
 
+	private updateMetric(index: number, value: number) {
+		const currentMetrics = [...this.metrics()];
+		currentMetrics[index].value = value;
+		this.metrics.set(currentMetrics);
+	}
+}

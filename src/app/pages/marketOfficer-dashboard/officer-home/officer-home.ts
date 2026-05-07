@@ -22,15 +22,13 @@ export class OfficerHome implements OnInit {
   //pendingDocs: any[] = [];
   pendingSubsidies: any[] = [];
   farmersList: any[] = [];
+  listingsWithDocs: any[] = [];
   
-  stats = { pendingCrops: 0, awaitingDocs: 0, subsidyApps: 0, totalApprovedToday: 0 };
+  //stats = { pendingCrops: 0, awaitingDocs: 0, subsidyApps: 0, totalApprovedToday: 0 };
 
   constructor(private marketService: MarketService) {}
 
-  ngOnInit(): void {
-    this.refreshAllData();
-  }
-
+  
   // Unified data loader to keep Stats Cards accurate
   refreshAllData() {
     // Fetch Crops
@@ -83,6 +81,8 @@ this.marketService.getPendingDocuments().subscribe((data: any[]) => {
     });
   }
 
+  
+
   verifyDoc(id: number, status: string) {
     this.marketService.verifyDocument(id, status).subscribe(() => {
       alert(`Document ${status}`);
@@ -98,6 +98,71 @@ this.marketService.getPendingDocuments().subscribe((data: any[]) => {
       this.refreshAllData(); // Reload the counts and lists
     },
     error: (err) => console.error('Disbursement failed', err)
+  });
+}
+
+
+//documents
+// officer-home.ts
+
+stats = {
+  pendingCrops: 0,
+  awaitingDocs: 0,
+  subsidyApps: 0,
+  totalApprovedToday: 0,
+  totalFarmersCount: 0
+};
+
+ngOnInit(): void {
+  console.log("🚀 Officer Portal Initialized!");
+  this.loadDashboardStats();
+  this.refreshQueue(); 
+}
+
+refreshQueue() {
+  console.log("📡 Attempting to fetch documents...");
+  
+  this.marketService.getAllDocuments().subscribe({
+    next: (data: any[]) => {
+      console.log("✅ Documents Fetched:", data);
+      this.listingsWithDocs = data;
+      this.stats.awaitingDocs = data.length; // Update the stat card badge
+    },
+    error: (err) => {
+      console.error("❌ Document Fetch Failed:", err);
+    }
+  });
+}
+
+loadDashboardStats() {
+  // Fetch pending crops to update the 'Verify Listings' badge
+  this.marketService.getListingsByStatus('PENDING').subscribe(data => {
+    this.stats.pendingCrops = data.length;
+  });
+  
+  // Fetch farmers to update the 'Active System Farmers' count
+  this.marketService.getAllFarmers().subscribe(data => {
+    this.stats.totalFarmersCount = data.length;
+  });
+}
+
+// Variables
+allFarmers: any[] = [];
+//listingsWithDocs: any[] = [];
+
+// Method to help with document URLs
+getFileUrl(doc: any): string {
+  return this.marketService.getFileUrl(doc.fileName);
+}
+
+// Method for the Approve button
+approveDoc(docId: number) {
+  this.marketService.verifyDocument(docId, 'VERIFIED').subscribe({
+    next: () => {
+      alert('Document Approved!');
+      this.refreshAllData(); // Refresh counts and lists
+    },
+    error: (err) => console.error(err)
   });
 }
 }

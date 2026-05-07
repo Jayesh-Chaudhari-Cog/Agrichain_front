@@ -1,46 +1,63 @@
 <div class="a-page admin-panel">
 	<section class="section-header">
 		<div class="section-header-subsection">
-			<h1>Admin Dashboard</h1>
-			<p>Analytics and operational totals.</p>
+			<h1 class="grad-text">Admin Analytics</h1>
+			<p>Live metrics from the Reporting and Notification microservices.</p>
 		</div>
 	</section>
 
 	<section class="summary-grid">
-		<article class="summary-card">
+		<article class="summary-card" style="border-top: 4px solid var(--officer-cyan);">
 			<span>Total Reports</span>
 			<strong>{{ totalReports() }}</strong>
 		</article>
-		<article class="summary-card">
-			<span>Pending Reviews</span>
-			<strong>{{ pendingReviews() }}</strong>
-		</article>
-		<article class="summary-card">
+		<article class="summary-card" style="border-top: 4px solid var(--admin-purple);">
 			<span>Notifications</span>
 			<strong>{{ totalNotifications() }}</strong>
 		</article>
-		<article class="summary-card">
-			<span>Success Rate</span>
-			<strong>{{ transactionSuccess() }}%</strong>
+		<article class="summary-card" style="border-top: 4px solid var(--farmer-green);">
+			<span>Transactions</span>
+			<strong>{{ totalTransactions() }}</strong>
+		</article>
+		<article class="summary-card" style="border-top: 4px solid var(--trader-blue);">
+			<span>Total Volume</span>
+			<strong>${{ transactionAmount() | number }}</strong>
 		</article>
 	</section>
 
-	<section class="analytics-panel">
-		<header>
-			<h2>Performance metrics</h2>
-			<p>Last 7 days overview for report, audit, and transaction health.</p>
-		</header>
-
-		<div class="chart-card">
-			@for(metric of metrics(); track metric.label) {
-				<div class="chart-row">
-					<span class="row-label">{{ metric.label }}</span>
-								<div class="bar-track">
-						<span class="bar-fill" [style.width.%]="metric.value"></span>
+	<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; width: 100%;">
+		<!-- Donut Chart Card -->
+		<section class="analytics-panel card-form-section" style="width: 100%;">
+			<header>
+				<h2>Transaction Success</h2>
+				<p>Percentage of successful operations</p>
+			</header>
+			<div class="donut-chart-container">
+				<div class="donut-chart" [style.background]="'conic-gradient(var(--farmer-green) ' + transactionSuccess() + '%, var(--accent-transparent) 0)'">
+					<div class="donut-hole">
+						<strong>{{ transactionSuccess() }}%</strong>
 					</div>
-					<span class="row-value">{{ metric.value }}%</span>
 				</div>
-			}
-		</div>
-	</section>
+			</div>
+		</section>
+
+		<!-- Horizontal Bars Card -->
+		<section class="analytics-panel card-form-section" style="width: 100%;">
+			<header>
+				<h2>System Health</h2>
+				<p>Live indices computed from microservices</p>
+			</header>
+			<div class="chart-card">
+				@for(metric of metrics(); track metric.label) {
+					<div class="chart-row">
+						<span class="row-label">{{ metric.label }}</span>
+						<div class="bar-track">
+							<span class="bar-fill" [style.width.%]="metric.value"></span>
+						</div>
+						<span class="row-value">{{ metric.value }}%</span>
+					</div>
+				}
+			</div>
+		</section>
+	</div>
 </div>

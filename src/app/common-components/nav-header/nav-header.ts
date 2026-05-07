@@ -2,11 +2,11 @@ import { Component, inject, EventEmitter, Output } from "@angular/core";
 import { AuthService } from "../../services/auth-service";
 import { ROLE_CONFIG, NavLink } from "../../models/nav.model";
 import { CommonModule } from "@angular/common";
-import { RouterLink } from "@angular/router";
+import { RouterLink, RouterLinkActive } from "@angular/router";
 
 @Component({
     selector: "nav-header",
-    imports: [RouterLink, CommonModule],
+    imports: [RouterLink, CommonModule, RouterLinkActive],
     templateUrl: "./nav-header.html",
     styleUrl: "nav-header.css"
 })

@@ -4,7 +4,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs';
 import { LoggedInUser } from '../models/user.model';
-import { API_URL, TOKEN_KEY, LOGIN_INFO, USER_PATH } from '../elements/constants';
+import { API_URL, TOKEN_KEY, LOGIN_INFO, USER_PATH, USER_INFO } from '../elements/constants';
 import { ThemeService } from './theme';
 import { ToastService } from './toast-service';
 
@@ -20,10 +20,15 @@ export class AuthService {
 	readonly loggedInUser = this._loggedInUser.asReadonly();
 
 	onLogin(credentials: any) {
-		return this.http.post<{ token: string }>(`${API_URL}${USER_PATH}/login`, credentials).pipe(
+		return this.http.post<{ token: string, user?: any }>(`${API_URL}${USER_PATH}/login`, credentials).pipe(
 			tap(response => {
 				this.saveToken(response.token);
 				this.decodeAndStore(response.token);
+				console.log("token", response.token);
+				console.log("user", response.user);
+				if (response.user) {
+					localStorage.setItem(USER_INFO, JSON.stringify(response.user));
+				}
 			})
 		);
 	}
@@ -57,6 +62,7 @@ export class AuthService {
 	logout(shouldRedirect: boolean = true) {
 		localStorage.removeItem(TOKEN_KEY);
 		localStorage.removeItem(LOGIN_INFO);
+		localStorage.removeItem(USER_INFO);
 
 		this._loggedInUser.set(null);
 
