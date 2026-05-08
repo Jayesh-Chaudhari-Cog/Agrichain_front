@@ -8,7 +8,7 @@ import { PublicLayoutComponent } from './public-layout';
 import { AuthLayoutComponent } from './auth-layout';
 import { RegisterComponent } from './pages/register/register';
 import { authGuard } from './core/guards/auth-guard';
-import { MarketOfficer } from './pages/market-officer/market-officer';
+//import { MarketOfficer } from './pages/market-officer/market-officer';
 import { DashboardRedirectComponent } from './core/guards/dashboard-redirect';
 import { inject } from '@angular/core';
 import { AuthService } from './services/auth-service';

@@ -1,80 +1,217 @@
-<div class="dashboard-container">
-  <!-- Top Stat Cards -->
-  <div class="stats-row">
-    <div class="stat-card">
-      <div class="stat-icon warning">🕒</div>
-      <div class="stat-content">
-        <span class="stat-label">Awaiting Approval</span>
-        <h2 class="stat-value">{{ stats.pendingCount }}</h2>
+<div class="a-page">
+  <section class="section-header">
+    <div class="section-header-subsection">
+      <h1>Market Officer Portal</h1>
+      <p>Consolidated verification workspace for AgriChain listings & approvals.</p>
+    </div>
+  </section>
+
+  <div class="console-body">
+    
+    <div *ngIf="activeModule === 'dashboard'" class="fade-in">
+      
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon yellow">🕒</div>
+          <div class="stat-info">
+            <span>Items Awaiting Action</span> 
+            <h3>{{stats.pendingCrops + stats.awaitingDocs + stats.subsidyApps}}</h3>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon blue">👤</div>
+          <div class="stat-info">
+            <span>Active System Farmers</span> 
+            <h3>{{stats.totalFarmersCount}}</h3>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon cyan">📈</div>
+          <div class="stat-info"><span>Processed Today</span> <h3>{{stats.totalApprovedToday}}</h3></div>
+        </div>
+      </div>
+
+      <h2 class="panel-title">Verification & Management Modules</h2>
+      <div class="features-box-grid">
+        
+        <div class="feature-box" (click)="setModule('crops')">
+          <div class="box-header">
+            <span class="box-emoji">🌱</span>
+            <span class="box-badge" *ngIf="stats.pendingCrops > 0">{{stats.pendingCrops}} New</span>
+          </div>
+          <h3>Verify Listings</h3>
+          <p>Review, authorize, or reject incoming crop market entries and volume configurations.</p>
+          <span class="box-action-text">Open Queue →</span>
+        </div>
+
+        <div class="feature-box" (click)="setModule('documents')">
+          <div class="box-header">
+            <span class="box-emoji">📄</span>
+            <span class="box-badge" *ngIf="stats.awaitingDocs > 0">{{stats.awaitingDocs}} Pending</span>
+          </div>
+          <h3>Verify Documents</h3>
+          <p>Audit farmer uploaded land registry deeds, identity proofs, and quality certifications.</p>
+          <span class="box-action-text">Open Vault →</span>
+        </div>
+
+        <div class="feature-box" (click)="setModule('subsidies')">
+          <div class="box-header">
+            <span class="box-emoji">💰</span>
+            <span class="box-badge" *ngIf="stats.subsidyApps > 0">{{stats.subsidyApps}} Review</span>
+          </div>
+          <h3>Verify Subsidy Programs</h3>
+          <p>Evaluate eligibility requirements, fund queries, and grant application parameters.</p>
+          <span class="box-action-text">Open Allocations →</span>
+        </div>
+
+        <div class="feature-box" (click)="setModule('farmers')">
+          <div class="box-header">
+            <span class="box-emoji">👨‍🌾</span>
+          </div>
+          <h3>Active Farmers List</h3>
+          <p>View complete system registries, profile standings, historical validations, and compliance status.</p>
+          <span class="box-action-text">Open Directory →</span>
+        </div>
+
+      </div>
+
+      <div class="dashboard-footer-grid">
+        <div class="activity-feed">
+          <h4>Recent Portal Log</h4>
+          <ul>
+            <li>✅ Approved Wheat Listing #LST-99 (2 mins ago)</li>
+            <li>❌ Rejected Land Certificate #DOC-44 (1 hour ago)</li>
+            <li>💰 New Subsidy Query Registered: Farmer ID #102</li>
+          </ul>
+        </div>
       </div>
     </div>
-    
-    <div class="stat-card">
-      <div class="stat-icon alert">⚠️</div>
-      <div class="stat-content">
-        <span class="stat-label">High Bulk Loads</span>
-        <h2 class="stat-value">{{ stats.urgentReviews }}</h2>
+
+    <button class="back-dashboard-btn" *ngIf="activeModule !== 'dashboard'" (click)="setModule('dashboard')">
+      ← Return to Main Management Console
+    </button>
+
+    <div *ngIf="activeModule === 'crops'" class="fade-in inner-module-spacing">
+      <header class="section-header">
+        <h2>Crop Listing Validation Queue</h2>
+      </header>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Farmer</th>
+              <th>Crop</th>
+              <th>Quantity</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of pendingListings">
+              <td>#{{item.listingId}}</td>
+              <td>Farmer-{{item.farmerId}}</td>
+              <td><strong>{{item.cropType}}</strong></td>
+              <td>{{item.quantity}} Quintal</td>
+              <td><span class="badge yellow">Pending Review</span></td>
+              <td style="display: flex; gap: 1rem;">
+                <button class="btn btn-primary" (click)="approveCrop(item.listingId!)">Approve</button>
+                <button class="btn btn-secondary" (click)="rejectCrop(item.listingId!)">Reject</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-  </div>
 
-  <!-- Main Table Section -->
-  <div class="data-section">
-    <div class="section-header">
-      <h3>Incoming Crop Listings</h3>
-    </div>
-    
-    <div class="table-responsive">
-      <table class="styled-table">
-        <thead>
-          <tr>
-            <th>Farmer ID</th>
-            <th>Crop</th>
-            <th>Quantity</th>
-            <th>Verification</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (item of filteredListings; track item.listingId) {
+    <div *ngIf="activeModule === 'documents'" class="fade-in inner-module-spacing">
+      <header class="section-header">
+        <h2>Document Verification Console</h2>
+      </header>
+      <div class="table-container">
+        <table>
+          <thead>
             <tr>
-              <td>#{{ item.farmerId }}</td>
-              <td><strong>{{ item.cropType }}</strong></td>
-              <td>{{ item.quantity }} kg</td>
+              <th>Doc ID</th>
+              <th>Farmer ID</th>
+              <th>Document Type</th>
+              <th>Attached File</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let doc of listingsWithDocs">
+              <td>#{{doc.id}}</td>
+              <td>F-{{doc.farmerId}}</td>
+              <td>{{doc.docType}}</td>
               <td>
-                <button class="view-btn" (click)="openDocumentReview(item)">
-                  View Proof
-                </button>
+                <a [href]="getFileUrl(doc)" target="_blank" class="file-link">
+                  📄 View {{doc.fileName || 'Document'}}
+                </a>
               </td>
-              <td>
-                <button class="approve-btn" (click)="approveListing(item.listingId!)">
-                  Approve
-                </button>
+              <td style="gap: 1rem; display: flex;">
+  <!-- Changed doc.id to doc.documentId to match your Java Backend -->
+                 <button class="btn btn-info" (click)="approveDoc(doc.documentId)">
+                    <fa-icon [icon]="faCheck"></fa-icon>
+                 </button>
+  
+  <!-- Added the click handler for Reject -->
+                 <button class="btn btn-danger" (click)="rejectDoc(doc.documentId)">
+                    <fa-icon [icon]="faClose"></fa-icon>
+                 </button>
               </td>
             </tr>
-          } @empty {
-            <tr>
-              <td colspan="5" class="empty-msg">No pending listings found.</td>
+            <tr *ngIf="listingsWithDocs.length === 0">
+               <td colspan="5" style="text-align:center;">No pending documents found.</td>
             </tr>
-          }
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
 
-  <!-- Sliding Document Side-Pane -->
-  <div class="side-panel" *ngIf="selectedListing">
-    <div class="panel-header">
-      <h4>Document Review</h4>
-      <button class="close-panel" (click)="closeReview()">×</button>
+    <div *ngIf="activeModule === 'subsidies'" class="fade-in inner-module-spacing">
+      <header class="section-header">
+        <h2>Subsidy Program Verification</h2>
+      </header>
+      <div class="table-container">
+        <div class="module-placeholder-info">
+          <p>Evaluating active parameters against allocated marketplace budgets.</p>
+          <div class="stat-highlight">Track allocation: <strong>₹45,00,000 Disbursed</strong></div>
+        </div>
+      </div>
     </div>
-    <div class="panel-body">
-      <iframe [src]="selectedListing.documentUrl"></iframe>
+
+    <div *ngIf="activeModule === 'farmers'" class="fade-in inner-module-spacing">
+      <header class="section-header">
+        <h2>Registered System Farmers Directory</h2>
+      </header>
+      <div class="table-container">
+        <table class="agri-table">
+          <thead>
+            <tr>
+              <th>Farmer ID</th>
+              <th>Full Name</th>
+              <th>Email</th>
+              <th>Gender</th>
+              <th>Contact</th>
+              <th>City</th>
+              <th>DOB</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let farmer of allFarmers">
+              <td>#F-{{farmer.farmerId}}</td>
+              <td>{{farmer.name}} {{farmer.lastName}}</td>
+              <td>{{farmer.email}}</td>
+              <td>{{farmer.gender}}</td>
+              <td>{{farmer.contactInfo}}</td>
+              <td>{{farmer.address}}</td>
+              <td>{{farmer.dob | date:'dd MMM yyyy'}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="panel-footer">
-      <button class="full-width-approve" (click)="approveListing(selectedListing.listingId!)">
-        Verify & Approve #{{selectedListing.listingId}}
-      </button>
-    </div>
+
   </div>
 </div>
