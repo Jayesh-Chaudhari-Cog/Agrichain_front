@@ -21,6 +21,7 @@ import { OfficerHistory } from './pages/marketOfficer-dashboard/officer-history/
 import { OfficerDocument } from './pages/marketOfficer-dashboard/officer-document/officer-document';
 import { TraderCroplistings } from './pages/trader-dashboard/trader-croplistings/trader-croplistings';
 import { ProfilePage } from './pages/profile/profile';
+import { ManagerDashboard } from './pages/manager-dashboard/manager-dashboard';
 
 export const routes: Routes = [
     {
@@ -76,6 +77,15 @@ export const routes: Routes = [
                     { path: 'inventory', component: OfficerInventory },
                     { path: 'history', component: OfficerHistory },
                     //{ path: 'documents', component: OfficerDocument },
+                    { path: '', pathMatch: 'full', redirectTo: 'home' }
+                ]
+            },
+            {
+                path: 'manager',
+                canActivate: [roleGuard],
+                data: { roles: ['MANAGER'] },
+                children: [
+                    { path: 'home', component: ManagerDashboard },
                     { path: '', pathMatch: 'full', redirectTo: 'home' }
                 ]
             },
