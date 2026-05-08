@@ -36,3 +36,54 @@ header {
     background-color: var(--accent-dark);
     color: white;
 }
+
+.btn-bell {
+    width: 2.5rem;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+
+    & .bell-icon {
+        transform-origin: 50% 0%;
+        border-radius: 50%;
+    }
+}
+.btn-bell:hover {
+    color: white;
+    background-color: var(--accent-dark) !important;
+    & .bell-icon {
+        animation: bell 0.4s linear;
+    }
+}
+.btn-bell.active_noti {
+    animation: active_noti 0.5s infinite;
+    & .bell-icon {
+        animation: bell 1s infinite;
+    }
+}
+@keyframes bell {
+    0%, 100% {
+        transform: rotate(0deg);
+    }
+    20%, 60% {
+        transform: rotate(15deg);
+    }
+    40%, 80% {
+        transform: rotate(-15deg);
+    }
+}
+@keyframes active_noti {
+    0%, 100% {
+        color: gold;
+        background-color: var(--accent-dark) !important;
+        transform: scale(1);
+        box-shadow: 0 0 0rem 0rem rgba(255, 255, 255, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 0rem 0.2rem rgba(255, 255, 255, 0.3);
+        transform: scale(0.95);
+    }
+
+}

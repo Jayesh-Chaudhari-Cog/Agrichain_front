@@ -13,7 +13,7 @@ import { faBullhorn, faTriangleExclamation, faCircleCheck, faClose, faCheckDoubl
 @Component({
     selector: 'notifications-pop',
     standalone: true,
-    imports: [CommonModule, WebNameElement, Loader, FaIconComponent],
+    imports: [CommonModule, Loader, FaIconComponent],
     templateUrl: './notifications.html',
     styleUrl: './notifications.css'
 })
