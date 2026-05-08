@@ -38,7 +38,7 @@ export class AuthService {
 	}
 
 	updateUser(userData: any) {
-		return this.http.put(`${API_URL}${USER_PATH}/updateUser/${userData.id}`, userData).pipe(
+		return this.http.patch(`${API_URL}${USER_PATH}/update/${userData.id}`, userData).pipe(
 			tap(() => {
 				localStorage.setItem(USER_INFO, JSON.stringify(userData));
 				const currentLoggedIn = this._loggedInUser();

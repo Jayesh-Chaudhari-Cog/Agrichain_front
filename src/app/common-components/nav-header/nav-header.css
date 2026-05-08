@@ -20,14 +20,16 @@
     position: relative;
     align-items: center;
     text-decoration: none;
+    border-radius: 0.3rem 0.3rem 0 0;
     font-weight: bold;
     font-size: var(--font-s);
     color: var(--primary-text);
     cursor: pointer;
-    transition: color 0.2s ease;
+    transition: all 0.2s ease;
 }
 .nav-links:hover {
-    background: linear-gradient(to bottom, var(--accent-dark), var(--accent-color) 70%);
+    background: linear-gradient(to bottom, var(--accent-dark), var(--accent-color));
+    transform: translateY(-2px);
     color: white;
 }
 
@@ -45,6 +47,9 @@
     transition: width 0.3s ease-in-out;
 }
 
+.nav-links.active {
+    color: var(--accent-dark);
+}
 .nav-links.active::after {
     width: calc(100% + 8px);
 }
