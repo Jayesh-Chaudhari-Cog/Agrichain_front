@@ -1,37 +1,50 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, RouterModule } from '@angular/router'; 
 import { AuditService } from '../../../services/audit.service';
-import { AuditDTO, AuditScope, AuditStatus } from '../../../models/audit.model';
+import { AuditScope, AuditStatus } from '../../../models/enum.model';
+import { AuditDTO } from '../../../models/dto.model';
+import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 
 @Component({
   selector: 'app-audit',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule, FaIconComponent],
   templateUrl: './audit.html',
-  styleUrls: ['./audit.css'] // Ensure this file exists or remove this line
+  styleUrls: ['./audit.css']
 })
 export class AuditComponent implements OnInit {
-  
-  // 1. Define the list to hold records
-  audits: AuditDTO[] = [];
+  // Using inject for cleaner dependency management
+  private auditService = inject(AuditService);
+  private route = inject(ActivatedRoute);
 
-  // 2. Initialize the form object with default values
+  faTrash = faTrash;
+  faEdit = faEdit;
+  audits: AuditDTO[] = [];
+  viewOnly = false; // Flag to hide the entry form based on navigation
+  selectedAuditId: number | null = null;
+  isEditing = false;
+
+  // Initializing with Enums to fix the errors in image_956994.png
   newAudit: AuditDTO = {
     officerId: 101,
-    scope: AuditScope.PROGRAM,
-    status: AuditStatus.OPEN,
+    scope: AuditScope.PROGRAM, 
     findings: '',
-    date: new Date().toISOString().split('T')[0]
+    date: new Date().toISOString().split('T')[0],
+    status: AuditStatus.OPEN 
   };
 
-  constructor(private auditService: AuditService) {}
-
   ngOnInit(): void {
+    // Check URL parameters: if ?mode=view exists, we hide the entry form
+    this.route.queryParams.subscribe(params => {
+      this.viewOnly = params['mode'] === 'view';
+    });
+    
     this.loadAudits();
   }
 
-  // 3. Load all audits from the backend
   loadAudits(): void {
     this.auditService.getAllAudits().subscribe({
       next: (data) => {
@@ -43,28 +56,92 @@ export class AuditComponent implements OnInit {
     });
   }
 
-  // 4. THE MISSING METHOD: This fixes your error
   submitAudit(): void {
-    this.auditService.createAudit(this.newAudit).subscribe({
+    const auditToSave: AuditDTO = {
+      officerId: Number(this.newAudit.officerId), 
+      scope: this.newAudit.scope,
+      findings: this.newAudit.findings,
+      date: this.newAudit.date,
+      status: this.newAudit.status
+    };
+
+    if (this.isEditing && this.selectedAuditId != null) {
+      auditToSave.auditId = this.selectedAuditId;
+      this.auditService.updateAudit(this.selectedAuditId, auditToSave).subscribe({
+        next: (response) => {
+          console.log('Audit updated successfully:', response);
+          alert('Audit updated successfully!');
+          this.loadAudits();
+          this.resetForm();
+        },
+        error: (err) => {
+          console.error('Error updating audit:', err);
+          alert('Could not update audit. Please try again.');
+        }
+      });
+      return;
+    }
+
+    this.auditService.createAudit(auditToSave).subscribe({
       next: (response) => {
         console.log('Audit created successfully:', response);
-        this.loadAudits(); // Refresh the table
-        this.resetForm();  // Clear the form
+        alert('Audit saved successfully!');
+        this.loadAudits(); // Refresh the records table
+        this.resetForm(); 
       },
       error: (err) => {
         console.error('Error creating audit:', err);
+        // Reminder: Ensure @CrossOrigin is in your Java Controller
         alert('Could not save audit. Is the backend running?');
       }
     });
   }
 
+  editAudit(audit: AuditDTO): void {
+    this.selectedAuditId = audit.auditId ?? null;
+    this.isEditing = true;
+    this.newAudit = {
+      officerId: audit.officerId,
+      scope: audit.scope,
+      findings: audit.findings,
+      date: audit.date,
+      status: audit.status
+    };
+  }
+
+  deleteAudit(auditId: number | undefined): void {
+    if (auditId == null) {
+      return;
+    }
+
+    if (!confirm('Are you sure you want to delete this audit record?')) {
+      return;
+    }
+
+    this.auditService.deleteAudit(auditId).subscribe({
+      next: () => {
+        alert('Audit record deleted successfully.');
+        if (this.selectedAuditId === auditId) {
+          this.resetForm();
+        }
+        this.loadAudits();
+      },
+      error: (err) => {
+        console.error('Error deleting audit:', err);
+        alert('Unable to delete audit. Please try again.');
+      }
+    });
+  }
+
   resetForm(): void {
+    this.selectedAuditId = null;
+    this.isEditing = false;
     this.newAudit = {
       officerId: 101,
       scope: AuditScope.PROGRAM,
-      status: AuditStatus.OPEN,
       findings: '',
-      date: new Date().toISOString().split('T')[0]
+      date: new Date().toISOString().split('T')[0],
+      status: AuditStatus.OPEN
     };
   }
 }

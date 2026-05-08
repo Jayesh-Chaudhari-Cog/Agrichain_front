@@ -1,67 +1,72 @@
 <div class="container mt-4">
-  <div class="row mb-4">
-    <div class="col">
-      <h1 class="display-5 fw-bold text-dark">Auditor Dashboard</h1>
-      <p class="text-muted">Welcome back! Manage your agricultural audits and compliance checks here.</p>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h3>Auditor Dashboard</h3>
+      <p class="text-muted mb-0">Welcome to the auditor home page. Use the button below to create a new audit entry.</p>
+    </div>
+    <div>
+      
+      <a class="btn btn-outline-secondary" routerLink="/dashboard/auditor/home">Refresh Dashboard</a>
     </div>
   </div>
 
-  <div class="row g-4">
-    <!-- Audit Entry Card -->
-    <div class="col-md-6 col-lg-4">
-      <div class="card h-100 shadow-sm border-0 bg-light">
-        <div class="card-body d-flex flex-column">
-          <div class="mb-3">
-            <span class="badge bg-success p-2">Entry Module</span>
-          </div>
-          <h3 class="card-title h4">Audit Management</h3>
-          <p class="card-text text-secondary flex-grow-1">
-            Perform new inspections, record findings, and manage the audit lifecycle for farmers and traders.
-          </p>
-          <a routerLink="../entry" class="btn btn-success mt-3 w-100">
-            <i class="bi bi-plus-circle me-2"></i>New Audit Entry
-          </a>
-        </div>
+  <div class="row mb-4">
+    <div class="col-md-3 mb-3">
+      <div class="card shadow-sm border-0 p-3 text-center">
+        <h5 class="mb-2">Total Audits</h5>
+        <p class="display-6 mb-0">{{ stats.total }}</p>
       </div>
     </div>
+    <div class="col-md-3 mb-3">
+      <div class="card shadow-sm border-0 p-3 text-center">
+        <h5 class="mb-2">Completed</h5>
+        <p class="display-6 mb-0">{{ stats.completed }}</p>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="card shadow-sm border-0 p-3 text-center">
+        <h5 class="mb-2">In Progress</h5>
+        <p class="display-6 mb-0">{{ stats.inProgress }}</p>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="card shadow-sm border-0 p-3 text-center">
+        <h5 class="mb-2">Under Review</h5>
+        <p class="display-6 mb-0">{{ stats.underReview }}</p>
+      </div>
+    </div>
+  </div>
 
-    <!-- Compliance Entry Card -->
-    <div class="col-md-6 col-lg-4">
-      <div class="card h-100 shadow-sm border-0 bg-light">
-        <div class="card-body d-flex flex-column">
-          <div class="mb-3">
-            <span class="badge bg-primary p-2">Entry Module</span>
-          </div>
-          <h3 class="card-title h4">Compliance Verification</h3>
-          <p class="card-text text-secondary flex-grow-1">
-            Link compliance results to existing audits and verify entity status across the supply chain.
-          </p>
-          <a routerLink="/dashboard/auditor/compliance/manage" class="btn btn-primary mt-3 w-100">
-            <i class="bi bi-check2-square me-2"></i>Manage Compliance
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Quick Stats Card (View Only) -->
-    <div class="col-md-12 col-lg-4">
-      <div class="card h-100 shadow-sm border-0 bg-dark text-white">
-        <div class="card-body">
-          <h3 class="card-title h4">System Status</h3>
-          <hr class="bg-white">
-          <div class="d-flex justify-content-between mb-2">
-            <span>Server Status:</span>
-            <span class="text-success">Online</span>
-          </div>
-          <div class="d-flex justify-content-between mb-2">
-            <span>Last Audit:</span>
-            <span>Today</span>
-          </div>
-          <p class="mt-4 small text-light">
-            All data entered is synchronized in real-time with the AgriChain backend.
-          </p>
-        </div>
-      </div>
-    </div>
+  <div class="mt-5">
+    <h4>Recent Audit Records</h4>
+    <table class="table table-hover shadow-sm border">
+      <thead class="table-dark">
+        <tr>
+          <th>Audit ID</th>
+          <th>Scope</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Findings</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let audit of allAudits">
+          <td>{{ audit.auditId }}</td>
+          <td>{{ audit.scope }}</td>
+          <td>{{ audit.date }}</td>
+          <td>
+            <span class="badge" [ngClass]="{
+              'bg-success': audit.status === 'CLOSED',
+              'bg-info': audit.status === 'IN_PROGRESS' || audit.status === 'OPEN',
+              'bg-warning': audit.status === 'REVIEW'
+            }">{{ audit.status }}</span>
+          </td>
+          <td>{{ audit.findings | slice:0:50 }}...</td>
+        </tr>
+        <tr *ngIf="allAudits.length === 0">
+          <td colspan="5" class="text-center py-4">No records found.</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>

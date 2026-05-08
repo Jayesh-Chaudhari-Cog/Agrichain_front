@@ -1,0 +1,21 @@
+.card {
+  border-radius: 12px;
+}
+
+.summary-card {
+  min-height: 140px;
+}
+
+.card h5 {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.card p {
+  color: #6c757d;
+}
+
+.table-responsive table td,
+.table-responsive table th {
+  vertical-align: middle;
+}

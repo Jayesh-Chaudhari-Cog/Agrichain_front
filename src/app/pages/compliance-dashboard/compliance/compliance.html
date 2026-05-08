@@ -1,4 +1,12 @@
 <div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="mb-0 h4">Compliance Record Entry</h2>
+      <p class="text-muted mb-0">Create or update compliance records linked to audits.</p>
+    </div>
+   
+  </div>
+
   <div class="card shadow-sm mb-4 border-primary">
     <div class="card-header bg-primary text-white">
       <h2 class="mb-0 h4">Compliance Record Entry</h2>
@@ -52,7 +60,8 @@
           </div>
 
           <div class="col-12 text-end">
-            <button type="submit" class="btn btn-primary px-4" [disabled]="!compForm.valid">Save Compliance</button>
+            <button type="submit" class="btn btn-primary px-4" [disabled]="!compForm.valid">{{ isEditing ? 'Update Compliance' : 'Save Compliance' }}</button>
+            <button *ngIf="isEditing" type="button" class="btn btn-secondary px-4 ms-2" (click)="resetForm()">Cancel</button>
           </div>
         </div>
       </form>
@@ -73,6 +82,7 @@
             <th>Type</th>
             <th>Result</th>
             <th>Date</th>
+            <th class="text-end">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -89,9 +99,17 @@
               }">{{item.result}}</span>
             </td>
             <td>{{item.date}}</td>
+            <td class="text-end">
+              <button type="button" class="btn btn-sm btn-outline-primary me-2" (click)="editCompliance(item)">
+                <fa-icon [icon]="faEdit"></fa-icon>
+              </button>
+              <button type="button" class="btn btn-sm btn-outline-danger" (click)="deleteCompliance(item.complianceId)">
+                <fa-icon [icon]="faTrash"></fa-icon>
+              </button>
+            </td>
           </tr>
           <tr *ngIf="compliances.length === 0">
-            <td colspan="5" class="text-center py-4 text-muted">No records found.</td>
+            <td colspan="6" class="text-center py-4 text-muted">No records found.</td>
           </tr>
         </tbody>
       </table>
