@@ -56,13 +56,10 @@
 }
 
 .btn-primary {
-	background-color: var(--accent-dark);
-	color: white;
-	padding: 18px 60px;
-	border: none;
+	margin-top: 1.5rem;
 	border-radius: 99px;
+	padding: 0.6rem 1rem;
 	font-weight: bold;
-	cursor: pointer;
 }
 
 @media(max-width: 800px) {

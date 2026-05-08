@@ -4,6 +4,7 @@
     --bg: #eee;
 
     --primary-text: #000;
+    --primary-text-2: #fff;
     --secondary-text: #222;
 
     --primary-color: #fff;
@@ -23,14 +24,14 @@
 
 body.farmer {
     --accent-color: #97cd8f;
-    --accent-transparent: #9fcb9845;
+    --accent-transparent: #9fcb9835;
     --accent-dark: #3b7841;
     --accent-bg: #b5ce98;
 }
 
 body.trader {
     --accent-color: #8ACBDA;
-    --accent-transparent: #8ACBD045;
+    --accent-transparent: #8ACBD035;
     --accent-dark: #1d1181;
     --accent-bg: #ABABDD;
 }
@@ -44,19 +45,14 @@ body.trader {
 
 body.officer {
     --accent-color: #00ACC1;
-    --accent-transparent: #00ACC145;
+    --accent-transparent: #00ACC135;
     --accent-dark: #007FAA;
     --accent-bg: #B2EBF2;
 }
-/* body.admin {
-    --accent-color: #e263ff;
-    --accent-transparent: #c28ce835;
-    --accent-dark: #741594;
-    --accent-bg: #ec9df3;
-} */
 body.admin {
-    --accent-color: #b96eff;
+    --accent-color: #ba6eff;
     --accent-transparent: #b96eff30; 
+    --accent-text: #37214C;
     --accent-dark: #711fb9;
     --accent-bg: #ffdaff;
 }
@@ -189,20 +185,12 @@ app-welcome, app-login {
     box-shadow: 0 0 0.6rem var(--accent-color);
     color: black;
 }
-.btn-logout, .btn-info.btn-icon, .btn-danger.btn-icon {
+.btn-logout, .btn-info.btn-icon, .btn-danger.btn-icon, .btn-success.btn-icon {
     width: 2.5rem;
     aspect-ratio: 1 / 1;
     display: flex;
     align-items: center;
     justify-content: center;
-}
-.btn-logout:hover {
-    border-radius: 50%;
-    color: white;
-}
-.btn-logout:hover {
-    background-color: rgb(200, 50, 50) !important;
-    box-shadow: 0 0 0.5rem rgb(200, 50, 50);
 }
 
 .btn-secondary {
@@ -218,30 +206,42 @@ app-welcome, app-login {
     color: white;
 }
 
-.btn-danger.btn-icon:hover, .btn-info.btn-icon:hover {
+.btn-icon {
+    margin: 0 auto;
+}
+.btn-danger.btn-icon:hover, .btn-info.btn-icon:hover, .btn-success.btn-icon:hover, .btn-logout:hover {
     color: black;
     border-radius: 50%;
 }
-.btn-danger:hover, .btn-info:hover {
+.btn-danger:hover, .btn-info:hover, .btn-success:hover {
     color: black;
+}
+.btn-info, .btn-danger, .btn-success {
+    color: white;
 }
 .btn-danger {
     background-color: rgb(200, 50, 50) !important;
     box-shadow: 0 0 0.2rem rgb(200, 50, 50);
-    color: white;
 }
-.btn-danger:hover {
+.btn-danger:hover, .btn-logout:hover {
     background-color: rgb(240, 60, 100) !important;
     box-shadow: 0 0 0.5rem rgb(240, 60, 100);
 }
 .btn-info {
     background-color: rgb(50, 50, 200) !important;
     box-shadow: 0 0 0.2rem rgb(50, 50, 200);
-    color: white;
 }
 .btn-info:hover {
     background-color: rgb(60, 100, 240) !important;
     box-shadow: 0 0 0.5rem rgb(60, 100, 240);
+}
+.btn-success {
+    background-color: rgb(50, 170, 50) !important;
+    box-shadow:  0 0 0.2rem rgba(50, 170, 50);
+}
+.btn-success:hover {
+    background-color: rgb(60, 240, 100) !important;
+    box-shadow:  0 0 0.2rem rgba(60, 240, 100);
 }
 
 .btn-read {
@@ -275,7 +275,7 @@ app-welcome, app-login {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	color: var(--accent-dark);
+	color: var(--accent-text);
 	background-color: var(--accent-transparent);
     font-size: 1.2rem;
     margin-bottom: 1rem;
@@ -321,6 +321,28 @@ tr:nth-of-type(odd) {
     background-color: var(--bg);
 }
 
+/* Role Shining */
+.role-badge {
+    position: relative;
+    width: fit-content;
+    padding: 0.2rem 0.8rem;
+    background-color: var(--accent-dark);
+    color: white;
+    border-radius: 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.role-badge::before {
+    content: '';
+    position: absolute;
+    border-radius: inherit;
+    inset: 0;
+    pointer-events: none;
+    background-image: linear-gradient(60deg, transparent 35%, rgba(255, 255, 255, 0.2) 50%, transparent 65%);
+    background-size: 200% 100%;
+    animation: shine 4s linear infinite;
+}
 /* Animation */
 @keyframes shine {
     0% { background-position: 200% 0; }
