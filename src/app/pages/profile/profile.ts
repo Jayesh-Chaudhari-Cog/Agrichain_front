@@ -29,7 +29,7 @@ export class ProfilePage implements OnInit {
 		email: '',
 		phone: '',
 		role: UserRole.FARMER,
-		staus: UserStatus.ACTIVE
+		status: UserStatus.ACTIVE
 	};
 
 	ngOnInit() {

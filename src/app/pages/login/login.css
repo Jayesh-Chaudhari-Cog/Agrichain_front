@@ -221,6 +221,79 @@
     margin: 0 auto;
 }
 
+.passVali {
+    position: relative;
+    color: red;
+    width: 1rem;
+    font-size: 0.8rem;
+    background-color: var(--accent-transparent);
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.passVali.notValid {
+    animation: noValid 1s infinite;
+}
+.passVali.valid {
+    color: green;
+    box-shadow: 0 0 0.3rem 0rem rgba(0, 255, 0, 0.5);
+}
+.passVali::before {
+    content: '';
+    position: absolute;
+    top: calc(-50% - 0.1rem);
+    left: calc(50% - 0.25rem);
+    width: 0.5rem;
+    aspect-ratio: 1 / 1;
+    clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+    background-color: var(--accent-dark);
+    display: none;
+    z-index: 10;
+}
+.validation-info {
+    position: absolute;
+    top: -130px;
+    left: -20px;
+    width: 240px;
+    height: 120px;
+    padding: 0.5rem;
+    border-radius: 1rem;
+    border-top: 3px solid var(--accent-dark);
+    border-bottom: 3px solid var(--accent-dark);
+    backdrop-filter: blur(2px);
+    background-color: rgba(255, 255, 255, 0.4);
+    color: var(--primary-text);
+    z-index: 9;
+    display: none;
+}
+.passVali:hover .validation-info, .passVali:hover::before {
+    display: block;
+}
+.pass-check {
+    margin-bottom: 0.1rem;
+    color: red;
+    & fa-icon {
+        font-size: 0.7rem;
+        box-shadow: 0 0 0.2rem red;
+        border-radius: 50%;
+    }
+}
+.pass-check.valid {
+    color: green;
+    & fa-icon {
+        box-shadow: 0 0 0.2rem green;
+    }
+}
+
+@keyframes noValid {
+    0%, 100% {
+        box-shadow: 0 0 0.3rem 0rem rgba(255, 0, 0, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 0.3rem 0.1rem rgba(255, 0, 0, 0.5);
+    }
+}
 @media(max-width: 600px) {
     .login-signup-page {
         padding: 1.5rem;

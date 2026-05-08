@@ -50,12 +50,12 @@
 							<td>{{ report.metrics }}</td>
 							<td>{{ report.generatedDate }}</td>
 							<td>
-								<button class="btn btn-info" (click)="openEditForm(report)" title="Edit Report">
+								<button class="btn btn-info btn-icon" (click)="openEditForm(report)" title="Edit Report">
 									<fa-icon [icon]="faEdit" />
 								</button>
 							</td>
 							<td>
-								<button class="btn btn-danger" (click)="deleteReport(report.reportId)" title="Delete Report">
+								<button class="btn btn-danger btn-icon" (click)="deleteReport(report.reportId)" title="Delete Report">
 									<fa-icon [icon]="faDelete" />
 								</button>
 							</td>
