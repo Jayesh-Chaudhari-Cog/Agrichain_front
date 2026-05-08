@@ -8,13 +8,17 @@ import { PublicLayoutComponent } from './public-layout';
 import { AuthLayoutComponent } from './auth-layout';
 import { RegisterComponent } from './pages/register/register';
 import { authGuard } from './core/guards/auth-guard';
-import { MarketOfficer } from './pages/market-officer/market-officer';
+//import { MarketOfficer } from './pages/market-officer/market-officer';
 import { DashboardRedirectComponent } from './core/guards/dashboard-redirect';
 import { inject } from '@angular/core';
 import { AuthService } from './services/auth-service';
 import { guestGuard } from './core/guards/guest-guard';
 import { roleGuard } from './core/guards/role-guard';
 import { AdminNotifications } from './pages/admin-dashboard/admin-notifications/admin-notifications';
+import { AuditComponent } from './pages/auditor-dashboard/audit/audit';
+import { ComplianceComponent } from './pages/compliance-dashboard/compliance/compliance';
+import { ComplianceHomeComponent } from './pages/compliance-dashboard/compliance-home/compliance-home';
+import { AuditorHome } from './pages/auditor-dashboard/auditor-home/auditor-home';
 import { OfficerHome } from './pages/marketOfficer-dashboard/officer-home/officer-home';
 import { OfficerInventory } from './pages/marketOfficer-dashboard/officer-inventory/officer-inventory';
 import { OfficerHistory } from './pages/marketOfficer-dashboard/officer-history/officer-history';
@@ -72,25 +76,19 @@ export const routes: Routes = [
 
             {
                 path: 'officer',
+                canActivate: [roleGuard],
+                data: { roles: ['OFFICER'] },
                 children: [
                     { path: 'home', component: OfficerHome },
-                    { path: 'inventory', component: OfficerInventory },
+                    //{ path: 'inventory', component: OfficerInventory },
                     { path: 'history', component: OfficerHistory },
                     //{ path: 'documents', component: OfficerDocument },
                     { path: '', pathMatch: 'full', redirectTo: 'home' }
                 ]
             },
-            {
-                path: 'manager',
-                canActivate: [roleGuard],
-                data: { roles: ['MANAGER'] },
-                children: [
-                    { path: 'home', component: ManagerDashboard },
-                    { path: '', pathMatch: 'full', redirectTo: 'home' }
-                ]
-            },
             { path: 'profile', component: ProfilePage },
             { path: '', pathMatch: 'full', component: DashboardRedirectComponent }
+
         ]
     }
 ];

@@ -38,3 +38,29 @@ export enum NotificationCategory {
   VERIFICATION = 'VERIFICATION',
   BROADCAST = 'BROADCAST'
 }
+
+export enum AuditScope {
+    PROGRAM = 'PROGRAM',
+    LISTING = 'LISTING',
+    TRANSACTION = 'TRANSACTION'
+}
+
+export enum AuditStatus {
+    OPEN = 'OPEN',
+    CLOSED = 'CLOSED',
+    IN_PROGRESS = 'IN_PROGRESS',
+    REVIEW = 'REVIEW'
+}
+export enum ComplianceResult {
+    PASSED = 'PASSED',
+    FAILED = 'FAILED',
+    PENDING = 'PENDING',
+    REVIEW = 'REVIEW'
+}
+
+export enum ComplianceType {
+    LISTING = 'LISTING',
+    TRANSACTION = 'TRANSACTION',
+    PROGRAM = 'PROGRAM'
+}
+
