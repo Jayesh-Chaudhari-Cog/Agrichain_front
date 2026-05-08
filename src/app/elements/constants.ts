@@ -6,12 +6,12 @@ export const USER_INFO = "currentUser"
 
 export const ADMIN_DASHBOARD = '/dashboard/admin/';
 export const OFFICER_DASHBOARD = '/dashboard/officer/';
-<<<<<<< HEAD
+
 export const TRADER_DASHBOARD = '/dashboard/trader/';
-=======
+
 export const AUDITOR_DASHBOARD = '/dashboard/auditor/';
 export const COMPLIANCE_DASHBOARD = '/dashboard/compliance/';
->>>>>>> 47d96e38f7280d99ea092280d4e28cf78d57f712
+
 
 export const USER_PATH = "users"
 export const REPORT_PATH = "api/report";
