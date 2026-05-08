@@ -2,7 +2,7 @@
     width: 100%;
     height: var(--header-height);
     background-color: var(--accent-color);
-    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), linear-gradient(var(--accent-color), var(--accent-color));
+    background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.7)), linear-gradient(var(--accent-color), var(--accent-color));
     align-items: center;
     justify-content: center;
 
@@ -48,7 +48,7 @@
 }
 
 .nav-links.active {
-    color: var(--accent-color);
+    color: var(--accent-bg);
 }
 .nav-links:hover.active {
     color: white;

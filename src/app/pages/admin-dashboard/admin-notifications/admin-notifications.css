@@ -12,7 +12,7 @@
 
 .notification-role {
 	width: 100%;
-	background-color: var(--accent-color);
+	background-color: var(--accent-dark);
 }
 
 .notification-details {

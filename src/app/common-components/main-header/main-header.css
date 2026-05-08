@@ -5,7 +5,7 @@ header {
     width: 100%;
     height: var(--header-height);
     background-color: var(--accent-color);
-    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), linear-gradient(var(--accent-color), var(--accent-color));
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.55)), linear-gradient(var(--accent-color), var(--accent-color));
     border-bottom: 1px solid var(--accent-bg);
     padding: 0.5rem 1rem;
     display: flex;

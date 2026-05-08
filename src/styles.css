@@ -30,10 +30,10 @@ body.farmer {
 }
 
 body.trader {
-    --accent-color: #8ACBDA;
-    --accent-transparent: #8ACBD035;
-    --accent-dark: #1d1181;
-    --accent-bg: #ABABDD;
+    --accent-color: #3B82F6;       /* Bright, clear primary blue */
+    --accent-transparent: #3B82F635;
+    --accent-dark: #1E3A8A;       /* Deep navy for headers/buttons */
+    --accent-bg: #EFF6FF;         /* Very light blue-wash for card backgrounds */
 }
 
 body.officer {
@@ -44,10 +44,10 @@ body.officer {
 }
 body.admin {
     --accent-color: #ba6eff;
-    --accent-transparent: #b96eff30; 
+    --accent-transparent: #ba6eff40; 
     --accent-text: #37214C;
     --accent-dark: #711fb9;
-    --accent-bg: #ffdaff;
+    --accent-bg: #ffbbff;
 }
 
 body, html, app-root {
@@ -56,7 +56,6 @@ body, html, app-root {
     min-width: 300px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-
 
 main {
     position: relative;
@@ -285,22 +284,32 @@ app-welcome, app-login {
 
 /* Table */
 .a-table {
-	border-radius: 0.5rem;
 	color: var(--accent-dark);
 }
 td, th {
-    border: 1px solid var(--accent-color);
     padding: 0.4rem 0.6rem;
     text-align: center;
 }
-
+th:first-of-type {
+    border-radius: 0.6rem 0 0 0;
+    border: none;
+    border-right: 1px solid var(--accent-bg);
+}
+th:last-of-type {
+    border-radius: 0 0.6rem 0 0;
+    border: none;
+    border-left: 1px solid var(--accent-bg);
+}
 th {
     font-size: var(--font-size);
     color: white;
-    border: 1px solid black;
     background-color: var(--accent-color);
+    border-left: 1px solid var(--accent-bg);
+    border-right: 1px solid var(--accent-bg);
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6)), linear-gradient(var(--accent-color), var(--accent-color));
 }
 td {
+    border: 1px solid var(--accent-color);
     font-size: calc(var(--font-size) - 0.2rem);
 }
 td:nth-of-type(1), td:nth-of-type(2) {
@@ -311,7 +320,15 @@ tr:nth-of-type(even) {
 	background-color: var(--accent-transparent);
 }
 tr:nth-of-type(odd) {
-    background-color: var(--bg);
+    background-color: var(--primary-color);
+}
+tr:hover {
+    background-color: var(--accent-color);
+    color: var(--primary-text);
+
+    & td {
+        border: 1px solid var(--primary-text);
+    }
 }
 
 /* Role Shining */
