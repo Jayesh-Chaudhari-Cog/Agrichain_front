@@ -182,13 +182,12 @@ app-welcome, app-login {
     box-shadow: 0 0 0.6rem var(--accent-color);
     color: black;
 }
-.btn-logout, .btn-info, .btn-danger {
+.btn-logout, .btn-info.btn-icon, .btn-danger.btn-icon {
     width: 2.5rem;
     aspect-ratio: 1 / 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
 }
 .btn-logout:hover {
     border-radius: 50%;
@@ -212,13 +211,17 @@ app-welcome, app-login {
     color: white;
 }
 
-.btn-danger:hover, .btn-info:hover {
+.btn-danger.btn-icon:hover, .btn-info.btn-icon:hover {
     color: black;
     border-radius: 50%;
+}
+.btn-danger:hover, .btn-info:hover {
+    color: black;
 }
 .btn-danger {
     background-color: rgb(200, 50, 50) !important;
     box-shadow: 0 0 0.2rem rgb(200, 50, 50);
+    color: white;
 }
 .btn-danger:hover {
     background-color: rgb(240, 60, 100) !important;
@@ -227,6 +230,7 @@ app-welcome, app-login {
 .btn-info {
     background-color: rgb(50, 50, 200) !important;
     box-shadow: 0 0 0.2rem rgb(50, 50, 200);
+    color: white;
 }
 .btn-info:hover {
     background-color: rgb(60, 100, 240) !important;
