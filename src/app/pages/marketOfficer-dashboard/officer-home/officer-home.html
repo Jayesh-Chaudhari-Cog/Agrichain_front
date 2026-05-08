@@ -1,10 +1,10 @@
-<div class="officer-console">
-  <div class="console-hero">
-    <div class="hero-content">
+<div class="a-page">
+  <section class="section-header">
+    <div class="section-header-subsection">
       <h1>Market Officer Portal</h1>
-      <p>Consolidated verification workspace for AgriChain compliance & approvals.</p>
+      <p>Consolidated verification workspace for AgriChain listings & approvals.</p>
     </div>
-  </div>
+  </section>
 
   <div class="console-body">
     
@@ -96,7 +96,7 @@
         <h2>Crop Listing Validation Queue</h2>
       </header>
       <div class="table-container">
-        <table class="agri-table">
+        <table>
           <thead>
             <tr>
               <th>ID</th>
@@ -114,9 +114,9 @@
               <td><strong>{{item.cropType}}</strong></td>
               <td>{{item.quantity}} Quintal</td>
               <td><span class="badge yellow">Pending Review</span></td>
-              <td>
-                <button class="btn-cyan" (click)="approveCrop(item.listingId!)">Approve</button>
-                <button class="btn-outline">Reject</button>
+              <td style="display: flex; gap: 1rem;">
+                <button class="btn btn-primary" (click)="approveCrop(item.listingId!)">Approve</button>
+                <button class="btn btn-secondary" (click)="rejectCrop(item.listingId!)">Reject</button>
               </td>
             </tr>
           </tbody>
@@ -129,7 +129,7 @@
         <h2>Document Verification Console</h2>
       </header>
       <div class="table-container">
-        <table class="agri-table">
+        <table>
           <thead>
             <tr>
               <th>Doc ID</th>
@@ -149,9 +149,16 @@
                   📄 View {{doc.fileName || 'Document'}}
                 </a>
               </td>
-              <td>
-                <button class="btn-cyan" (click)="approveDoc(doc.id)">Verify & Approve</button>
-                <button class="btn-outline red">Reject</button>
+              <td style="gap: 1rem; display: flex;">
+  <!-- Changed doc.id to doc.documentId to match your Java Backend -->
+                 <button class="btn btn-info" (click)="approveDoc(doc.documentId)">
+                    <fa-icon [icon]="faCheck"></fa-icon>
+                 </button>
+  
+  <!-- Added the click handler for Reject -->
+                 <button class="btn btn-danger" (click)="rejectDoc(doc.documentId)">
+                    <fa-icon [icon]="faClose"></fa-icon>
+                 </button>
               </td>
             </tr>
             <tr *ngIf="listingsWithDocs.length === 0">
@@ -184,16 +191,22 @@
             <tr>
               <th>Farmer ID</th>
               <th>Full Name</th>
+              <th>Email</th>
+              <th>Gender</th>
               <th>Contact</th>
               <th>City</th>
+              <th>DOB</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let farmer of allFarmers">
               <td>#F-{{farmer.farmerId}}</td>
-              <td>{{farmer.firstName}} {{farmer.lastName}}</td>
-              <td>{{farmer.phoneNumber}}</td>
-              <td>{{farmer.city}}</td>
+              <td>{{farmer.name}} {{farmer.lastName}}</td>
+              <td>{{farmer.email}}</td>
+              <td>{{farmer.gender}}</td>
+              <td>{{farmer.contactInfo}}</td>
+              <td>{{farmer.address}}</td>
+              <td>{{farmer.dob | date:'dd MMM yyyy'}}</td>
             </tr>
           </tbody>
         </table>

@@ -31,10 +31,15 @@ export class MarketService {
     return this.http.get<any[]>(`${this.gatewayUrl}/documents/all`); // or specific pending endpoint
   }
 
-  verifyDocument(documentId: number, status: string): Observable<any> {
-    const params = new HttpParams().set('status', status);
-    return this.http.patch(`${this.gatewayUrl}/documents/${documentId}/verify`, null, { params });
-  }
+  // verifyDocument(documentId: number, status: string): Observable<any> {
+  //   const params = new HttpParams().set('status', status);
+  //   return this.http.patch(`${this.gatewayUrl}/documents/${documentId}/verify`, null, { params });
+  // }
+
+  verifyDocument(id: number, status: string): Observable<any> {
+  // Ensure the URL matches your Backend @PutMapping or @PostMapping
+  return this.http.patch(`${this.gatewayUrl}/documents/${id}/verify?status=${status}`, {});
+}
 
   getFileUrl(fileName: string): string {
     return `${this.gatewayUrl}/documents/files/${fileName}`;
@@ -43,6 +48,25 @@ export class MarketService {
   // Make sure this method exists
 getAllFarmers(): Observable<any[]> {
   return this.http.get<any[]>(`${this.gatewayUrl}/farmers`);
+}
+
+
+// inside market.ts
+getAllLogs(): Observable<any[]> {
+  // Replace with your actual backend URL later
+  return this.http.get<any[]>(`${this.gatewayUrl}/market/audit-logs`);
+}
+
+// inside market.ts
+// inside market.ts
+approveCrop(id: number, status: string, reason: string): Observable<any> {
+  // Use .patch to match your backend @PatchMapping
+  return this.http.patch(`${this.gatewayUrl}/market/listings/validate/${id}`, null, {
+    params: {
+      status: status,
+      reason: reason
+    }
+  });
 }
 
 // Double check that your getPendingDocuments is also there

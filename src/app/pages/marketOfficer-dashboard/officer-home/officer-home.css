@@ -8,31 +8,6 @@
   --white: #ffffff;
 }
 
-.officer-console {
-  background: var(--bg-light);
-  min-height: 100vh;
-  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-}
-
-.console-hero {
-  background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color) 100%);
-  color: var(--white);
-  padding: 35px 50px;
-  box-shadow: 0 3px 10px rgba(0, 172, 193, 0.2);
-}
-
-.hero-content h1 {
-  margin: 0;
-  font-size: 2rem;
-  font-weight: 600;
-}
-
-.hero-content p {
-  margin: 5px 0 0;
-  opacity: 0.9;
-  font-size: 0.95rem;
-}
-
 .console-body {
   padding: 40px 50px;
 }
