@@ -36,6 +36,13 @@ body.trader {
     --accent-bg: #EFF6FF;         /* Very light blue-wash for card backgrounds */
 }
 
+/* body.officer {
+    --accent-color: red;
+    --accent-transparent: #a4c10045;
+    --accent-dark: ;
+    --accent-bg: ;
+} */
+
 body.officer {
     --accent-color: #00ACC1;
     --accent-transparent: #00ACC135;

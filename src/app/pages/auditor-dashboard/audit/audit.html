@@ -1,15 +1,23 @@
-<div class="container mt-4">
-  <div class="card shadow-sm mb-4">
-    <div class="card-header bg-success text-white">
-      <h2 class="mb-0">New Audit Entry</h2>
+<div class="a-page">
+  <div class="section-header">
+    <div class="section-header-subsection">
+      <h2>Audit Entry</h2>
+      <p class="text-muted mb-0">Create a new audit record or review recent entries.</p>
+    </div>
+   
+  </div>
+
+  <div class="card shadow-sm mb-4 border-primary">
+    <div class="card-header text-dark">
+      <h2 class="mb-0 h4">{{ isEditing ? 'Edit Audit Entry' : 'New Audit Entry' }}</h2>
     </div>
     <div class="card-body">
       <form (ngSubmit)="submitAudit()" #auditForm="ngForm">
         <div class="row g-3">
           <!-- Officer ID -->
-          <div class="col-md-4">
-            <label class="form-label fw-bold">Officer ID</label>
-            <input type="number" name="officerId" class="form-control" [(ngModel)]="newAudit.officerId" required placeholder="e.g. 101">
+          <div class="input-box">
+            <label class="input-label">Officer ID</label>
+            <input type="number" name="officerId" class="input-field" [(ngModel)]="newAudit.officerId" required placeholder="e.g. 101">
           </div>
 
           <!-- Audit Scope -->
@@ -47,7 +55,12 @@
 
           <!-- Submit Button -->
           <div class="col-12 text-end">
-            <button type="submit" class="btn btn-success px-4" [disabled]="!auditForm.valid">Submit Audit</button>
+            <button type="submit" class="btn btn-primary px-4 me-2" [disabled]="!auditForm.valid">
+              {{ isEditing ? 'Update Audit' : 'Submit Audit' }}
+            </button>
+            <button *ngIf="isEditing" type="button" class="btn btn-outline-secondary" (click)="resetForm()">
+              Cancel Edit
+            </button>
           </div>
         </div>
       </form>
@@ -60,7 +73,7 @@
       <h3 class="mb-0">Recent Records</h3>
     </div>
     <div class="table-responsive">
-      <table class="table table-hover align-middle mb-0">
+      <table class=" align-middle mb-0">
         <thead class="table-light">
           <tr>
             <th>ID</th>
@@ -68,6 +81,7 @@
             <th>Status</th>
             <th>Date</th>
             <th>Findings</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -84,6 +98,14 @@
             </td>
             <td>{{audit.date}}</td>
             <td class="text-truncate" style="max-width: 200px;">{{audit.findings}}</td>
+            <td>
+              <button type="button" class="btn btn-info me-2" (click)="editAudit(audit)">
+                <fa-icon [icon]="faEdit"></fa-icon>
+              </button>
+              <button type="button" class="btn btn-danger" (click)="deleteAudit(audit.auditId)">
+                <fa-icon [icon]="faTrash"></fa-icon>
+              </button>
+            </td>
           </tr>
           <tr *ngIf="audits.length === 0">
             <td colspan="5" class="text-center py-4 text-muted">No audit records found.</td>
