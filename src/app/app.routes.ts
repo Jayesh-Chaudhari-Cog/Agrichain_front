@@ -75,11 +75,33 @@ export const routes: Routes = [
 
             {
                 path: 'officer',
+                canActivate: [roleGuard],
+                data: { roles: ['OFFICER'] },
                 children: [
                     { path: 'home', component: OfficerHome },
                     { path: 'inventory', component: OfficerInventory },
                     { path: 'history', component: OfficerHistory },
                     //{ path: 'documents', component: OfficerDocument },
+                    { path: '', pathMatch: 'full', redirectTo: 'home' }
+                ]
+            },
+            {
+                path: 'auditor',
+                canActivate: [roleGuard],
+                data: { roles: ['AUDITOR'] },
+                children: [
+                    { path: 'home', component: AuditorHome },
+                    { path: 'entry', component: AuditComponent },
+                    { path: '', pathMatch: 'full', redirectTo: 'home' }
+                ]
+            },
+            {
+                path: 'compliance',
+                canActivate: [roleGuard],
+                data: { roles: ['COMPLIANCE'] },
+                children: [
+                    { path: 'home', component: ComplianceHomeComponent },
+                    { path: 'entry', component: ComplianceComponent },
                     { path: '', pathMatch: 'full', redirectTo: 'home' }
                 ]
             },
