@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-trader',
+  selector: 'trader-home',
   standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './trader.html',

@@ -8,6 +8,13 @@ export enum UserRole {
   ADMIN = 'ADMIN'
 }
 
+export enum UserStatus {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+  DELETED = 'DELETED',
+  SUSPENDED = 'SUSPENDED'
+}
+
 export enum CropListingStatus {
   PENDING = 'PENDING',
   VALIDATED = 'VALIDATED',

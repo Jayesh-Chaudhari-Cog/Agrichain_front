@@ -4,7 +4,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs';
 import { LoggedInUser } from '../models/user.model';
-import { API_URL, TOKEN_KEY, LOGIN_INFO, USER_PATH } from '../elements/constants';
+import { API_URL, TOKEN_KEY, LOGIN_INFO, USER_PATH, USER_INFO } from '../elements/constants';
 import { ThemeService } from './theme';
 import { ToastService } from './toast-service';
 
@@ -24,8 +24,10 @@ export class AuthService {
 			tap(response => {
 				this.saveToken(response.token);
 				this.decodeAndStore(response.token);
+				console.log("token", response.token);
+				console.log("user", response.user);
 				if (response.user) {
-					localStorage.setItem('currentUser', JSON.stringify(response.user));
+					localStorage.setItem(USER_INFO, JSON.stringify(response.user));
 				}
 			})
 		);
@@ -33,6 +35,23 @@ export class AuthService {
 
 	onRegister(userData: any) {
 		return this.http.post(`${API_URL}${USER_PATH}/register`, userData);
+	}
+
+	updateUser(userData: any) {
+		return this.http.put(`${API_URL}${USER_PATH}/updateUser`, userData).pipe(
+			tap(() => {
+				localStorage.setItem('currentUser', JSON.stringify(userData));
+				const currentLoggedIn = this._loggedInUser();
+				if (currentLoggedIn) {
+					const updatedLoggedIn: LoggedInUser = {
+						email: userData.email,
+						role: userData.role
+					};
+					this._loggedInUser.set(updatedLoggedIn);
+					localStorage.setItem(LOGIN_INFO, JSON.stringify(updatedLoggedIn));
+				}
+			})
+		);
 	}
 
 	private saveToken(token: string) {
@@ -60,7 +79,7 @@ export class AuthService {
 	logout(shouldRedirect: boolean = true) {
 		localStorage.removeItem(TOKEN_KEY);
 		localStorage.removeItem(LOGIN_INFO);
-		localStorage.removeItem('currentUser');
+		localStorage.removeItem(USER_INFO);
 
 		this._loggedInUser.set(null);
 

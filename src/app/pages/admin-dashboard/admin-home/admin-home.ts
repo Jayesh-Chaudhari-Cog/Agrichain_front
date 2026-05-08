@@ -47,7 +47,6 @@ export class AdminHome implements OnInit {
 			const readiness = Math.min(100, Math.round(broadcasts.length * 8));
 			this.updateMetric(1, readiness);
 			
-			// Simple mock for alert resolution
 			const readNotifs = broadcasts.filter(n => n.status === 'READ').length;
 			const resRate = broadcasts.length > 0 ? Math.round((readNotifs / broadcasts.length) * 100) : 100;
 			this.updateMetric(3, resRate);
