@@ -15,6 +15,10 @@ import { AuthService } from './services/auth-service';
 import { guestGuard } from './core/guards/guest-guard';
 import { roleGuard } from './core/guards/role-guard';
 import { AdminNotifications } from './pages/admin-dashboard/admin-notifications/admin-notifications';
+import { AuditComponent } from './pages/auditor-dashboard/audit/audit';
+import { ComplianceComponent } from './pages/compliance-dashboard/compliance/compliance';
+import { ComplianceHomeComponent } from './pages/compliance-dashboard/compliance-home/compliance-home';
+import { AuditorHome } from './pages/auditor-dashboard/auditor-home/auditor-home';
 import { OfficerHome } from './pages/marketOfficer-dashboard/officer-home/officer-home';
 import { OfficerInventory } from './pages/marketOfficer-dashboard/officer-inventory/officer-inventory';
 import { OfficerHistory } from './pages/marketOfficer-dashboard/officer-history/officer-history';
@@ -71,6 +75,8 @@ export const routes: Routes = [
 
             {
                 path: 'officer',
+                canActivate: [roleGuard],
+                data: { roles: ['OFFICER'] },
                 children: [
                     { path: 'home', component: OfficerHome },
                     //{ path: 'inventory', component: OfficerInventory },
@@ -79,8 +85,29 @@ export const routes: Routes = [
                     { path: '', pathMatch: 'full', redirectTo: 'home' }
                 ]
             },
+            {
+                path: 'auditor',
+                canActivate: [roleGuard],
+                data: { roles: ['AUDITOR'] },
+                children: [
+                    { path: 'home', component: AuditorHome },
+                    { path: 'entry', component: AuditComponent },
+                    { path: '', pathMatch: 'full', redirectTo: 'home' }
+                ]
+            },
+            {
+                path: 'compliance',
+                canActivate: [roleGuard],
+                data: { roles: ['COMPLIANCE'] },
+                children: [
+                    { path: 'home', component: ComplianceHomeComponent },
+                    { path: 'entry', component: ComplianceComponent },
+                    { path: '', pathMatch: 'full', redirectTo: 'home' }
+                ]
+            },
             { path: 'profile', component: ProfilePage },
             { path: '', pathMatch: 'full', component: DashboardRedirectComponent }
+
         ]
     }
 ];
