@@ -38,11 +38,9 @@ export class AuthService {
 	}
 
 	updateUser(userData: any) {
-		return this.http.put(`${API_URL}${USER_PATH}/update`, userData).pipe(
+		return this.http.put(`${API_URL}${USER_PATH}/updateUser`, userData).pipe(
 			tap(() => {
 				localStorage.setItem('currentUser', JSON.stringify(userData));
-				
-				// Update loggedInUser signal if email or role changed (though role usually doesn't)
 				const currentLoggedIn = this._loggedInUser();
 				if (currentLoggedIn) {
 					const updatedLoggedIn: LoggedInUser = {

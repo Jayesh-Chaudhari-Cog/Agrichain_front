@@ -2,11 +2,17 @@
     margin-top: 2rem;
     padding: 2.5rem;
 }
+.profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
 
 .profile-view {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
 }
 
 .profile-info-group {
@@ -18,13 +24,13 @@
 }
 
 .info-value {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     color: var(--primary-text);
     font-weight: 500;
 }
 
 .role-badge {
-    display: inline-block;
+    position: relative;
     width: fit-content;
     padding: 0.2rem 0.8rem;
     background-color: var(--accent-dark);
@@ -33,9 +39,15 @@
     font-size: 1rem;
     text-transform: uppercase;
 }
-
-.form-buttons-box {
-    margin-top: 2rem;
+.role-badge::before {
+    content: '';
+    position: absolute;
+    border-radius: inherit;
+    inset: 0;
+    pointer-events: none;
+    background-image: linear-gradient(60deg, transparent 35%, rgba(255, 255, 255, 0.2) 50%, transparent 65%);
+    background-size: 200% 100%;
+    animation: shine 4s linear infinite;
 }
 
 @media (max-width: 550px) {

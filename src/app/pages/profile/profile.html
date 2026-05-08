@@ -1,15 +1,15 @@
 <div class="a-page">
-    <section class="section-header">
-        <div class="section-header-subsection">
-            <h1>User Profile</h1>
-            <p>View and manage your account information</p>
-        </div>
-        <button class="btn" [class.btn-secondary]="!isEditing()" [class.btn-danger]="isEditing()" (click)="toggleEdit()">
-            {{ isEditing() ? 'Cancel' : 'Edit Profile' }}
-        </button>
-    </section>
 
     <div class="profile-container card-form-section">
+        <div class="profile-header">
+            <h1>Profile</h1>
+            @if(!isEditing()) {
+                <button class="btn btn-info" (click)="toggleEdit()">
+                    <fa-icon [icon]="faEdit" />
+                </button>
+            }
+        </div>
+        <hr />
         @if (!isEditing()) {
             <div class="profile-view">
                 <div class="profile-info-group">
@@ -51,6 +51,9 @@
                 
                 <div class="form-buttons-box">
                     <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <button class="btn btn-secondary" (click)="toggleEdit()">
+                        Cancel
+                    </button>
                 </div>
             </form>
         }
