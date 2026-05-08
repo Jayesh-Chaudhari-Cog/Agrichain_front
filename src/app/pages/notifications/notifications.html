@@ -12,17 +12,26 @@
                 <loader />
             } @else {
                 @for(n of notifications(); track n) {
-                    <div class="notification-card" [class.read]="n.status === 'READ'">
-                        <div class="notification-content-top">
-                            <h4>{{ n.subject }}</h4>
-                            <p class="notification-date">{{ n.createdDate }}</p>
+                    <div class="notification-card" [class.read]="n.status === 'READ'" [class.unread]="n.status === 'UNREAD'">
+                        <div class="notification-category">
+                            @if(n.category == 'ALERT') {
+                                <fa-icon [icon]="faAlert" style="color: red;"/>
+                            } @else if (n.category == 'BROADCAST') {
+                                <fa-icon [icon]="faBoardcast" style="color: gray;"/>
+                            } @else {
+                                <fa-icon [icon]="faVerification" style="color: green;"/>
+                            }
                         </div>
-                        <div class="notification-content-bottom">
+                        <div class="notification-content">
+                            <p class="notification-subject">{{ n.subject }}</p>
+                            <hr class="notification-hr"/>
                             <p class="notification-message">{{ n.message }}</p>
-                            <div class="notification-options">
-                                <p class="notification-category" [class]="n.category.toLowerCase()">{{ n.category }}</p>
+                            <div class="notification-meta">
+                                <p class="notification-date">{{ n.createdDate }}</p>
                                 @if(n.userId != null && n.userId == user.id) {
-                                    <button class="btn" (click)="markAsRead(n.notificationID)">{{n.status !== 'READ' ? 'Mark as Read' : 'Read'}}</button>
+                                    <button class="btn btn-read" (click)="markAsRead(n.notificationID)" [disabled]="n.status === 'READ'" title="Mark as Read">
+                                        <fa-icon [icon]="faRead"/>
+                                    </button>
                                 }
                             </div>
                         </div>

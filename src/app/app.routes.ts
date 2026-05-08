@@ -20,6 +20,7 @@ import { OfficerInventory } from './pages/marketOfficer-dashboard/officer-invent
 import { OfficerHistory } from './pages/marketOfficer-dashboard/officer-history/officer-history';
 import { OfficerDocument } from './pages/marketOfficer-dashboard/officer-document/officer-document';
 import { TraderCroplistings } from './pages/trader-dashboard/trader-croplistings/trader-croplistings';
+import { ProfilePage } from './pages/profile/profile';
 
 export const routes: Routes = [
     {
@@ -32,51 +33,53 @@ export const routes: Routes = [
             { path: '', pathMatch: 'full', redirectTo: '/welcome' }
         ]
     },
-    
+
     // PROTECTED PAGES
     {
         path: 'dashboard',
         component: AuthLayoutComponent,
         canActivate: [authGuard],
         children: [
-            { 
-                path: 'admin', 
+            {
+                path: 'admin',
                 canActivate: [roleGuard],
-                data: {roles: ['ADMIN']},
+                data: { roles: ['ADMIN'] },
                 children: [
                     { path: 'home', component: AdminHome },
                     { path: 'reports', component: AdminReports },
                     { path: 'notifications', component: AdminNotifications },
-                    { path: '', pathMatch: 'full', redirectTo: 'home'}
+                    { path: '', pathMatch: 'full', redirectTo: 'home' }
                 ]
             },
             {
-                path: 'farmer', 
+                path: 'farmer',
                 canActivate: [roleGuard],
-                data: {roles: ['FARMER']},
+                data: { roles: ['FARMER'] },
                 children: [
-                    { path: 'register', component: RegisterComponent},
+                    { path: 'register', component: RegisterComponent },
                 ]
             },
             {
                 path: 'trader',
                 canActivate: [roleGuard],
-                data: {roles: ['TRADER']},
+                data: { roles: ['TRADER'] },
                 children: [
-                    { path: 'home', component: TraderPage},
-                    { path: 'croplistings', component: TraderCroplistings}
+                    { path: 'home', component: TraderPage },
+                    { path: 'croplistings', component: TraderCroplistings }
                 ]
             },
-            
-            { path: 'officer', 
+
+            {
+                path: 'officer',
                 children: [
                     { path: 'home', component: OfficerHome },
                     { path: 'inventory', component: OfficerInventory },
                     { path: 'history', component: OfficerHistory },
                     //{ path: 'documents', component: OfficerDocument },
-                    { path: '', pathMatch: 'full', redirectTo: 'home'}
+                    { path: '', pathMatch: 'full', redirectTo: 'home' }
                 ]
-             },
+            },
+            { path: 'profile', component: ProfilePage },
             { path: '', pathMatch: 'full', component: DashboardRedirectComponent }
         ]
     }

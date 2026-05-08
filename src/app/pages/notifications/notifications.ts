@@ -7,8 +7,8 @@ import { Notification } from '../../models/dto.model';
 import { USER_INFO } from '../../elements/constants';
 import { Loader } from '../../common-components/loader/loader';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
-import { faClose } from '@fortawesome/free-solid-svg-icons';
 import { NotificationStatus } from '../../models/enum.model';
+import { faBullhorn, faTriangleExclamation, faCircleCheck, faClose, faCheckDouble } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
     selector: 'notifications-pop',
@@ -23,6 +23,10 @@ export class NotificationPop {
     user = JSON.parse(localStorage.getItem(USER_INFO) || '{}');
 
     faClose = faClose;
+    faBoardcast = faBullhorn;
+    faAlert = faTriangleExclamation;
+    faVerification = faCircleCheck;
+    faRead = faCheckDouble;
 
     notifications = signal<Notification[]>([]);
     loading = signal(false);

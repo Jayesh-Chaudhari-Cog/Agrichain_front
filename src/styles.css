@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 * {
     --header-height: 3.5rem;
-    --bg: #ddd;
+    --bg: #eee;
 
     --primary-text: #000;
     --secondary-text: #222;
@@ -55,8 +55,8 @@ body.officer {
     --accent-bg: #ec9df3;
 } */
 body.admin {
-    --accent-color: #a855f7;
-    --accent-transparent: #a855f730; 
+    --accent-color: #b96eff;
+    --accent-transparent: #b96eff30; 
     --accent-dark: #711fb9;
     --accent-bg: #ffdaff;
 }
@@ -102,13 +102,14 @@ app-welcome, app-login {
     display: flex;
     align-items: center;
     flex-direction: column;
-    background-color: var(--bg);
     gap: 1rem;
 }
 .a-public-page {
+    background-color: rgb(239, 239, 239);
     justify-content: center;
 }
 .a-page {
+    background-color: var(--bg);
     min-height: calc(100vh - (2 * var(--header-height)));
 }
 
@@ -171,10 +172,12 @@ app-welcome, app-login {
     border: none;
     outline: none;
 }
-.btn-primary:disabled, .btn-secondary:disabled, .btn-logout:disabled {
-    opacity: 0.8;
+.btn:disabled {
+    color: black !important;
     cursor: not-allowed;
+    pointer-events: auto;
 }
+
 .btn-primary, .btn-logout {
     background-color: var(--accent-dark) !important;
     color: white;
@@ -199,9 +202,6 @@ app-welcome, app-login {
 .btn-logout:hover {
     background-color: rgb(200, 50, 50) !important;
     box-shadow: 0 0 0.5rem rgb(200, 50, 50);
-}
-.btn {
-    transform-origin: 50% 0%;
 }
 .btn-bell:hover {
     background-color: var(--accent-dark) !important;
@@ -255,6 +255,20 @@ app-welcome, app-login {
 .btn-info:hover {
     background-color: rgb(60, 130, 240) !important;
     box-shadow: 0 0 0.5rem rgb(60, 130, 240);
+}
+
+.btn-read {
+    aspect-ratio: 1 / 1;
+    padding: 0rem 0.3rem;
+    border-radius: 50%;
+    background-color: var(--accent-dark) !important;
+    color: white;
+    box-shadow: 0 0 0.2rem var(--accent-dark);
+}
+.btn-read:hover {
+    background-color: var(--accent-color) !important;
+    box-shadow: 0 0 0.4rem var(--accent-color);
+    color: black;
 }
 
 .grad-text {
