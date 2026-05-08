@@ -4,6 +4,7 @@
     --bg: #eee;
 
     --primary-text: #000;
+    --primary-text-2: #fff;
     --secondary-text: #222;
 
     --primary-color: #fff;
@@ -41,15 +42,10 @@ body.officer {
     --accent-dark: #007FAA;
     --accent-bg: #B2EBF2;
 }
-/* body.admin {
-    --accent-color: #e263ff;
-    --accent-transparent: #c28ce835;
-    --accent-dark: #741594;
-    --accent-bg: #ec9df3;
-} */
 body.admin {
-    --accent-color: #b96eff;
+    --accent-color: #ba6eff;
     --accent-transparent: #b96eff30; 
+    --accent-text: #37214C;
     --accent-dark: #711fb9;
     --accent-bg: #ffdaff;
 }
@@ -272,7 +268,7 @@ app-welcome, app-login {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	color: var(--accent-dark);
+	color: var(--accent-text);
 	background-color: var(--accent-transparent);
     font-size: 1.2rem;
     margin-bottom: 1rem;
@@ -318,6 +314,28 @@ tr:nth-of-type(odd) {
     background-color: var(--bg);
 }
 
+/* Role Shining */
+.role-badge {
+    position: relative;
+    width: fit-content;
+    padding: 0.2rem 0.8rem;
+    background-color: var(--accent-dark);
+    color: white;
+    border-radius: 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.role-badge::before {
+    content: '';
+    position: absolute;
+    border-radius: inherit;
+    inset: 0;
+    pointer-events: none;
+    background-image: linear-gradient(60deg, transparent 35%, rgba(255, 255, 255, 0.2) 50%, transparent 65%);
+    background-size: 200% 100%;
+    animation: shine 4s linear infinite;
+}
 /* Animation */
 @keyframes shine {
     0% { background-position: 200% 0; }

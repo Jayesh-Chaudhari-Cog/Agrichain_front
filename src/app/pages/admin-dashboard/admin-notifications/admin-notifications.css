@@ -11,10 +11,8 @@
 }
 
 .notification-role {
-	padding: 0.1rem 0.3rem;
-	border-radius: 99px;
+	width: 100%;
 	background-color: var(--accent-color);
-	color: black;
 }
 
 .notification-details {
