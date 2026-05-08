@@ -172,7 +172,7 @@
 
 
 
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit,ChangeDetectorRef } from '@angular/core';
 import { MarketService } from '../../../services/market'; 
 import { CropListingDTO } from '../../../models/dto.model';
 import { CommonModule } from '@angular/common';
@@ -361,31 +361,33 @@ export class OfficerHome implements OnInit {
 // Method for the Approve button
 approveDoc(docId: number) {
   if (!docId) {
-    console.error("❌ documentId is missing!");
+    console.error("❌ documentId is missing! Still receiving null/undefined.");
     return;
   }
 
   this.marketService.verifyDocument(docId, 'VERIFIED').subscribe({
     next: () => {
       this.toast.show('Document verified successfully!', 'success');
-      // Remove from UI immediately
-      this.listingsWithDocs = [...this.listingsWithDocs.filter(d => d.documentId !== docId)];
+      
+      // Update filter to use 'id' to match the HTML
+      this.listingsWithDocs = this.listingsWithDocs.filter(d => d.id !== docId);
       this.stats.awaitingDocs = this.listingsWithDocs.length;
     },
-    error: (err) => console.error("Verification failed", err)
+    error: (err) => {
+      console.error("Verification failed", err);
+      this.toast.show('Backend error: Check logs', 'alert');
+    }
   });
 }
 
-// Method for the Reject button (Fixes the TS2339 Error)
 rejectDoc(docId: number) {
   const reason = prompt("Please enter a reason for rejection:");
-  if (!reason) return;
+  if (!reason || !docId) return;
 
   this.marketService.verifyDocument(docId, 'REJECTED').subscribe({
     next: () => {
       this.toast.show('Document has been rejected', 'info');
-      // Remove from UI immediately
-      this.listingsWithDocs = [...this.listingsWithDocs.filter(d => d.documentId !== docId)];
+      this.listingsWithDocs = this.listingsWithDocs.filter(d => d.id !== docId);
       this.stats.awaitingDocs = this.listingsWithDocs.length;
     },
     error: (err) => console.error("Rejection failed", err)
@@ -406,3 +408,4 @@ rejectDoc(docId: number) {
     return this.marketService.getFileUrl(doc.fileName);
   }
 }
+

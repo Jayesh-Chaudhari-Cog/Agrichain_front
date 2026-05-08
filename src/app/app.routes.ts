@@ -73,7 +73,7 @@ export const routes: Routes = [
                 path: 'officer',
                 children: [
                     { path: 'home', component: OfficerHome },
-                    { path: 'inventory', component: OfficerInventory },
+                    //{ path: 'inventory', component: OfficerInventory },
                     { path: 'history', component: OfficerHistory },
                     //{ path: 'documents', component: OfficerDocument },
                     { path: '', pathMatch: 'full', redirectTo: 'home' }

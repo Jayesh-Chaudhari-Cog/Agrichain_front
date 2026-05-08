@@ -6,6 +6,7 @@ export const USER_INFO = "currentUser"
 
 export const ADMIN_DASHBOARD = '/dashboard/admin/';
 export const OFFICER_DASHBOARD = '/dashboard/officer/';
+export const TRADER_DASHBOARD = '/dashboard/trader/';
 
 export const USER_PATH = "users"
 export const REPORT_PATH = "api/report";

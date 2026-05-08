@@ -225,3 +225,194 @@
 
 .fade-in { animation: fadeIn 0.3s ease-out; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+
+.card-grid {
+  display: grid;
+  /* 'auto-fill' creates as many columns as will fit */
+  /* 'minmax(300px, 1fr)' ensures cards are at least 300px but grow to fill space */
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px; /* Space between the cards */
+  padding: 20px;
+}
+
+.data-card {
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  /* Ensure cards have a consistent height if desired */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.data-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Badge Styling */
+.card-badge-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.id-badge {
+  background: #e0f2fe;
+  color: #0369a1;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.status-badge.pending {
+  background: #fef3c7;
+  color: #92400e;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+}
+
+/* Info Rows */
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.label { color: #6b7280; }
+.value { font-weight: 600; color: #111827; }
+.highlight { color: #10b981; }
+
+/* Buttons */
+.card-actions {
+  display: nowrap;
+  gap: 100px;
+  margin-top: 1.25rem;
+}
+
+.action-btn {
+  flex: 2;
+  padding: 0.6rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.view-btn {
+  display: block;
+  text-align: center;
+  background: #f9fafb;
+  border: 1px dashed #d1d5db;
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  text-decoration: none;
+  color: #374151;
+}
+
+.view-btn:hover { background: #f3f4f6; }
+
+/* Container using Flexbox */
+.card-grid-flex {
+  display: flex;
+  flex-wrap: wrap; /* Row full aana automatic-ah next line pogum */
+  gap: 20px;       /* Cards ku naduvula irukura space */
+  padding: 10px 0;
+}
+
+/* 3 Cards per row calculation */
+.data-card {
+  /* calc(33.33% - gap_offset) - Idhu correct-ah 3 cards-ah row-la veikum */
+  flex: 0 1 calc(33.333% - 14px); 
+  box-sizing: border-box;
+  
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid #f0f0f0;
+  transition: transform 0.2s ease;
+}
+
+.data-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 172, 193, 0.1);
+}
+
+/* Buttons width handle panna */
+.action-btn {
+  flex: 1;
+  font-size: 0.85rem;
+  padding: 10px 5px;
+}
+
+/* Tablet screen-la 2 per row */
+@media (max-width: 1024px) {
+  .data-card {
+    flex: 0 1 calc(50% - 10px);
+  }
+}
+
+/* Mobile-la single column */
+@media (max-width: 600px) {
+  .data-card {
+    flex: 0 1 100%;
+  }
+}
+
+/* Badge & Info styling fix */
+.card-badge-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.id-badge {
+  background: var(--accent-bg);
+  color: var(--accent-dark);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.75rem;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}
+
+.label { color: #7f8c8d; }
+.value { font-weight: 600; color: #2c3e50; }
+.highlight { color: var(--accent-color); }
+
+.card-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* Standalone Variables fix */
+:host {
+  --accent-color: #00ACC1;
+  --accent-transparent: #00ACC125;
+  --accent-dark: #007FAA;
+  --accent-bg: #B2EBF2;
+  --white: #ffffff;
+}
+
+/* Existing utility styles from your original code */
+.fade-in { animation: fadeIn 0.3s ease-out; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.inner-module-spacing { margin-top: 20px; }
+.empty-state { text-align: center; padding: 40px; color: #95a5a6; }
