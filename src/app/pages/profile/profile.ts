@@ -38,7 +38,6 @@ export class ProfilePage implements OnInit {
   }
 
   loadUser() {
-    const currentUser = getCurrentUser();
     if (currentUser && Object.keys(currentUser).length > 0) {
       this.userData.set(currentUser);
       this.editForm = { ...currentUser };
