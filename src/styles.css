@@ -30,8 +30,8 @@ body.farmer {
 }
 
 body.trader {
-    --accent-color: #8aa5fd;
-    --accent-transparent: #3B82F635;
+    --accent-color: #9aa5ff;
+    --accent-transparent: #9aa5ff40;
     --accent-dark: #0f2f88;
     --accent-bg: #EFF6FF;
 }

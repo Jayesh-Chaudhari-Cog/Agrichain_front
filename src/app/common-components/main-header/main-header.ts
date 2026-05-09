@@ -24,7 +24,7 @@ export class MainHeader {
 
 	showNoti = signal(false);
 
-	user: User = currentUser();
+	user: User = currentUser;
 
 	toggleNotifications() {
 		if(this.showNoti()) {
