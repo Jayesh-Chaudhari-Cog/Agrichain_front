@@ -30,10 +30,10 @@ body.farmer {
 }
 
 body.trader {
-    --accent-color: #3B82F6;       /* Bright, clear primary blue */
+    --accent-color: #3B82F6;
     --accent-transparent: #3B82F635;
-    --accent-dark: #1E3A8A;       /* Deep navy for headers/buttons */
-    --accent-bg: #EFF6FF;         /* Very light blue-wash for card backgrounds */
+    --accent-dark: #0f2f88;
+    --accent-bg: #EFF6FF;
 }
 
 /* body.officer {
@@ -53,8 +53,8 @@ body.admin {
     --accent-color: #ba6eff;
     --accent-transparent: #ba6eff40; 
     --accent-text: #37214C;
-    --accent-dark: #711fb9;
-    --accent-bg: #ffbbff;
+    --accent-dark: #6c1fb0;
+    --accent-bg: #f5eeff;
 }
 
 body, html, app-root {
