@@ -2,8 +2,8 @@ import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MarketService } from '../../../services/market';
 import { OrderDTO } from '../../../models/dto.model';
-import { USER_INFO, currentUser } from '../../../elements/constants';
 import { Loader } from '../../../common-components/loader/loader';
+import { AuthService } from '../../../services/auth-service';
 
 @Component({
   selector: 'app-trader-orders',
@@ -14,6 +14,7 @@ import { Loader } from '../../../common-components/loader/loader';
 })
 export class TraderOrders implements OnInit {
   private marketService = inject(MarketService);
+  private authService = inject(AuthService);
   
   orders = signal<OrderDTO[]>([]);
   loading = signal(false);
@@ -23,10 +24,10 @@ export class TraderOrders implements OnInit {
   }
 
   fetchOrders() {
-    const currentUserObj = currentUser();
+    const currentUserObj = this.authService.currentUser();
     if (!currentUserObj || Object.keys(currentUserObj).length === 0) return;
     
-    const traderId = currentUserObj.id || currentUserObj.userId; // Check which field is used
+    const traderId = currentUserObj.id || currentUserObj.id;
 
     if (!traderId) {
       console.error('Trader ID not found in user info');

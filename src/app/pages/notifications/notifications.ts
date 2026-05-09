@@ -22,6 +22,8 @@ export class NotificationPop {
     private toast = inject(ToastService);
     private authService = inject(AuthService);
 
+    user = this.authService.currentUser;
+
     faClose = faClose;
     faBoardcast = faBullhorn;
     faAlert = faTriangleExclamation;

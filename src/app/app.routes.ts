@@ -10,8 +10,6 @@ import { RegisterComponent } from './pages/register/register';
 import { authGuard } from './core/guards/auth-guard';
 //import { MarketOfficer } from './pages/market-officer/market-officer';
 import { DashboardRedirectComponent } from './core/guards/dashboard-redirect';
-import { inject } from '@angular/core';
-import { AuthService } from './services/auth-service';
 import { guestGuard } from './core/guards/guest-guard';
 import { roleGuard } from './core/guards/role-guard';
 import { AdminNotifications } from './pages/admin-dashboard/admin-notifications/admin-notifications';
@@ -119,6 +117,4 @@ export const routes: Routes = [
 
         ]
     }
-
-    
 ];
