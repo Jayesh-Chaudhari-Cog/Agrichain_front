@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import { ADMIN_DASHBOARD, OFFICER_DASHBOARD, TRADER_DASHBOARD } from "../elements/constants";
-=======
-import { ADMIN_DASHBOARD, OFFICER_DASHBOARD, AUDITOR_DASHBOARD, COMPLIANCE_DASHBOARD } from "../elements/constants";
->>>>>>> 47d96e38f7280d99ea092280d4e28cf78d57f712
+import { ADMIN_DASHBOARD, OFFICER_DASHBOARD, AUDITOR_DASHBOARD, COMPLIANCE_DASHBOARD, TRADER_DASHBOARD } from "../elements/constants";
 
 export interface NavLink {
     label: string;
@@ -22,7 +18,8 @@ export const ROLE_CONFIG: Record<string, NavLink[]> = {
     ],
     TRADER:[
         { label: 'Home', path: `${TRADER_DASHBOARD}home` },
-        { label: 'Crop Listings', path: `${TRADER_DASHBOARD}croplistings` }
+        { label: 'Crop Listings', path: `${TRADER_DASHBOARD}croplistings` },
+        { label: 'Orders', path: `${TRADER_DASHBOARD}orders`}
     ],
     ADMIN: [
         { label: 'Home', path: `${ADMIN_DASHBOARD}home` },
