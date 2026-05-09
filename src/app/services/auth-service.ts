@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs';
-import { LoggedInUser, User } from '../models/user.model';
+import { User } from '../models/user.model';
 import { API_URL, TOKEN_KEY, USER_PATH, USER_INFO } from '../elements/constants';
 import { ThemeService } from './theme';
 import { ToastService } from './toast-service';
@@ -18,11 +18,6 @@ export class AuthService {
 
 	private _currentUser = signal<User | null>(null);
 	readonly currentUser = this._currentUser.asReadonly();
-
-	readonly loggedInUser = computed<LoggedInUser | null>(() => {
-		const user = this._currentUser();
-		return user ? { email: user.email, role: user.role } : null;
-	});
 
 	onLogin(credentials: any) {
 		return this.http.post<{ token: string, user?: any }>(`${API_URL}${USER_PATH}/login`, credentials).pipe(
@@ -57,7 +52,6 @@ export class AuthService {
 
 	private decodeAndStore(token: string) {
 		const decoded = this.jwtHelper.decodeToken(token);
-
 	}
 
 	isLoggedIn(): boolean {
