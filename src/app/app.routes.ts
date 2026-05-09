@@ -87,8 +87,31 @@ export const routes: Routes = [
                 ]
             },
             { path: 'profile', component: ProfilePage },
-            { path: '', pathMatch: 'full', component: DashboardRedirectComponent }
+            { path: '', pathMatch: 'full', component: DashboardRedirectComponent },
+
+            {
+                path: 'auditor',
+                canActivate: [roleGuard],
+                data: { roles: ['AUDITOR'] },
+                children: [
+                    { path: 'home', component: AuditorHome },
+                    { path: 'entry', component: AuditComponent },
+                    { path: '', pathMatch: 'full', redirectTo: 'home' }
+                ]
+            },
+            {
+                path: 'compliance',
+                canActivate: [roleGuard],
+                data: { roles: ['COMPLIANCE'] },
+                children: [
+                    { path: 'home', component: ComplianceHomeComponent },
+                    { path: 'entry', component: ComplianceComponent },
+                    { path: '', pathMatch: 'full', redirectTo: 'home' }
+                ]
+            }
 
         ]
     }
+
+    
 ];
