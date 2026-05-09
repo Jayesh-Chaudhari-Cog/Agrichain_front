@@ -1,25 +1,52 @@
-// trader.service.ts
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-export interface TraderStats {
-  label: string;
-  value: string | number;
-  icon: string;
-  bg: string;
-}
-
 @Injectable({ providedIn: 'root' })
-export class TraderService {
+export class TraderApiService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api/trader'; // Your Spring Boot URL
 
-  getDashboardStats(): Observable<TraderStats[]> {
-    return this.http.get<TraderStats[]>(`${this.apiUrl}/stats`);
+  // Endpoint configuration
+  private marketApi = 'http://localhost:8081/market';
+  private transApi = 'http://localhost:8082/transactions';
+
+  // --- MARKET SERVICE CALLS ---
+
+  getApprovedListings(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.marketApi}/listings/status/APPROVED`);
   }
 
-  getSessionDetails(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/session`);
+  placeOrder(orderDto: any): Observable<any> {
+    return this.http.post<any>(`${this.marketApi}/placeorder`, orderDto);
+  }
+
+  getOrdersByTrader(traderId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.marketApi}/orders/trader/${traderId}`);
+  }
+
+  /**
+   * New: Fetch audit logs for the Intelligence Module
+   * Maps to CropMarketController: @GetMapping("/audit-logs")
+   */
+  getAuditLogs(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.marketApi}/audit-logs`);
+  }
+
+  // --- TRANSACTION SERVICE CALLS ---
+
+  initiateTransaction(txRequest: any): Observable<any> {
+    return this.http.post<any>(`${this.transApi}/initiate`, txRequest);
+  }
+
+  getTransactionsByStatus(status: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.transApi}/status/${status}`);
+  }
+
+  /**
+   * New: Finalize a pending transaction
+   * Maps to TransactionController: @PutMapping("/{id}/finalize")
+   */
+  finalizeTransaction(transactionId: number): Observable<any> {
+    return this.http.put<any>(`${this.transApi}/${transactionId}/finalize`, {});
   }
 }

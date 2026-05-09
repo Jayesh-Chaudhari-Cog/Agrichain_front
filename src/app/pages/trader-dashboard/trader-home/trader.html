@@ -1,73 +1,167 @@
 <div class="a-page">
-	<div class="dashboard-header">
-		<div class="header-content">
-			<h1>{{greeting()}}, {{mockUser.email.split('@')[0]}}</h1>
-			<p class="subtitle">System Status: <span class="status-dot"></span> Market is Open | {{today}}</p>
-		</div>
-	</div>
+  <!-- Consistent Officer-style Header -->
+  <section class="section-header">
+    <div class="section-header-subsection">
+      <h1>Trader Command Center</h1>
+      <p>Market linkage hub for crop procurement, order tracking, and settlements.</p>
+    </div>
+  </section>
 
-	<div class="page-content">
-		<div class="metrics-grid">
-			@for (s of stats(); track s.label) {
-			<div class="metric-card">
-				<div class="metric-icon" [style.background]="s.bg">{{s.icon}}</div>
-				<div class="metric-info">
-					<span class="metric-label">{{s.label}}</span>
-					<h2 class="metric-value">{{s.value}}</h2>
-				</div>
-			</div>
-			}
-		</div>
+  <div class="console-body">
+    <!-- VIEW 1: MAIN DASHBOARD -->
+    <div *ngIf="activeModule === 'dashboard'" class="fade-in">
+      
+      <!-- Stats Ribbon (Updated with Financial Stats) -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon yellow">📦</div>
+          <div class="stat-info">
+            <span>Active Orders</span>
+            <h3>{{myOrders().length}}</h3>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon blue">🌾</div>
+          <div class="stat-info">
+            <span>Available Listings</span>
+            <h3>{{listings().length}}</h3>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon cyan">💳</div>
+          <div class="stat-info">
+            <span>Pending Settlements</span>
+            <h3>{{pendingPaymentsCount}}</h3>
+          </div>
+        </div>
+      </div>
 
-		<div class="main-grid">
-			<div class="content-card">
-				<div class="card-header">
-					<h3>Trader Workbench</h3>
-				</div>
-				<div class="card-body">
-					<div class="actions-list">
-						@for (q of quick(); track q.label) {
-						<a class="action-item" [routerLink]="q.route">
-							<div class="action-icon">{{q.icon}}</div>
-							<div class="action-text">
-								<span class="action-label">{{q.label}}</span>
-								<span class="action-desc">{{q.desc}}</span>
-							</div>
-							<div class="action-arrow">→</div>
-						</a>
-						}
-					</div>
-				</div>
-			</div>
+      <h2 class="panel-title">Procurement & Trading Modules</h2>
+      
+      <div class="features-box-grid">
+        <!-- Module 1: Market Linkage -->
+        <div class="feature-box" (click)="setModule('listings')">
+          <div class="box-header">
+            <span class="box-emoji">🛒</span>
+          </div>
+          <h3>Market Linkage</h3>
+          <p>Browse verified crop listings, check quantity, and initiate bulk purchases via Transaction API.</p>
+          <span class="box-action-text">Explore Market →</span>
+        </div>
 
-			<div class="content-card">
-				<div class="card-header">
-					<h3>Session Details</h3>
-				</div>
-				<div class="card-body">
-					<div class="info-table">
-						<div class="info-row">
-							<span>Trading ID</span>
-							<span class="val">#TRD-9921-X</span>
-						</div>
-						<div class="info-row">
-							<span>Role Access</span>
-							<span class="badge buyer">Verified Buyer</span>
-						</div>
-						<div class="info-row">
-							<span>Region</span>
-							<span class="val">North India Hub</span>
-						</div>
-						<div class="info-row">
-							<span>API Gateway</span>
-							<span class="badge secure">Secure Sync</span>
-						</div>
-					</div>
-					<div class="alert-box">
-						<p>⚠️ <strong>Price Alert:</strong> Wheat prices are up 2% in your region.</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+        <!-- Module 2: Order Tracking -->
+        <div class="feature-box" (click)="setModule('orders')">
+          <div class="box-header">
+            <span class="box-emoji">📝</span>
+          </div>
+          <h3>Track My Orders</h3>
+          <p>Monitor status of placed orders and delivery schedules from Crop Service.</p>
+          <span class="box-action-text">View Orders →</span>
+        </div>
+
+        <!-- NEW Module 3: Financial & Settlement -->
+        <div class="feature-box" (click)="setModule('finance')">
+          <div class="box-header">
+            <span class="box-emoji">💰</span>
+            <span class="box-badge" *ngIf="pendingPaymentsCount > 0">{{pendingPaymentsCount}} Due</span>
+          </div>
+          <h3>Finance & Settlement</h3>
+          <p>Manage payment callbacks, verify transaction IDs, and finalize crop payments.</p>
+          <span class="box-action-text">Manage Payments →</span>
+        </div>
+
+        <!-- NEW Module 4: Market Analysis -->
+        <div class="feature-box" (click)="setModule('analysis')">
+          <div class="box-header">
+            <span class="box-emoji">📈</span>
+          </div>
+          <h3>Analysis & Intelligence</h3>
+          <p>Audit system-wide price trends and view verification logs from the Market Officer.</p>
+          <span class="box-action-text">View Intelligence →</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUB-MODULE VIEWS -->
+    <div *ngIf="activeModule !== 'dashboard'" class="fade-in">
+        <button class="back-dashboard-btn" (click)="setModule('dashboard')">
+          ← Back to Dashboard
+        </button>
+
+        <!-- MARKET LISTINGS -->
+        <div *ngIf="activeModule === 'listings'" class="inner-module-spacing">
+            <h2 class="panel-title">Available Market Listings</h2>
+            <div class="card-grid-flex">
+                <div class="data-card" *ngFor="let item of listings()">
+                    <div class="card-badge-container">
+                        <span class="id-badge">#{{item.id}}</span>
+                        <span class="status-badge pending">Approved</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="info-row"><span class="label">Crop:</span><span class="value highlight">{{item.cropType}}</span></div>
+                        <div class="info-row"><span class="label">Availability:</span><span class="value">{{item.quantity}} MT</span></div>
+                        <div class="info-row"><span class="label">Price per Unit:</span><span class="value">₹{{item.price}}</span></div>
+                    </div>
+                    <div class="card-actions">
+                        <!-- Triggers initiateTransaction in TransactionController -->
+                        <button class="btn-cyan action-btn" (click)="buyCrop(item)">Initiate Purchase</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FINANCE & SETTLEMENT -->
+        <div *ngIf="activeModule === 'finance'" class="inner-module-spacing">
+            <h2 class="panel-title">Transaction History & Settlements</h2>
+            <div class="table-container">
+                <table class="agri-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let tx of myTransactions()">
+                            <td>#ORD-{{tx.orderId}}</td>
+                            <td>₹{{tx.transactionAmount}}</td>
+                            <td>{{tx.transactionDate | date:'dd-MM-yyyy'}}</td>
+                            <td>
+                                <span class="status-badge" [ngClass]="tx.transactionStatus">
+                                    {{tx.transactionStatus}}
+                                </span>
+                            </td>
+                            <td>
+                                <button *ngIf="tx.transactionStatus === 'PENDING'" 
+                                        class="btn-cyan small-btn" 
+                                        (click)="finalizeTx(tx.transactionId)">
+                                    Pay Now
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ANALYSIS & INTELLIGENCE -->
+        <div *ngIf="activeModule === 'analysis'" class="inner-module-spacing">
+            <h2 class="panel-title">System Audit Intelligence</h2>
+            <div class="activity-feed">
+                <h4>Recent Market Verification Logs</h4>
+                <ul>
+                    <li *ngFor="let log of auditLogs()">
+                        <strong>{{log.timestamp | date:'short'}}</strong>: 
+                        {{log.targetType}} #{{log.targetId}} was 
+                        <span [style.color]="log.action === 'APPROVED' ? '#10b981' : '#ef4444'">{{log.action}}</span>.
+                        <br><small>Reason: {{log.reason}}</small>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+  </div>
 </div>

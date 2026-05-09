@@ -1,4 +1,6 @@
-import { ADMIN_DASHBOARD, OFFICER_DASHBOARD, AUDITOR_DASHBOARD, COMPLIANCE_DASHBOARD, TRADER_DASHBOARD } from "../elements/constants";
+
+import { ADMIN_DASHBOARD, AUDITOR_DASHBOARD, COMPLIANCE_DASHBOARD, OFFICER_DASHBOARD, TRADER_DASHBOARD } from "../elements/constants";
+
 
 export interface NavLink {
     label: string;
