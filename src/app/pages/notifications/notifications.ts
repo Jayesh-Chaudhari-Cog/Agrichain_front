@@ -20,7 +20,7 @@ import { faBullhorn, faTriangleExclamation, faCircleCheck, faClose, faCheckDoubl
 export class NotificationPop {
     private notificationService = inject(NotificationService);
     private toast = inject(ToastService);
-    user = currentUser();
+    user = currentUser;
 
     faClose = faClose;
     faBoardcast = faBullhorn;
