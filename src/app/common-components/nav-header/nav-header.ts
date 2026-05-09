@@ -18,9 +18,9 @@ export class NavHeader {
     activeFlag: number = 0;
 
     ngOnInit() {
-        const loggedInuser = this.authService.loggedInUser();
-        if(loggedInuser && loggedInuser.role)
-            this.menuLinks = ROLE_CONFIG[loggedInuser.role] || [];
+        const currentUser = this.authService.currentUser();
+        if(currentUser && currentUser.role)
+            this.menuLinks = ROLE_CONFIG[currentUser.role] || [];
     }
 
     setView(flag: number) {

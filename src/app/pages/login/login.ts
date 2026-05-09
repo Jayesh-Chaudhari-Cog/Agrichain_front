@@ -1,18 +1,16 @@
 import { Component, signal, inject, computed } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { WebNameElement } from "../../elements/web-name";
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth-service';
 import { ThemeService } from '../../services/theme';
-import { LOGIN_INFO } from '../../elements/constants';
-import { LoggedInUser } from '../../models/user.model';
 import { ToastService } from '../../services/toast-service';
 import { faExclamation, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 
 @Component({
 	selector: 'app-login',
-	imports: [RouterLink, WebNameElement, FormsModule, FaIconComponent],
+	imports: [WebNameElement, FormsModule, FaIconComponent],
 	templateUrl: './login.html',
 	styleUrl: './login.css'
 })
@@ -81,11 +79,11 @@ export class LoginPage {
 				password: payload.password
 			}).subscribe({
 				next: () => {
-					const loggedUser = this.authService.loggedInUser();
-					if(loggedUser) {
-						this.themeService.themeChange(loggedUser.role);
+					const currentUser = this.authService.currentUser();
+					if(currentUser) {
+						this.themeService.themeChange(currentUser.role);
 					}
-					this.router.navigate([`/dashboard/${loggedUser?.role.toLocaleLowerCase()}`]);
+					this.router.navigate([`/dashboard/${currentUser?.role.toLocaleLowerCase()}`]);
 				},
 				error: (err) => {
 					console.error("Login failed", err);
