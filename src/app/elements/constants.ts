@@ -13,8 +13,7 @@ export const COMPLIANCE_DASHBOARD = '/dashboard/compliance/';
 export const USER_PATH = "users"
 export const REPORT_PATH = "api/report";
 export const NOTIFICATION_PATH = "api/notification";
-
-export const getCurrentUser = () => JSON.parse(localStorage.getItem(USER_INFO) || '{}');
-
 export const AUDIT_PATH = "api/audits";
 export const COMPLIANCE_PATH = "api/compliances";
+
+export const currentUser = JSON.parse(localStorage.getItem(USER_INFO) || '{}');

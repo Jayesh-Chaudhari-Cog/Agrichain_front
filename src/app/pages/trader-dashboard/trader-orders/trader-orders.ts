@@ -2,7 +2,7 @@ import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MarketService } from '../../../services/market';
 import { OrderDTO } from '../../../models/dto.model';
-import { USER_INFO, getCurrentUser } from '../../../elements/constants';
+import { USER_INFO, currentUser } from '../../../elements/constants';
 import { Loader } from '../../../common-components/loader/loader';
 
 @Component({
@@ -23,10 +23,10 @@ export class TraderOrders implements OnInit {
   }
 
   fetchOrders() {
-    const currentUser = getCurrentUser();
-    if (!currentUser || Object.keys(currentUser).length === 0) return;
+    const currentUserObj = currentUser();
+    if (!currentUserObj || Object.keys(currentUserObj).length === 0) return;
     
-    const traderId = currentUser.id || currentUser.userId; // Check which field is used
+    const traderId = currentUserObj.id || currentUserObj.userId; // Check which field is used
 
     if (!traderId) {
       console.error('Trader ID not found in user info');
