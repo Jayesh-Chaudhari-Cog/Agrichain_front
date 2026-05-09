@@ -4,7 +4,7 @@ import { WebNameElement } from "../../elements/web-name";
 import { NotificationService } from '../../services/notification.service';
 import { ToastService } from '../../services/toast-service';
 import { Notification } from '../../models/dto.model';
-import { currentUser } from '../../elements/constants';
+import { getCurrentUser } from '../../elements/constants';
 import { Loader } from '../../common-components/loader/loader';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 import { NotificationStatus } from '../../models/enum.model';
@@ -20,7 +20,7 @@ import { faBullhorn, faTriangleExclamation, faCircleCheck, faClose, faCheckDoubl
 export class NotificationPop {
     private notificationService = inject(NotificationService);
     private toast = inject(ToastService);
-    user = currentUser;
+    user = getCurrentUser();
 
     faClose = faClose;
     faBoardcast = faBullhorn;

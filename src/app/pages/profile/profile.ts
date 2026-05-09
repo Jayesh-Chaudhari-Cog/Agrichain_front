@@ -7,7 +7,7 @@ import { User } from '../../models/user.model';
 import { UserRole, UserStatus } from '../../models/enum.model';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
-import { currentUser } from '../../elements/constants';
+import { getCurrentUser } from '../../elements/constants';
 
 @Component({
 	selector: 'app-profile',
@@ -38,6 +38,7 @@ export class ProfilePage implements OnInit {
 	}
 
 	loadUser() {
+		const currentUser = getCurrentUser();
 		if (currentUser && Object.keys(currentUser).length > 0) {
 			this.userData.set(currentUser);
 			this.editForm = { ...currentUser };
