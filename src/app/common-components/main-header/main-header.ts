@@ -4,7 +4,7 @@ import { WebNameElement } from "../../elements/web-name";
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { AuthService } from '../../services/auth-service';
-import { USER_INFO } from '../../elements/constants';
+import { currentUser } from '../../elements/constants';
 import { User } from '../../models/user.model';
 import { faChevronDown, faBell } from '@fortawesome/free-solid-svg-icons';
 import { NotificationPop } from '../../pages/notifications/notifications';
@@ -24,7 +24,7 @@ export class MainHeader {
 
 	showNoti = signal(false);
 
-	user: User = JSON.parse(localStorage.getItem(USER_INFO) || '{}');
+	user: User = currentUser;
 
 	toggleNotifications() {
 		if(this.showNoti()) {

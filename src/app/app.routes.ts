@@ -25,6 +25,7 @@ import { OfficerHistory } from './pages/marketOfficer-dashboard/officer-history/
 import { OfficerDocument } from './pages/marketOfficer-dashboard/officer-document/officer-document';
 import { TraderCroplistings } from './pages/trader-dashboard/trader-croplistings/trader-croplistings';
 import { ProfilePage } from './pages/profile/profile';
+import { TraderOrders } from './pages/trader-dashboard/trader-orders/trader-orders';
 import { ManagerDashboard } from './pages/manager-dashboard/manager-dashboard';
 
 export const routes: Routes = [
@@ -70,7 +71,8 @@ export const routes: Routes = [
                 data: { roles: ['TRADER'] },
                 children: [
                     { path: 'home', component: TraderPage },
-                    { path: 'croplistings', component: TraderCroplistings }
+                    { path: 'croplistings', component: TraderCroplistings },
+                    { path: 'orders', component: TraderOrders }
                 ]
             },
 

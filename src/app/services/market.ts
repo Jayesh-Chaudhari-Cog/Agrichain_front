@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+import { OrderDTO } from '../models/dto.model';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -86,10 +88,12 @@ approveCrop(id: number, status: string, reason: string): Observable<any> {
 
 // 2. Reviewing (Approving/Rejecting)
 // Matches Java: @PatchMapping("/{id}/review") with @RequestParam DisbursementStatus status
-reviewSubisdy(id: number, status: string): Observable<any> {
-  const params = new HttpParams().set('status', status);
-  
-  // Note: We send 'null' as the body because the data is in the @RequestParam
-  return this.http.patch(`${this.gatewayUrl}/disbursements/${id}/review`, null, { params });
-}
+  reviewSubisdy(id: number, status: string): Observable<any> {
+    const params = new HttpParams().set('status', status);
+    return this.http.patch(`${this.gatewayUrl}/disbursements/${id}/review`, null, { params });
+  }
+
+  getOrdersByTrader(traderId: number): Observable<OrderDTO[]> {
+    return this.http.get<OrderDTO[]>(`${this.gatewayUrl}/market/orders/trader/${traderId}`);
+  }
 }
