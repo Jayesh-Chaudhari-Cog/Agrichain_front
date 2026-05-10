@@ -1,4 +1,4 @@
-<div class="dashboard-wrapper">
+<!-- <div class="dashboard-wrapper">
     <aside class="sidebar">
         <h3>AgriChain</h3>
         <nav>
@@ -40,4 +40,25 @@
             </div>
         </div>
     </main>
+</div> -->
+
+<div class="dashboard-container">
+  <!-- Notification Alert Box -->
+  <div class="notification-banner" *ngIf="notifications().length > 0">
+    <div class="alert-item" *ngFor="let note of notifications()">
+      <span class="icon">🔔</span>
+      <div class="message-content">
+        <strong>Status Update</strong>
+        <p>{{ note.reason }}</p>
+        <small>{{ note.timestamp | date:'medium' }}</small>
+      </div>
+      <button class="close-btn" (click)="notifications.set([])">×</button>
+    </div>
+  </div>
+
+  <!-- Rest of your Farmer Dashboard UI -->
+  <h1>Welcome, {{ farmerName() }}!</h1>
+  <div class="status-card">
+    Current Profile Status: <span [class]="status()">{{ status() }}</span>
+  </div>
 </div>

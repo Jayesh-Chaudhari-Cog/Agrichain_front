@@ -5,6 +5,51 @@
     color: white;
 }
 
+.notification-banner {
+  margin-bottom: 20px;
+  animation: slideDown 0.5s ease-out;
+}
+
+.alert-item {
+  background: #e0f7fa; /* Light Cyan to match your theme */
+  border-left: 5px solid #00acc1;
+  padding: 15px;
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  position: relative;
+}
+
+.icon { font-size: 1.5rem; }
+
+.message-content p {
+  margin: 5px 0;
+  color: #333;
+}
+
+.message-content small {
+  color: #777;
+  font-size: 0.8rem;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #888;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .sidebar {
     width: 240px;
     background: #1e1e1e;

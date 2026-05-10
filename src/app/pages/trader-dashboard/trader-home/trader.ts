@@ -1,6 +1,6 @@
 import { Component, signal, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TraderApiService } from '../../../services/trader.service';
+import { MarketService } from '../../../services/market'; // Standardized to use your existing MarketService
 
 @Component({
   selector: 'app-trader-dashboard',
@@ -10,7 +10,7 @@ import { TraderApiService } from '../../../services/trader.service';
   styleUrl: './trader.css'
 })
 export class TraderPage implements OnInit {
-  private api = inject(TraderApiService);
+  private marketService = inject(MarketService);
   
   // View & Tab State
   activeModule = 'dashboard';
@@ -27,7 +27,7 @@ export class TraderPage implements OnInit {
   pendingPaymentsCount: number = 0;
 
   constructor() {
-    // Initialize with dummy data (This will be overwritten by API calls in ngOnInit)
+    // Initial dummy data for visual testing before API responses arrive
     this.myTransactions.set([
       { transactionId: 101, orderId: 5001, transactionAmount: 15000, transactionDate: new Date(), transactionStatus: 'PENDING' },
       { transactionId: 102, orderId: 5002, transactionAmount: 8500, transactionDate: new Date(), transactionStatus: 'COMPLETED' }
@@ -41,28 +41,29 @@ export class TraderPage implements OnInit {
 
   ngOnInit() {
     this.loadInitialData();
-    this.updatePendingCount();
   }
 
   /**
-   * Loads core data from the backend services
+   * Loads core data from the backend services via the 8090 Gateway
    */
   loadInitialData() {
-    // 1. Load Approved Listings for the Marketplace
-    this.api.getApprovedListings().subscribe(data => this.listings.set(data));
+    // 1. Get Approved Crops for the Market Linkage module
+    this.marketService.getListingsByStatus('APPROVED').subscribe(data => {
+      this.listings.set(data);
+    });
     
-    // 2. Load Trader's specific orders
-    this.api.getOrdersByTrader(this.traderId).subscribe(data => {
+    // 2. Get Trader's specific orders
+    this.marketService.getOrdersByTrader(this.traderId).subscribe(data => {
       this.myOrders.set(data);
     });
 
-    // 3. Load Audit Logs (From CropMarketController)
-    this.api.getAuditLogs().subscribe(logs => {
+    // 3. Get System Audit Logs for Analysis module
+    this.marketService.getAllLogs().subscribe(logs => {
       this.auditLogs.set(logs);
     });
 
-    // 4. Load Pending Transactions
-    this.api.getTransactionsByStatus('PENDING').subscribe(txs => {
+    // 4. Get Pending Transactions for Finance module
+    this.marketService.getTransactionsByStatus('PENDING').subscribe(txs => {
       this.myTransactions.set(txs);
       this.updatePendingCount();
     });
@@ -79,20 +80,14 @@ export class TraderPage implements OnInit {
   }
 
   /**
-   * Financial Action: Finalize a pending payment
+   * Financial Action: Finalize a pending payment via Transaction API
    */
   finalizeTx(transactionId: number) {
-    console.log('Finalizing payment for ID:', transactionId);
-    
-    this.api.finalizeTransaction(transactionId).subscribe({
-      next: (res) => {
-        // Update local signal state for immediate UI feedback
-        const updated = this.myTransactions().map(tx => 
-          tx.transactionId === transactionId ? { ...tx, transactionStatus: 'COMPLETED' } : tx
-        );
-        this.myTransactions.set(updated);
-        this.updatePendingCount();
+    this.marketService.finalizeTransaction(transactionId).subscribe({
+      next: () => {
+        // Optimistic UI update or refresh all data
         alert('Payment finalized successfully!');
+        this.loadInitialData();
       },
       error: (err) => alert('Payment failed: ' + err.message)
     });
@@ -109,7 +104,7 @@ export class TraderPage implements OnInit {
       status: 'PLACED'
     };
 
-    this.api.placeOrder(orderDto).subscribe({
+    this.marketService.placeOrder(orderDto).subscribe({
       next: (order) => {
         alert('Order Placed Successfully! Initiating Transaction...');
         this.initiatePayment(order, listing.price * listing.quantity);
@@ -127,8 +122,7 @@ export class TraderPage implements OnInit {
       amount: totalAmount
     };
     
-    this.api.initiateTransaction(txRequest).subscribe(tx => {
-      console.log('Transaction Created:', tx);
+    this.marketService.initiateTransaction(txRequest).subscribe(() => {
       this.loadInitialData(); // Refresh all lists and counts
     });
   }
