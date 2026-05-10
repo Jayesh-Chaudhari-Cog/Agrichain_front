@@ -1,43 +1,75 @@
 <div class="dashboard-wrapper">
-    <aside class="sidebar">
-        <h3>AgriChain</h3>
-        <nav>
-            <a class="active">Dashboard</a>
-            <a>Crop Listings</a>
-            <a>Subsidies</a>
-            <a>Settings</a>
-        </nav>
-    </aside>
+  <aside class="sidebar">
+    <h3 class="grad-text">AgriChain</h3>
+    <nav>
+      <a [class.active]="activeTab() === 'dashboard'" (click)="setActiveTab('dashboard')">Dashboard</a>
+      <a [class.active]="activeTab() === 'crops'" (click)="setActiveTab('crops')">Crop Listings</a>
+      <a [class.active]="activeTab() === 'subsidies'" (click)="setActiveTab('subsidies')">Subsidies</a>
+      <a [class.active]="activeTab() === 'settings'" (click)="setActiveTab('settings')">Settings</a>
+    </nav>
+  </aside>
 
-    <main class="main-content">
-        <header class="top-bar">
-            <h1>Welcome, {{ farmerName() }}</h1>
-            <span class="status-pill" [class.pending]="status() === 'PENDING'">
+  <main class="main-content">
+    <header class="top-bar">
+      <div class="section-header-subsection">
+        <p style="color: var(--secondary-text); opacity: 0.7;">Welcome back,</p>
+        <h1 class="grad-text">{{ farmerName() }}</h1>
+      </div>
+      <span class="role-badge shine"
+            [style.background-color]="status() === 'VERIFIED' ? 'var(--farmer-green)' : '#ffa000'">
                 {{ status() }}
             </span>
-        </header>
+    </header>
 
-        <div class="dashboard-grid">
-            <div class="stat-card">
-                <h3>0</h3>
-                <p>Listed Crops</p>
-            </div>
-            <div class="stat-card">
-                <h3>₹ 0.00</h3>
-                <p>Earnings</p>
-            </div>
-            <div class="stat-card">
-                <h3>0</h3>
-                <p>Alerts</p>
-            </div>
-        </div>
+    <div class="dashboard-grid">
+      <div class="stat-card">
+        <h3>{{ listedCropsCount() }}</h3>
+        <p>Listed Crops</p>
+      </div>
+      <div class="stat-card">
+        <h3>₹{{ totalEarnings() | number:'1.2-2' }}</h3>
+        <p>Total Earnings</p>
+      </div>
+      <div class="stat-card">
+        <h3 style="color: var(--accent-dark)">{{ activeAlerts() }}</h3>
+        <p>System Alerts</p>
+      </div>
+    </div>
 
-        <div class="action-card">
-            <h2>Quick Actions</h2>
-            <div class="btn-group">
-                <button class="action-btn">Add New Crop</button>
-                <button class="action-btn">Apply for Subsidy</button>
-            </div>
-        </div>
-    </main>
+    <div class="card-form-section" style="width: 100%; margin-bottom: 2rem;">
+      <h2 class="section-title" style="color: var(--accent-dark)">Quick Actions</h2>
+      <div class="btn-group">
+        <button class="btn btn-primary" (click)="onAddCrop()">+ Add New Crop</button>
+        <button class="btn btn-secondary" (click)="onApplySubsidy()">Apply for Subsidy</button>
+      </div>
+    </div>
+
+    <div class="table-cover">
+      <h2 class="section-title" style="color: var(--accent-dark); padding: 0 10px;">Recent Crop Listings</h2>
+      <table class="a-table">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Crop Name</th>
+          <th>Quantity</th>
+          <th>Est. Price</th>
+          <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of recentListings()">
+          <td>{{ item.id }}</td>
+          <td>{{ item.crop }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ item.price }}</td>
+          <td>
+            <b [style.color]="item.status === 'Approved' ? 'var(--farmer-green)' : '#ffa000'">
+              {{ item.status }}
+            </b>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
 </div>
