@@ -42,30 +42,64 @@
 	</div>
 
 	<div class="table-cover">
-		<h2 class="section-title">Recent Crop Listings</h2>
-		<table class="a-table">
-			<thead>
-				<tr>
-					<th>ID</th>
-					<th>Crop Name</th>
-					<th>Quantity</th>
-					<th>Est. Price</th>
-					<th>Status</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr *ngFor="let item of recentListings()">
-					<td>{{ item.id }}</td>
-					<td>{{ item.crop }}</td>
-					<td>{{ item.quantity }}</td>
-					<td>{{ item.price }}</td>
-					<td>
-						<b [style.color]="item.status === 'Approved' ? 'var(--farmer-green)' : '#ffa000'">
-							{{ item.status }}
-						</b>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+  <h2 class="section-title">Recent Crop Listings</h2>
+  <table class="a-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Crop Name</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="recentListings().length === 0">
+        <td colspan="5" style="text-align: center; padding: 20px;">No listings found.</td>
+      </tr>
+
+      <tr *ngFor="let item of recentListings()">
+        <td>#{{ item.listingId }}</td>
+        <td>{{ item.cropType }}</td> <td>{{ item.quantity }} Kg</td>
+        <td>₹{{ item.price }} /kg</td>
+        <td>
+          <span class="status-pill" [ngClass]="item.status.toLowerCase()">
+      {{ item.status }}
+    </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+  <div class="form-overlay" *ngIf="showAddForm()">
+    <div class="add-crop-modal">
+      <h2 class="grad-text">List New Crop</h2>
+      
+      <div class="form-group">
+        <label>Crop Type</label>
+        <input type="text" [(ngModel)]="newCrop.cropType" placeholder="e.g. Paddy, Corn">
+      </div>
+
+      <div class="form-group">
+        <label>Quantity (Quintal)</label>
+        <input type="number" [(ngModel)]="newCrop.quantity" placeholder="0">
+      </div>
+
+      <div class="form-group">
+        <label>Price (per Quintal)</label>
+        <input type="number" [(ngModel)]="newCrop.price" placeholder="₹">
+      </div>
+
+      <div class="form-group">
+        <label>Location</label>
+        <input type="text" [(ngModel)]="newCrop.location" placeholder="Enter District">
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-primary" (click)="submitCrop()">Submit Listing</button>
+        <button class="btn btn-cancel" (click)="showAddForm.set(false)">Cancel</button>
+      </div>
+    </div>
+  </div>
 </div>

@@ -73,3 +73,34 @@
   from { transform: scale(0.9); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
+
+/* Base style for all status badges */
+.status-pill {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  display: inline-block;
+  min-width: 100px;
+  text-align: center;
+}
+
+/* Green for Approved / Validated */
+.status-pill.approved, 
+.status-pill.validated {
+ /* background-color: #d8f3dc; /* Light Green */
+  color: #0d6717;            /* Dark Green Text */
+}
+
+/* Yellow for Pending */
+.status-pill.pending {
+  /*background-color: #fff3b0; /* Light Yellow */
+  color: rgb(223, 190, 24);            /* Dark Brown/Yellow Text */
+}
+
+/* Red for Rejected */
+.status-pill.rejected {
+ /* background-color: #ffe5ec; /* Light Red */
+  color: #c91818;            /* Dark Red Text */
+}
