@@ -3,14 +3,16 @@
     position: fixed;
     bottom: 2rem;
     left: 1rem;
-    width: 440px;
+    width: clamp(280px, 100%, 440px);
+    min-width: 280px;
+    min-height: 2rem;
     padding: 0.8rem 0.5rem;
     border-radius: 1rem;
     color: white;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 1.2rem;
+    font-size: clamp(0.8rem, 5vw, 1.2rem);
     z-index: 90;
     animation: slideIn 0.5s cubic-bezier(0.18, 0.9, 0.3, 1.3) forwards;
 }
@@ -24,8 +26,18 @@
 .toast.info { 
     background-color: #3498db;
 }
-
+.toast-message {
+    max-width: calc(100% - 3.5rem);
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
 .toast-close {
+    width: 2.5rem;
+    aspect-ratio: 1 / 1;
     background: none;
     padding: 0.4rem 0.5rem;
     border-radius: 50%;
@@ -50,22 +62,8 @@
     }
 }
 
-@media(max-width: 600px) {
-    .toast {
-        font-size: 1.1rem;
-        width: 380px;
-    }
-}
-@media(max-width: 450px) {
-    .toast {
-        width: 300px;
-        font-size: 1rem;
-    }
-}
 @media(max-width: 350px) {
     .toast {
         left: 0.5rem;
-        width: 280px;
-        font-size: 0.8rem;
     }
 }

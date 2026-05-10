@@ -21,7 +21,9 @@
     padding: 0;
     box-sizing: border-box;
 }
-
+:root {
+    color-scheme: light;
+}
 body.farmer {
     --accent-color: #97cd8f;
     --accent-transparent: #97cd8f40;
@@ -38,14 +40,14 @@ body.officer {
     --accent-color: #00ACC1;
     --accent-transparent: #00ACC140;
     --accent-dark: #007FAA;
-    --accent-bg: #B2EBF2;
+    --accent-bg: #f9ffff;
 }
 body.admin {
     --accent-color: #ba6eff;
     --accent-transparent: #ba6eff40; 
     --accent-text: #37214C;
     --accent-dark: #6c1fb0;
-    --accent-bg: #ffeeff;
+    --accent-bg: #fff9ff;
 }
 
 body, html, app-root {
@@ -53,6 +55,7 @@ body, html, app-root {
     height: 100%;
     min-width: 300px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--primary-text);
 }
 
 main {
@@ -436,7 +439,7 @@ tr:hover {
         width: 2rem;
     }
     .btn {
-        padding: 0.2rem 0.4rem;
+        padding: 0.3rem 0.6rem;
         font-size: 1rem;
     }
     .table-cover {
