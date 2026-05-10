@@ -66,7 +66,6 @@ export class MainHeader implements OnInit, OnDestroy {
 
 	showNotifications() {
 		this.showNoti.set(true);
-		// this.newNoti.set(false);
 	}
 	hideNotifications() {
 		this.showNoti.set(false);

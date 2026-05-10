@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ReportService } from '../../../services/report.service';
@@ -6,6 +6,7 @@ import { Report, ReportDTO } from '../../../models/dto.model';
 import { Loader } from "../../../common-components/loader/loader";
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
+import { PopupService } from '../../../services/popup.service';
 
 @Component({
 	selector: 'admin-reports',
@@ -16,6 +17,8 @@ import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 export class AdminReports implements OnInit {
 	reports = signal<Report[]>([]);
 	loading = signal(false);
+
+	private popupService = inject(PopupService);
 
 	faEdit = faEdit;
 	faDelete = faTrash;
@@ -81,8 +84,15 @@ export class AdminReports implements OnInit {
 		}
 	}
 
-	deleteReport(id: number) {
-		if (confirm('Are you sure you want to delete this report?')) {
+	async deleteReport(id: number) {
+		const confirmed = await this.popupService.confirm({
+			title: 'Delete Report',
+			message: 'Are you sure you want to delete this report? This action cannot be undone.',
+			confirmText: 'Delete',
+			cancelText: 'Cancel',
+			type: 'danger'
+		});
+		if (confirmed) {
 			this.reportService.deleteReport(id).subscribe({
 				next: () => this.fetchReports(),
 				error: (err) => console.error('Error deleting report', err)

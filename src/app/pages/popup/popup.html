@@ -2,9 +2,15 @@
     <div class="popup-overlay" (click)="popupService.onCancel()">
         <div class="popup-dialog" [class]="popupService.config().type" (click)="$event.stopPropagation()">
             <div class="popup-icon">
-                @if (popupService.config().type === 'danger') { ⚠️ }
-                @if (popupService.config().type === 'warning') { 🟡 }
-                @if (popupService.config().type === 'info') { ℹ️ }
+                @if (popupService.config().type === 'danger') {
+                    <fa-icon [icon]="faAlert" style="color: red;"/>
+                }
+                @if (popupService.config().type === 'warning') {
+                    <fa-icon [icon]="faWarning" style="color: yellow;"/>
+                }
+                @if (popupService.config().type === 'info') {
+                    <fa-icon [icon]="faInfo" />
+                }
             </div>
             <h3 class="popup-title">{{ popupService.config().title }}</h3>
             <p class="popup-message">{{ popupService.config().message }}</p>
