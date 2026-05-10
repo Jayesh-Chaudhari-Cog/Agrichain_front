@@ -26,4 +26,8 @@ export class NotificationService {
 	deleteNotification(id: number): Observable<any> {
 		return this.http.delete(`${this.baseUrl}/delete/${id}`);
 	}
+
+	updateStatus(id: number): Observable<any> {
+		return this.http.put(`${this.baseUrl}/update-status/${id}`, {});
+	}
 }

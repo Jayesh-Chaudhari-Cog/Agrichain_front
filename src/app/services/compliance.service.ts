@@ -1,36 +1,36 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ComplianceDTO } from '../models/compliance.model';
+import { ComplianceDTO } from '../models/dto.model';
+import { API_URL, COMPLIANCE_PATH } from '../elements/constants'; // Import your new constants
 
 @Injectable({
   providedIn: 'root'
 })
 export class ComplianceService {
-  // Ensure this matches your Spring Boot server port
-  private apiUrl = 'http://localhost:8080/api/compliances';
+  private http = inject(HttpClient);
+  
+  // This combines http://localhost:8090/ + api/compliances
+  // Result: http://localhost:8090/api/compliances (No double slash!)
+  private readonly apiUrl = `${API_URL}${COMPLIANCE_PATH}`;
 
-  constructor(private http: HttpClient) {}
-
-  /**
-   * Links a new compliance record to a specific audit
-   * Matches backend: @PostMapping("/create/{auditId}")
-   */
   addComplianceToAudit(auditId: number, complianceDto: ComplianceDTO): Observable<ComplianceDTO> {
     return this.http.post<ComplianceDTO>(`${this.apiUrl}/create/${auditId}`, complianceDto);
   }
 
-  /**
-   * Fetches all compliance records for the history table
-   */
   getAllCompliances(): Observable<ComplianceDTO[]> {
     return this.http.get<ComplianceDTO[]>(`${this.apiUrl}/all`);
   }
 
-  /**
-   * Optional: Fetches compliances specifically for one audit
-   */
-  getCompliancesByAudit(auditId: number): Observable<ComplianceDTO[]> {
-    return this.http.get<ComplianceDTO[]>(`${this.apiUrl}/audit/${auditId}`);
+  getComplianceById(id: number): Observable<ComplianceDTO> {
+    return this.http.get<ComplianceDTO>(`${this.apiUrl}/${id}`);
+  }
+
+  updateCompliance(id: number, complianceDto: ComplianceDTO): Observable<ComplianceDTO> {
+    return this.http.put<ComplianceDTO>(`${this.apiUrl}/${id}`, complianceDto);
+  }
+
+  deleteCompliance(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

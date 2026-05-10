@@ -5,7 +5,7 @@ import { AuthService } from '../../services/auth-service';
 export const guestGuard: CanActivateFn = (route, state) => {
     const authService = inject(AuthService);
     const router = inject(Router);
-    const role = authService.loggedInUser()?.role?.toLowerCase();
+    const role = authService.currentUser()?.role?.toLowerCase();
 
     if (authService.isLoggedIn()) {
         const targetPath = `/dashboard/${role}`;

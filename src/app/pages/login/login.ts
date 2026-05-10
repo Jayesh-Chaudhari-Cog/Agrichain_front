@@ -1,16 +1,16 @@
 import { Component, signal, inject, computed } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { WebNameElement } from "../../elements/web-name";
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth-service';
 import { ThemeService } from '../../services/theme';
-import { LOGIN_INFO } from '../../elements/constants';
-import { LoggedInUser } from '../../models/user.model';
 import { ToastService } from '../../services/toast-service';
+import { faExclamation, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 
 @Component({
 	selector: 'app-login',
-	imports: [RouterLink, WebNameElement, FormsModule],
+	imports: [WebNameElement, FormsModule, FaIconComponent],
 	templateUrl: './login.html',
 	styleUrl: './login.css'
 })
@@ -19,6 +19,9 @@ export class LoginPage {
 	private authService = inject(AuthService);
 	private toast = inject(ToastService);
 	themeService = inject(ThemeService);
+
+	faInfo = faExclamation;
+	faCheck = faCheck;
 
 	account_method = signal("login");
 	constructor() {
@@ -34,6 +37,27 @@ export class LoginPage {
 		confirmPassword: ''
 	};
 
+	validPass = signal(false);
+	check1 = signal(false);
+	check2 = signal(false);
+	check3 = signal(false);
+	check4 = signal(false);
+	check5 = signal(false);
+
+	validatePassword() {
+		const password = this.formData.password;
+
+		this.check1.set(password.length >= 8);
+		this.check2.set(/[A-Z]/.test(password));
+		this.check3.set(/[a-z]/.test(password));
+		this.check4.set(/[0-9]/.test(password));
+		this.check5.set(/[!@#$%^&*(),.?":{}|<>]/.test(password));
+
+		const isValid = this.check1() && this.check2() && this.check3() && this.check4() && this.check5();
+
+		this.validPass.set(isValid);
+	}
+
 	onSubmit() {
 		const payload = {
 			...this.formData,
@@ -44,7 +68,8 @@ export class LoginPage {
 			if(payload.email === "") {
 				this.toast.show('Please enter Email', 'alert');
 				return;
-			} else if(payload.password === "") {
+			}
+			if(payload.password === "") {
 				this.toast.show('Please enter password', 'alert');
 				return;
 			}
@@ -54,11 +79,11 @@ export class LoginPage {
 				password: payload.password
 			}).subscribe({
 				next: () => {
-					const loggedUser = this.authService.loggedInUser();
-					if(loggedUser) {
-						this.themeService.themeChange(loggedUser.role);
+					const currentUser = this.authService.currentUser();
+					if(currentUser) {
+						this.themeService.themeChange(currentUser.role);
 					}
-					this.router.navigate([`/dashboard/${loggedUser?.role.toLocaleLowerCase()}`]);
+					this.router.navigate([`/dashboard/${currentUser?.role.toLocaleLowerCase()}`]);
 				},
 				error: (err) => {
 					console.error("Login failed", err);
@@ -72,6 +97,23 @@ export class LoginPage {
 				}
 			});
 		} else {
+			if(payload.email === "") {
+				this.toast.show('Please enter Email', 'alert');
+				return;
+			}
+			if(payload.phone === "") {
+				this.toast.show('Please enter Phone number', 'alert');
+				return;
+			}
+			if(payload.password === "") {
+				this.toast.show('Please enter password', 'alert');
+				return;
+			}
+			if(this.validPass()) {
+				this.toast.show('this Password is not valid', 'alert');
+				return;
+			}
+
 			if (this.formData.password !== this.formData.confirmPassword) {
 				this.toast.show('Passwords do not match!', 'alert');
 				return;

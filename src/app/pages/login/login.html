@@ -57,8 +57,73 @@
                 </div>
             }
             <div class="input-box">
-                <label for="password" class="input-label">Password:</label>
-                <input type="password" id="password" name="password" class="input-field" [(ngModel)]="formData.password" required>
+                <label for="password" class="input-label">
+                    Password: @if(account_method() === 'signup') {
+                        <span class="passVali" [class.notValid]="!validPass()" [class.valid]="validPass()">
+                            @if(validPass()) {
+                                <fa-icon [icon]="faCheck"/>
+                            } @else {
+                                <fa-icon [icon]="faInfo" />
+                            }
+                            <div class="validation-info">
+                                <p class="pass-check" [class.valid]="check1()">
+                                    <span>
+                                        @if(check1()) {
+                                            <fa-icon [icon]="faCheck"/>
+                                        } @else {
+                                            <fa-icon [icon]="faInfo" />
+                                        }
+                                    </span> Atleast 8 characters
+                                </p>
+                                <p class="pass-check" [class.valid]="check2()">
+                                    <span >
+                                        @if(check2()) {
+                                            <fa-icon [icon]="faCheck" />
+                                        } @else {
+                                            <fa-icon [icon]="faInfo" />
+                                        }
+                                    </span> 
+                                    Atleast contain 1 Uppercase (A - Z)
+                                </p>
+                                <p class="pass-check" [class.valid]="check3()">
+                                    <span >
+                                        @if(check3()) {
+                                            <fa-icon [icon]="faCheck"/>
+                                        } @else {
+                                            <fa-icon [icon]="faInfo" />
+                                        }
+                                    </span> 
+                                    Atleast contain 1 Lowercase (a - z)
+                                </p>
+                                <p class="pass-check" [class.valid]="check4()">
+                                    <span>
+                                        @if(check4()) {
+                                            <fa-icon [icon]="faCheck"/>
+                                        } @else {
+                                            <fa-icon [icon]="faInfo" />
+                                        }
+                                    </span> 
+                                    Atleast contain 1 Number (0 - 9)
+                                </p>
+                                <p class="pass-check" [class.valid]="check5()">
+                                    <span >
+                                        @if(check5()) {
+                                            <fa-icon [icon]="faCheck"/>
+                                        } @else {
+                                            <fa-icon [icon]="faInfo"/>
+                                        }
+                                    </span> 
+                                    Atleast contain 1 Special Character
+                                </p>
+                            </div>
+                        </span>
+                    }
+                    
+                </label>
+                <input type="password" id="password" name="password" class="input-field" 
+                    [(ngModel)]="formData.password"
+                    (ngModelChange)="validatePassword()"
+                    required>
             </div>
             @if(account_method() === 'signup') {
                 <div class="input-box">

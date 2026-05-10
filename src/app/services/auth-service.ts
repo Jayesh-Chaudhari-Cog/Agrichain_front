@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs';
-import { LoggedInUser } from '../models/user.model';
-import { API_URL, TOKEN_KEY, LOGIN_INFO, USER_PATH } from '../elements/constants';
+import { User } from '../models/user.model';
+import { API_URL, TOKEN_KEY, USER_PATH, USER_INFO } from '../elements/constants';
 import { ThemeService } from './theme';
 import { ToastService } from './toast-service';
 
@@ -16,16 +16,18 @@ export class AuthService {
 	private themeService = inject(ThemeService);
 	private toast = inject(ToastService);
 
-	private _loggedInUser = signal<LoggedInUser | null>(null);
-	readonly loggedInUser = this._loggedInUser.asReadonly();
+	private _currentUser = signal<User | null>(null);
+	readonly currentUser = this._currentUser.asReadonly();
 
 	onLogin(credentials: any) {
 		return this.http.post<{ token: string, user?: any }>(`${API_URL}${USER_PATH}/login`, credentials).pipe(
 			tap(response => {
 				this.saveToken(response.token);
-				this.decodeAndStore(response.token);
+				console.log("token", response.token);
+				console.log("user", response.user);
 				if (response.user) {
-					localStorage.setItem('currentUser', JSON.stringify(response.user));
+					this._currentUser.set(response.user);
+					localStorage.setItem(USER_INFO, JSON.stringify(response.user));
 				}
 			})
 		);
@@ -35,21 +37,21 @@ export class AuthService {
 		return this.http.post(`${API_URL}${USER_PATH}/register`, userData);
 	}
 
+	updateUser(userData: any) {
+		return this.http.patch(`${API_URL}${USER_PATH}/update/${userData.id}`, userData).pipe(
+			tap(() => {
+				localStorage.setItem(USER_INFO, JSON.stringify(userData));
+				this._currentUser.set(userData);
+			})
+		);
+	}
+
 	private saveToken(token: string) {
 		localStorage.setItem(TOKEN_KEY, token);
 	}
 
 	private decodeAndStore(token: string) {
 		const decoded = this.jwtHelper.decodeToken(token);
-
-		const loggedIn: LoggedInUser = {
-			email: decoded.sub || decoded.email,
-			role: decoded.role
-		};
-
-		this._loggedInUser.set(loggedIn);
-
-		localStorage.setItem(LOGIN_INFO, JSON.stringify(loggedIn));
 	}
 
 	isLoggedIn(): boolean {
@@ -59,10 +61,9 @@ export class AuthService {
 
 	logout(shouldRedirect: boolean = true) {
 		localStorage.removeItem(TOKEN_KEY);
-		localStorage.removeItem(LOGIN_INFO);
-		localStorage.removeItem('currentUser');
+		localStorage.removeItem(USER_INFO);
 
-		this._loggedInUser.set(null);
+		this._currentUser.set(null);
 
 		if(shouldRedirect)
 			this.router.navigate(['/login']);
@@ -70,15 +71,15 @@ export class AuthService {
 	
 	constructor() {
 		const token = localStorage.getItem(TOKEN_KEY);
-		const savedUser = localStorage.getItem(LOGIN_INFO);
-		if (token && savedUser) {
+		const savedUserInfo = localStorage.getItem(USER_INFO);
+		if (token && savedUserInfo) {
 			if(this.jwtHelper.isTokenExpired(token)) {
 				this.toast.show('Session Expired! Login again', 'alert')
 				this.logout();
 			}
 			try {
-				this._loggedInUser.set(JSON.parse(savedUser));
-				const currentUser = this.loggedInUser();
+				this._currentUser.set(JSON.parse(savedUserInfo));
+				const currentUser = this._currentUser();
 				if (currentUser) {
 					this.themeService.themeChange(currentUser.role);
 				}

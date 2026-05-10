@@ -1,18 +1,11 @@
 <div class="a-page admin-panel">
 	<section class="section-header">
 		<div class="section-header-subsection">
-			<h1>Reports</h1>
+			<h1 class="grad-text">Reports</h1>
 			<p>Create & Manage Reports</p>
 		</div>
-		<button class="btn btn-primary" (click)="openCreateForm()">Generate Report</button>
+		<button class="btn btn-primary" (click)="openCreateForm()" title="Generate Report">Generate Report</button>
 	</section>
-
-	<div class="admin-cards">
-		<article class="report-card">
-			<strong>{{ reports().length }}</strong>
-			<span>Total Reports</span>
-		</article>
-	</div>
 
 	@if (showForm()) {
 		<section class="card-form-section">
@@ -34,8 +27,11 @@
 		</section>
 	}
 
-	<section class="report-list">
-		<h2>Recent reports</h2>
+	<section class="table-cover report-list">
+		<div class="table-cover-header report-list-header">
+			<h2>Recent reports</h2>
+			<p>Total: <strong>{{ reports().length }}</strong></p>
+		</div>
 		@if (loading()) {
 			<loader />
 		} @else {
@@ -54,12 +50,12 @@
 							<td>{{ report.metrics }}</td>
 							<td>{{ report.generatedDate }}</td>
 							<td>
-								<button class="btn btn-info" (click)="openEditForm(report)">
+								<button class="btn btn-info btn-icon" (click)="openEditForm(report)" title="Edit Report">
 									<fa-icon [icon]="faEdit" />
 								</button>
 							</td>
 							<td>
-								<button class="btn btn-danger" (click)="deleteReport(report.reportId)">
+								<button class="btn btn-danger btn-icon" (click)="deleteReport(report.reportId)" title="Delete Report">
 									<fa-icon [icon]="faDelete" />
 								</button>
 							</td>

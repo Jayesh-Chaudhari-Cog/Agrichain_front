@@ -1,36 +1,77 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AuditDTO, AuditScope, AuditStatus } from '../models/audit.model';
+import { AuditDTO } from '../models/dto.model';
+import { AuditScope, AuditStatus } from '../models/enum.model';
+import { API_URL, AUDIT_PATH } from '../elements/constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuditService {
-  private apiUrl = 'http://localhost:8080/api/audits'; // Update port if needed
+  private http = inject(HttpClient);
+  private readonly apiUrl = `${API_URL}${AUDIT_PATH}`;
 
-  constructor(private http: HttpClient) {}
+  constructor() {
+    console.log('AuditService initialized with apiUrl:', this.apiUrl);
+  }
 
+  /**
+   * Fetch summary statistics for the Auditor Home dashboard cards.
+   */
+  getAuditStats(): Observable<any> {
+    const url = `${this.apiUrl}/stats`;
+    console.log('Fetching audit stats from:', url);
+    return this.http.get(`${url}`);
+  }
+
+  /**
+   * Create a new audit record.
+   * This will be intercepted by authInterceptor to add the Bearer token.
+   */
   createAudit(auditDto: AuditDTO): Observable<AuditDTO> {
     return this.http.post<AuditDTO>(`${this.apiUrl}/create`, auditDto);
   }
 
+  /**
+   * Fetch all audit records from the backend.
+   */
   getAllAudits(): Observable<AuditDTO[]> {
-    return this.http.get<AuditDTO[]>(`${this.apiUrl}/all`);
+    const url = `${this.apiUrl}/all`;
+    console.log('Fetching all audits from:', url);
+    const token = localStorage.getItem('agrichain_token');
+    console.log('Token exists:', !!token);
+    return this.http.get<AuditDTO[]>(url);
   }
 
+  /**
+   * Fetch a single audit by its ID.
+   */
   findAuditById(id: number): Observable<AuditDTO> {
-    return this.http.get<AuditDTO>(`${this.apiUrl}/${id}`);
+    return this.http.get<AuditDTO>(`${this.apiUrl}/get/${id}`);
   }
 
-  updateAudit(id: number, auditDto: AuditDTO): Observable<AuditDTO> {
-    return this.http.put<AuditDTO>(`${this.apiUrl}/${id}`, auditDto);
-  }
+  /**
+   * Update an existing audit record.
+   */
+  // In audit.service.ts
+updateAudit(id: number, auditData: AuditDTO): Observable<AuditDTO> {
+  // Remove the '/update' from the string
+  return this.http.put<AuditDTO>(`${this.apiUrl}/${id}`, auditData);
+}
 
-  deleteAudit(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
-  }
+  /**
+   * Delete an audit record by ID.
+   */
+  // In audit.service.ts
+deleteAudit(id: number): Observable<void> {
+  // Remove the '/delete' part
+  return this.http.delete<void>(`${this.apiUrl}/${id}`);
+}
 
+  /**
+   * Helper methods for specific filtering
+   */
   getAuditsByOfficer(officerId: number): Observable<AuditDTO[]> {
     return this.http.get<AuditDTO[]>(`${this.apiUrl}/officer/${officerId}`);
   }

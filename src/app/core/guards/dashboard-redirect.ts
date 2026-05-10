@@ -12,7 +12,7 @@ export class DashboardRedirectComponent implements OnInit {
     private router = inject(Router);
 
     ngOnInit() {
-        const role = this.authService.loggedInUser()?.role?.toLowerCase();
+        const role = this.authService.currentUser()?.role?.toLowerCase();
         
         if (role) {
             this.router.navigate([`/dashboard/${role}`]);
