@@ -34,21 +34,9 @@ export class MainHeader implements OnInit, OnDestroy {
     }
 
 	startPolling() {
-        const currentUser = this.authService.currentUser();
-        if (!currentUser) return;
-
-        this.pollSubscription = timer(0, 30000).pipe(
-            switchMap(() => this.notificationService.getAllNotifications())
-        ).subscribe({
-            next: (data) => {
-                const hasUnread = data.some(n => 
-                    n.userId === currentUser.id && 
-                    n.status === 'UNREAD'
-                );
-                this.newNoti.set(hasUnread);
-            },
-            error: (err) => console.error('Polling error', err)
-        });
+        this.pollSubscription = timer(0, 30000).subscribe(() => {
+			this.checkUnreadStatus();
+		});
     }
 
 	checkUnreadStatus() {
