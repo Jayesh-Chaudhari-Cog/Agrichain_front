@@ -3,6 +3,7 @@ export const API_URL = 'http://localhost:8090/';
 export const TOKEN_KEY = 'agrichain_token';
 export const USER_INFO = "currentUser"
 
+export const FARMER_DASHBOARD = '/dashboard/farmer/';
 export const ADMIN_DASHBOARD = '/dashboard/admin/';
 export const OFFICER_DASHBOARD = '/dashboard/officer/';
 export const TRADER_DASHBOARD = '/dashboard/trader/';
