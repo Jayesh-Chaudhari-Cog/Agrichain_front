@@ -3,6 +3,9 @@
     <div class="header-user-info">
         <button class="btn btn-bell" [class.active_noti]="this.showNoti() == true" (click)="toggleNotifications()">
             <fa-icon [icon]="faBell" class="bell-icon"/>
+            @if(newNoti()) {
+                <div class="newDot"></div>
+            }
         </button>
         <div class="header-profile" [routerLink]="'/dashboard/profile'">
             <p>{{ user()?.name }}</p>
@@ -15,5 +18,5 @@
 </header>
 
 @if(this.showNoti()) {
-    <notifications-pop (close)="toggleNotifications()"/>
+    <notifications-pop (close)="toggleNotifications()" (statusChanged)="checkUnreadStatus()"/>
 }

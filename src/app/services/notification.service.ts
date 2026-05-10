@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Notification, NotificationDTO } from '../models/dto.model';
@@ -9,6 +9,7 @@ import { API_URL, NOTIFICATION_PATH } from '../elements/constants';
 })
 export class NotificationService {
 	private baseUrl = `${API_URL}${NOTIFICATION_PATH}`;
+
 	constructor(private http: HttpClient) { }
 
 	getAllNotifications(): Observable<Notification[]> {

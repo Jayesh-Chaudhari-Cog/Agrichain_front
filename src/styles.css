@@ -244,11 +244,11 @@ app-welcome, app-login {
 }
 .btn-read:disabled {
     background-color: var(--accent-color) !important;
+    color: darkgray !important;
 }
 .btn-read:hover {
-    background-color: var(--accent-color) !important;
-    box-shadow: 0 0 0.4rem var(--accent-color);
-    color: black;
+    background-color: black !important;
+    box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
 }
 
 .grad-text {
@@ -429,12 +429,12 @@ tr:hover {
         padding: 0.8rem;
         gap: 1.5rem;
     }
-    .btn-logout, .btn-info.btn-icon, .btn-danger.btn-icon, .btn-success.btn-icon {
+    .btn-logout, .btn-info.btn-icon, .btn-danger.btn-icon, .btn-success.btn-icon, .btn-bell {
         width: 2rem;
     }
     .btn {
         padding: 0.2rem 0.4rem;
-        font-size: 0.9rem;
+        font-size: 1rem;
     }
     .table-cover {
         padding: 0.5rem;
@@ -447,13 +447,6 @@ tr:hover {
 @media(max-width: 380px) {
     * {
         --font-size: 0.9rem;
-    }
-    .btn-logout, .btn-info.btn-icon, .btn-danger.btn-icon, .btn-success.btn-icon {
-        width: 1.6rem;
-    }
-    .btn {
-        padding: 0.1rem 0.2rem;
-        font-size: 0.7rem;
     }
     th, td {
         padding: 0.1rem 0.2rem;

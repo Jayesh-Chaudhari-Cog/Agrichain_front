@@ -34,6 +34,7 @@ export class NotificationPop {
     loading = signal(false);
 
     @Output() close = new EventEmitter<void>();
+    @Output() statusChanged = new EventEmitter<void>();
 
     onCloseClick() {
         this.close.emit();
@@ -77,6 +78,7 @@ export class NotificationPop {
                     list.map(n => n.notificationID === id ? { ...n, status: NotificationStatus.READ } : n)
                 );
                 this.toast.show('Marked as read', 'success');
+                this.statusChanged.emit();
             },
             error: (err) => {
                 this.toast.show('Failed to update status', 'alert');

@@ -39,6 +39,7 @@ header {
 }
 
 .btn-bell {
+    position: relative;
     width: 2.5rem;
     aspect-ratio: 1 / 1;
     display: flex;
@@ -64,6 +65,28 @@ header {
         animation: bell 1s infinite;
     }
 }
+
+.newDot {
+    position: absolute;
+    width: 0.4rem;
+    top: 10%;
+    left: 65%;
+    aspect-ratio: 1 / 1;
+    background-color: rgb(255, 100, 100);
+    border-radius: 50%;
+    box-shadow: 0 0 0rem 2px rgba(255, 100, 100, 0.3);
+    animation: dotAni 0.5s infinite;
+}
+@keyframes dotAni {
+    0%, 100% {
+        box-shadow: 0 0 0.05rem 2px rgba(255, 100, 100, 0.3);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 0.1rem 2px rgba(255, 100, 100, 0.3);
+        transform: scale(1.05);
+    }
+}
 @keyframes bell {
     0%, 100% {
         transform: rotate(0deg);
@@ -87,4 +110,16 @@ header {
         transform: scale(0.95);
     }
 
+}
+
+@media(max-width: 480px) {
+    header {
+        font-size: 1.5rem;
+    }
+    .header-user-info, .header-profile {
+        font-size: 1rem;
+    }
+    .header-user-info {
+        gap: 0.2rem;
+    }
 }
