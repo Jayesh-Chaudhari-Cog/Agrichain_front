@@ -24,19 +24,19 @@
 
 body.farmer {
     --accent-color: #97cd8f;
-    --accent-transparent: #9fcb9835;
-    --accent-dark: #3b7841;
-    --accent-bg: #b5ce98;
+    --accent-transparent: #97cd8f40;
+    --accent-dark: #0f7a1a;
+    --accent-bg: #f9fff9;
 }
 body.trader {
     --accent-color: #9aa5ff;
     --accent-transparent: #9aa5ff40;
     --accent-dark: #0f2f88;
-    --accent-bg: #EFF6FF;
+    --accent-bg: #f9f9ff;
 }
 body.officer {
     --accent-color: #00ACC1;
-    --accent-transparent: #00ACC135;
+    --accent-transparent: #00ACC140;
     --accent-dark: #007FAA;
     --accent-bg: #B2EBF2;
 }
@@ -45,7 +45,7 @@ body.admin {
     --accent-transparent: #ba6eff40; 
     --accent-text: #37214C;
     --accent-dark: #6c1fb0;
-    --accent-bg: #f5eeff;
+    --accent-bg: #ffeeff;
 }
 
 body, html, app-root {
@@ -125,7 +125,7 @@ app-welcome, app-login {
     padding: 0 0.5rem;
     margin-top: 1rem;
 }
-.card-form-section {
+.card-section {
 	width: clamp(300px, 100%, 500px);
 	min-width: 300px;
 	background-color: var(--primary-color);
@@ -287,6 +287,10 @@ app-welcome, app-login {
     position: relative;
     padding: 1rem;
     background-color: var(--primary-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.5rem;
 	box-shadow: 0 2px 0.5rem rgba(0, 0, 0, 0.3);
     overflow-x: auto;
 }
@@ -352,7 +356,7 @@ tr:hover {
 	justify-content: center;
 	background-color: var(--accent-bg);
 	border: 1px solid var(--accent-color);
-	border-top: 3px solid var(--accent-color);
+	border-top: 4px solid var(--accent-color);
 	color: var(--accent-dark);
 	box-shadow: 0 2px 0.1rem rgba(0, 0, 0, 0.3);
     transition: all 0.2s;
@@ -361,13 +365,12 @@ tr:hover {
     transform: translateY(-4px);
     box-shadow: 0 4px 0.1rem rgba(0, 0, 0, 0.3);
 }
-.summary-card span {
-	display: block;
-	font-size: 0.95rem;
+.summary-card p {
+	font-size: 1rem;
 	margin-bottom: 0.6rem;
 }
 .summary-card strong {
-	font-size: 2rem;
+	font-size: clamp(1.2rem, 5vw, 2rem);
 	line-height: 1;
 }
 /* Role Badge */
