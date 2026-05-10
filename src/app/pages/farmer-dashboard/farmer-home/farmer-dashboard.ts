@@ -1,6 +1,6 @@
 import { Component, signal, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../services/auth-service';
+import { AuthService } from '../../../services/auth-service';
 
 @Component({
   selector: 'app-farmer-dashboard',
