@@ -1,5 +1,5 @@
 
-import { ADMIN_DASHBOARD, AUDITOR_DASHBOARD, COMPLIANCE_DASHBOARD, OFFICER_DASHBOARD, TRADER_DASHBOARD } from "../elements/constants";
+import { ADMIN_DASHBOARD, AUDITOR_DASHBOARD, COMPLIANCE_DASHBOARD, FARMER_DASHBOARD, OFFICER_DASHBOARD, TRADER_DASHBOARD } from "../elements/constants";
 
 
 export interface NavLink {
@@ -10,7 +10,9 @@ export interface NavLink {
 
 export const ROLE_CONFIG: Record<string, NavLink[]> = {
     FARMER: [
-        { label: 'Home', path: '/dashboard/farmer/home' }
+        { label: 'Home', path: `${FARMER_DASHBOARD}home` },
+        { label: 'My Listings', path: `${FARMER_DASHBOARD}listings` },
+        { label: 'Subsidies', path: `${FARMER_DASHBOARD}subsidies` }
     ],
     OFFICER: [
         { label: 'Home', path: `${OFFICER_DASHBOARD}home` },

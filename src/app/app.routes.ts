@@ -10,7 +10,7 @@ import { TraderOrders } from './pages/trader-dashboard/trader-orders/trader-orde
 import { PublicLayoutComponent } from './public-layout';
 import { AuthLayoutComponent } from './auth-layout';
 import { RegisterComponent } from './pages/register/register';
-import { FarmerDashboardPage } from './pages/farmer-dashboard/farmer-dashboard'; // Added Dashboard Import
+import { FarmerDashboardPage } from './pages/farmer-dashboard/farmer-home/farmer-dashboard'; // Added Dashboard Import
 import { OfficerHome } from './pages/marketOfficer-dashboard/officer-home/officer-home';
 import { OfficerInventory } from './pages/marketOfficer-dashboard/officer-inventory/officer-inventory';
 import { OfficerHistory } from './pages/marketOfficer-dashboard/officer-history/officer-history';
@@ -27,6 +27,8 @@ import { authGuard } from './core/guards/auth-guard';
 import { guestGuard } from './core/guards/guest-guard';
 import { roleGuard } from './core/guards/role-guard';
 import { DashboardRedirectComponent } from './core/guards/dashboard-redirect';
+import { FarmerListings } from './pages/farmer-dashboard/farmer-listings/farmer-listings';
+import { FarmerSubsidy } from './pages/farmer-dashboard/farmer-subsidy/farmer-subsidy';
 
 export const routes: Routes = [
     {
@@ -67,6 +69,8 @@ export const routes: Routes = [
                 children: [
                     { path: 'home', component: FarmerDashboardPage },
                     { path: 'register', component: RegisterComponent },
+                    { path: 'listings', component: FarmerListings },
+                    { path: 'subsidies', component: FarmerSubsidy },
                     { path: '', pathMatch: 'full', redirectTo: 'home' }
                 ]
             },

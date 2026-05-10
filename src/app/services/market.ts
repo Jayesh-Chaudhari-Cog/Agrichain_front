@@ -10,6 +10,38 @@ import { OrderDTO } from '../models/dto.model';
 export class MarketService {
   private gatewayUrl = 'http://localhost:8090'; 
 
+  // Add these to your existing MarketService class
+private transUrl = `${this.gatewayUrl}/transactions`; // Routed via Gateway
+
+// --- MARKET EXTENSIONS ---
+
+/** Fetches audit logs from CropMarketController */
+// getAllLogs(): Observable<any[]> {
+//   return this.http.get<any[]>(`${this.gatewayUrl}/market/audit-logs`);
+// }
+
+/** Places a new order in the Market Service */
+placeOrder(orderDto: any): Observable<any> {
+  return this.http.post<any>(`${this.gatewayUrl}/market/placeorder`, orderDto);
+}
+
+// --- TRANSACTION SERVICE CALLS ---
+
+/** Initiates a new transaction record */
+initiateTransaction(txRequest: any): Observable<any> {
+  return this.http.post<any>(`${this.transUrl}/initiate`, txRequest);
+}
+
+/** Fetches transactions for the trader by status (e.g., PENDING) */
+getTransactionsByStatus(status: string): Observable<any[]> {
+  return this.http.get<any[]>(`${this.transUrl}/status/${status}`);
+}
+
+/** Finalizes a payment - Maps to @PutMapping("/{id}/finalize") */
+finalizeTransaction(transactionId: number): Observable<any> {
+  return this.http.put<any>(`${this.transUrl}/${transactionId}/finalize`, {});
+}
+
   constructor(private http: HttpClient) {}
 
   // 1. Listings (Updated to accept status and reason to fix TS2554)
