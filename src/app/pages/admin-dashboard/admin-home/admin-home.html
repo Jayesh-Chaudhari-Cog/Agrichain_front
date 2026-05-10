@@ -7,27 +7,34 @@
 	</section>
 
 	<section class="summary-grid">
-		<article class="summary-card" style="border-top: 4px solid var(--officer-cyan);">
+		<article class="summary-card">
+			<span>Total Farmers</span>
+			<strong>{{ totalFarmers() }}</strong>
+		</article>
+		<article class="summary-card">
+			<span>Total Traders</span>
+			<strong>{{ totalTraders() }}</strong>
+		</article>
+		<article class="summary-card">
 			<span>Total Reports</span>
 			<strong>{{ totalReports() }}</strong>
 		</article>
-		<article class="summary-card" style="border-top: 4px solid var(--admin-purple);">
+		<article class="summary-card">
 			<span>Notifications</span>
 			<strong>{{ totalNotifications() }}</strong>
 		</article>
-		<article class="summary-card" style="border-top: 4px solid var(--farmer-green);">
+		<article class="summary-card">
 			<span>Transactions</span>
 			<strong>{{ totalTransactions() }}</strong>
 		</article>
-		<article class="summary-card" style="border-top: 4px solid var(--trader-blue);">
+		<article class="summary-card">
 			<span>Total Volume</span>
 			<strong>${{ transactionAmount() | number }}</strong>
 		</article>
 	</section>
 
-	<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; width: 100%;">
-		<!-- Donut Chart Card -->
-		<section class="analytics-panel card-form-section" style="width: 100%;">
+	<div class="analytics-grid">
+		<section class="analytics-panel card-form-section">
 			<header>
 				<h2>Transaction Success</h2>
 				<p>Percentage of successful operations</p>
@@ -41,8 +48,7 @@
 			</div>
 		</section>
 
-		<!-- Horizontal Bars Card -->
-		<section class="analytics-panel card-form-section" style="width: 100%;">
+		<section class="analytics-panel card-form-section">
 			<header>
 				<h2>System Health</h2>
 				<p>Live indices computed from microservices</p>

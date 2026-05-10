@@ -33,7 +33,7 @@ export class SubsidyService {
   /**
    * Delete a subsidy program
    */
-  deleteProgram(programID: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${programID}`);
+  deleteProgram(programID: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${programID}`, { responseType: 'text' });
   }
 }

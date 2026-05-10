@@ -76,9 +76,10 @@
 /* Statistics Grid */
 .summary-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2.5rem;
   margin-bottom: 2.5rem;
+  width: 100%;
 }
 
 .summary-card {
@@ -86,12 +87,16 @@
   border-radius: 12px;
   border: 1px solid var(--border-color);
   border-top: 4px solid;
-  padding: 1.5rem;
+  padding: 2rem 3rem;
   display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 1rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+  min-height: 150px;
+  text-align: center;
 }
 
 .summary-card:hover {
@@ -100,24 +105,25 @@
 }
 
 .card-icon {
-  font-size: 2rem;
+  font-size: 3rem;
   flex-shrink: 0;
 }
 
 .card-content {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .card-label {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   color: var(--text-light);
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.6rem;
   font-weight: 500;
 }
 
 .card-value {
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: 700;
   color: var(--text-dark);
 }

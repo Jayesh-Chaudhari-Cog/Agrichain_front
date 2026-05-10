@@ -88,7 +88,7 @@ app-welcome, app-login {
     display: flex;
     align-items: center;
     flex-direction: column;
-    gap: 1rem;
+    gap: 2.5rem;
 }
 .a-public-page {
     background-color: rgb(239, 239, 239);
@@ -268,7 +268,6 @@ app-welcome, app-login {
 	color: var(--accent-text);
 	background-color: var(--accent-transparent);
     font-size: 1.2rem;
-    margin-bottom: 1rem;
 
     & .section-header-subsection {
         display: flex;
@@ -337,7 +336,40 @@ tr:hover {
     background-color: var(--accent-transparent);
     color: var(--accent-text);
 }
-
+/* summary-card */
+.summary-grid {
+	width: 100%;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+	gap: 1rem;
+}
+.summary-card {
+    padding: 1rem 0.3rem;
+	border-radius: 1rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background-color: var(--accent-bg);
+	border: 1px solid var(--accent-color);
+	border-top: 3px solid var(--accent-color);
+	color: var(--accent-dark);
+	box-shadow: 0 2px 0.1rem rgba(0, 0, 0, 0.3);
+    transition: all 0.2s;
+}
+.summary-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 0.1rem rgba(0, 0, 0, 0.3);
+}
+.summary-card span {
+	display: block;
+	font-size: 0.95rem;
+	margin-bottom: 0.6rem;
+}
+.summary-card strong {
+	font-size: 2rem;
+	line-height: 1;
+}
 /* Role Badge */
 .role-badge {
     width: fit-content;
@@ -377,6 +409,7 @@ tr:hover {
     }
     .a-public-page, .a-page {
         padding: 1rem;
+        gap: 2rem;
     }
     th, td {
         padding: 0.2rem 0.4rem;
@@ -391,6 +424,10 @@ tr:hover {
 @media(max-width: 450px) {
     * {
         --font-size: 1rem;
+    }
+    .a-public-page, .a-page {
+        padding: 0.8rem;
+        gap: 1.5rem;
     }
     .btn-logout, .btn-info.btn-icon, .btn-danger.btn-icon, .btn-success.btn-icon {
         width: 2rem;
