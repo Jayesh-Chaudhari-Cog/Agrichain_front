@@ -57,7 +57,6 @@ export const routes: Routes = [
                     { path: '', pathMatch: 'full', redirectTo: 'home' }
                 ]
             },
-
             {
                 path: 'farmer',
                 canActivate: [roleGuard],
@@ -66,16 +65,13 @@ export const routes: Routes = [
                     { path: 'register', component: RegisterComponent },
                 ]
             },
-
             {
                 path: 'trader',
                 canActivate: [roleGuard],
                 data: { roles: ['TRADER'] },
                 children: [
                     { path: 'home', component: TraderPage },
-                    { path: 'croplistings', component: TraderCroplistings },
-                    { path: 'orders', component: TraderOrders },
-                    { path: '', pathMatch: 'full', redirectTo: 'home' }
+                    { path: 'croplistings', component: TraderCroplistings }
                 ]
             },
 
@@ -102,7 +98,7 @@ export const routes: Routes = [
                     { path: '', pathMatch: 'full', redirectTo: 'home' }
                 ]
             },
-            
+
             {
                 path: 'compliance',
                 canActivate: [roleGuard],
@@ -114,11 +110,19 @@ export const routes: Routes = [
                 ]
             },
 
+            {
+                path: 'manager',
+                canActivate: [roleGuard],
+                data: { roles: ['MANAGER'] },
+                children: [
+                    { path: 'home', component: ManagerDashboard },
+                    { path: '', pathMatch: 'full', redirectTo: 'home' }
+                ]
+            },
+
             { path: 'profile', component: ProfilePage },
             { path: '', pathMatch: 'full', component: DashboardRedirectComponent }
 
         ]
     }
-
-    
 ];
