@@ -1,40 +1,5 @@
-/* :host {
-  --accent-color: #00ACC1;
-  --accent-transparent: #00ACC125;
-  --accent-dark: #007FAA;
-  --accent-bg: #B2EBF2;
-  --white: #ffffff;
-  --bg-light: #f7fbfc;
-} */
-
-:host {
-  --accent-color: #00ACC1;
-  --accent-dark: #007FAA;
-  --accent-bg: #B2EBF2;
-  --white: #ffffff;
-}
-
 .console-body {
   padding: 40px 50px;
-}
-
-/* Stats Ribbon Alignment */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 25px;
-  margin-bottom: 40px;
-}
-
-.stat-card {
-  background: var(--white);
-  padding: 20px 25px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  box-shadow: 0 4px 12px rgba(0, 172, 193, 0.05);
-  border-bottom: 3px solid var(--accent-bg);
 }
 
 .stat-icon {

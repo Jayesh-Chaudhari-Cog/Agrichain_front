@@ -38,7 +38,7 @@
     position: absolute;
     width: 0%;
     height: 3px;
-    background: linear-gradient(to right, var(--accent-dark), rgb(241, 78, 179));
+    background: linear-gradient(to right, rgb(207, 201, 31), rgb(33, 233, 219));
     bottom: -3px;
     left: 50%;
     border-radius: 99px;
