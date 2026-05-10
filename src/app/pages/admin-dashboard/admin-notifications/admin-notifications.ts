@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NotificationService } from '../../../services/notification.service';
@@ -7,6 +7,7 @@ import { NotificationCategory, UserRole } from '../../../models/enum.model';
 import { Loader } from "../../../common-components/loader/loader";
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { PopupService } from '../../../services/popup.service';
 
 @Component({
 	selector: 'admin-notifications',
@@ -25,6 +26,7 @@ export class AdminNotifications implements OnInit {
 	notificationForm: NotificationDTO = { subject: '', message: '', category: NotificationCategory.BROADCAST, role: '' };
 	roles = Object.values(UserRole);
 
+	private popupService = inject(PopupService);
 	constructor(private notificationService: NotificationService) {}
 
 	ngOnInit(): void {
@@ -71,8 +73,16 @@ export class AdminNotifications implements OnInit {
 		});
 	}
 
-	deleteNotification(id: number) {
-		if (confirm('Are you sure you want to delete this broadcast notification?')) {
+	async deleteNotification(id: number) {
+		const confirmed = await this.popupService.confirm({
+			title: 'Delete Notification',
+			message: 'Are you sure you want to delete this broadcast notification? This action cannot be undone.',
+			confirmText: 'Delete',
+			cancelText: 'Cancel',
+			type: 'danger'
+		});
+
+		if (confirmed) {
 			this.notificationService.deleteNotification(id).subscribe({
 				next: () => this.fetchNotifications(),
 				error: (err) => console.error('Error deleting notification', err)

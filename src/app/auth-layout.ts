@@ -5,10 +5,11 @@ import { Footer } from './common-components/footer/footer';
 import { NavHeader } from './common-components/nav-header/nav-header';
 import { App } from "./app";
 import { ToastComponent } from "./common-components/toast/toast";
+import { PopupComponent } from "./pages/popup/popup";
 
 @Component({
     selector: 'auth-layout',
-    imports: [MainHeader, Footer, RouterOutlet, NavHeader, ToastComponent],
+    imports: [MainHeader, Footer, RouterOutlet, NavHeader, ToastComponent, PopupComponent],
     template: `
     <app-main-header />
     <main class="auth-main">
@@ -17,6 +18,7 @@ import { ToastComponent } from "./common-components/toast/toast";
     </main>
     <app-footer />
     <app-toast />
+    <app-popup />
   `
 })
 export class AuthLayoutComponent {

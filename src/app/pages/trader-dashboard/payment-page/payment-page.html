@@ -1,0 +1,65 @@
+<div class="a-page trader-panel">
+    <section class="section-header">
+        <div class="section-header-subsection">
+            <h1 class="grad-text">Secure Checkout</h1>
+            <p>Demo Payment Gateway</p>
+        </div>
+    </section>
+
+    <div class="payment-container card-form-section">
+        @if (paymentSuccess()) {
+            <div class="success-message">
+                <div class="success-icon">✓</div>
+                <h2>Payment Successful!</h2>
+                <p>Thank you for your demo purchase.</p>
+            </div>
+        } @else {
+            <div class="credit-card-preview">
+                <div class="card-chip"></div>
+                <div class="card-number-display">
+                    {{ cardNumber || '•••• •••• •••• ••••' }}
+                </div>
+                <div class="card-details-display">
+                    <div class="card-holder-display">
+                        <small>Card Holder</small>
+                        <div>{{ cardHolder || 'JOHN DOE' | uppercase }}</div>
+                    </div>
+                    <div class="card-expiry-display">
+                        <small>Expires</small>
+                        <div>{{ expiryDate || 'MM/YY' }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <form (submit)="processPayment($event)" class="form-container">
+                <div class="input-box">
+                    <label class="input-label">Cardholder Name</label>
+                    <input type="text" class="input-field" [(ngModel)]="cardHolder" name="cardHolder" placeholder="John Doe" required autocomplete="off">
+                </div>
+
+                <div class="input-box">
+                    <label class="input-label">Card Number</label>
+                    <input type="text" class="input-field" [(ngModel)]="cardNumber" name="cardNumber" placeholder="1234 5678 9101 1121" maxlength="19" required autocomplete="off">
+                </div>
+
+                <div class="form-row">
+                    <div class="input-box half-width">
+                        <label class="input-label">Expiry Date</label>
+                        <input type="text" class="input-field" [(ngModel)]="expiryDate" name="expiryDate" placeholder="MM/YY" maxlength="5" required autocomplete="off">
+                    </div>
+
+                    <div class="input-box half-width">
+                        <label class="input-label">CVV</label>
+                        <input type="password" class="input-field" [(ngModel)]="cvv" name="cvv" placeholder="•••" maxlength="4" required autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="form-buttons-box">
+                    <button type="submit" class="btn btn-primary pay-btn" [disabled]="isProcessing()">
+                        {{ isProcessing() ? 'Processing...' : 'Pay Now' }}
+                    </button>
+                </div>
+            </form>
+        }
+    </div>
+</div>
