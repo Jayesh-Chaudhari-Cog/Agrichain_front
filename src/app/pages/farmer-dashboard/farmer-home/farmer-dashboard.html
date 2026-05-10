@@ -1,14 +1,4 @@
 <div class="dashboard-wrapper">
-  <!-- <aside class="sidebar">
-    <h3 class="grad-text">AgriChain</h3>
-    <nav>
-      <a [class.active]="activeTab() === 'dashboard'" (click)="setActiveTab('dashboard')">Dashboard</a>
-      <a [class.active]="activeTab() === 'crops'" (click)="setActiveTab('crops')">Crop Listings</a>
-      <a [class.active]="activeTab() === 'subsidies'" (click)="setActiveTab('subsidies')">Subsidies</a>
-      <a [class.active]="activeTab() === 'settings'" (click)="setActiveTab('settings')">Settings</a>
-    </nav>
-  </aside> -->
-
   <main class="main-content">
     <header class="top-bar">
       <div class="section-header-subsection">
@@ -17,8 +7,8 @@
       </div>
       <span class="role-badge shine"
             [style.background-color]="status() === 'VERIFIED' ? 'var(--farmer-green)' : '#ffa000'">
-                {{ status() }}
-            </span>
+            {{ status() }}
+      </span>
     </header>
 
     <div class="dashboard-grid">
@@ -48,28 +38,188 @@
       <h2 class="section-title" style="color: var(--accent-dark); padding: 0 10px;">Recent Crop Listings</h2>
       <table class="a-table">
         <thead>
-        <tr>
-          <th>ID</th>
-          <th>Crop Name</th>
-          <th>Quantity</th>
-          <th>Est. Price</th>
-          <th>Status</th>
-        </tr>
+          <tr>
+            <th>ID</th>
+            <th>Crop Name</th>
+            <th>Quantity</th>
+            <th>Est. Price</th>
+            <th>Status</th>
+          </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let item of recentListings()">
-          <td>{{ item.id }}</td>
-          <td>{{ item.crop }}</td>
-          <td>{{ item.quantity }}</td>
-          <td>{{ item.price }}</td>
-          <td>
-            <b [style.color]="item.status === 'Approved' ? 'var(--farmer-green)' : '#ffa000'">
-              {{ item.status }}
-            </b>
-          </td>
-        </tr>
+          <tr *ngFor="let item of recentListings()">
+            <td>{{ item.id }}</td>
+            <td>{{ item.crop }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.price }}</td>
+            <td>
+              <b [style.color]="item.status === 'Approved' ? 'var(--farmer-green)' : '#ffa000'">
+                {{ item.status }}
+              </b>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
   </main>
+
+  <div class="form-overlay" *ngIf="showAddForm()">
+    <div class="add-crop-modal">
+      <h2 class="grad-text">List New Crop</h2>
+      
+      <div class="form-group">
+        <label>Crop Type</label>
+        <input type="text" [(ngModel)]="newCrop.cropType" placeholder="e.g. Paddy, Corn">
+      </div>
+
+      <div class="form-group">
+        <label>Quantity (Quintal)</label>
+        <input type="number" [(ngModel)]="newCrop.quantity" placeholder="0">
+      </div>
+
+      <div class="form-group">
+        <label>Price (per Quintal)</label>
+        <input type="number" [(ngModel)]="newCrop.price" placeholder="₹">
+      </div>
+
+      <div class="form-group">
+        <label>Location</label>
+        <input type="text" [(ngModel)]="newCrop.location" placeholder="Enter District">
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-primary" (click)="submitCrop()">Submit Listing</button>
+        <button class="btn btn-cancel" (click)="showAddForm.set(false)">Cancel</button>
+      </div>
+    </div>
+  </div>
 </div>
+
+
+<!-- <div class="dashboard-container">
+  <main class="main-content">
+    
+    <header class="dashboard-header">
+      <div class="welcome-text">
+        <p class="subtitle">Welcome back,</p>
+        <h1 class="farmer-name">{{ farmerName() }}</h1>
+      </div>
+      <div class="header-badge">
+        <span class="status-indicator" [ngClass]="status()">
+          <i class="icon-check"></i> {{ status() }}
+        </span>
+      </div>
+    </header>
+
+    <section class="stats-grid">
+      <div class="info-card">
+        <div class="card-icon crop-icon">🌾</div>
+        <div class="card-data">
+          <h3>{{ listedCropsCount() }}</h3>
+          <p>Listed Crops</p>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="card-icon money-icon">₹</div>
+        <div class="card-data">
+          <h3>₹{{ totalEarnings() | number:'1.2-2' }}</h3>
+          <p>Total Earnings</p>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="card-icon alert-icon">🔔</div>
+        <div class="card-data">
+          <h3>{{ activeAlerts() }}</h3>
+          <p>System Alerts</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="actions-wrapper">
+      <h2 class="section-title">Quick Actions</h2>
+      <div class="action-grid">
+        <button class="action-card-btn primary" (click)="onAddCrop()">
+          <div class="btn-icon">+</div>
+          <div class="btn-content">
+            <strong>Add New Crop</strong>
+            <span>List your harvest for sale</span>
+          </div>
+        </button>
+        
+        <button class="action-card-btn outline" (click)="onApplySubsidy()">
+          <div class="btn-icon">📜</div>
+          <div class="btn-content">
+            <strong>Apply for Subsidy</strong>
+            <span>View government programs</span>
+          </div>
+        </button>
+      </div>
+    </section>
+
+    <section class="table-container">
+      <div class="table-header">
+        <h2>Recent Listings</h2>
+        <button class="text-link">View All Listings</button>
+      </div>
+      <div class="responsive-table">
+        <table class="agri-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Crop Name</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of recentListings()">
+              <td class="id-cell">#{{ item.id }}</td>
+              <td class="bold-cell">{{ item.crop }}</td>
+              <td>{{ item.quantity }}</td>
+              <td>{{ item.price }}</td>
+              <td>
+                <span class="status-pill" [attr.data-status]="item.status">
+                  {{ item.status }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-overlay" *ngIf="showAddForm()">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>List New Crop</h3>
+        <button class="close-modal" (click)="showAddForm.set(false)">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+          <label>Crop Type</label>
+          <input type="text" [(ngModel)]="newCrop.cropType" placeholder="e.g. Basmati Rice">
+        </div>
+        <div class="form-row">
+          <label>Quantity (Quintal)</label>
+          <input type="number" [(ngModel)]="newCrop.quantity">
+        </div>
+        <div class="form-row">
+          <label>Price per Quintal</label>
+          <input type="number" [(ngModel)]="newCrop.price">
+        </div>
+        <div class="form-row">
+          <label>Location</label>
+          <input type="text" [(ngModel)]="newCrop.location">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" (click)="showAddForm.set(false)">Discard</button>
+        <button class="btn-primary" (click)="submitCrop()">Publish Now</button>
+      </div>
+    </div>
+  </div>
+</div> -->

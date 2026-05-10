@@ -58,6 +58,9 @@
   font-size: 1.4rem;
   color: #2c3e50;
   text-transform: capitalize;
+  background: linear-gradient(120deg, var(--accent-color), var(--accent-dark));
+  background-clip: text;
+  color: transparent;
 }
 
 .detail-row {
