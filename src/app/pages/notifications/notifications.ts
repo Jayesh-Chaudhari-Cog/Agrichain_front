@@ -4,7 +4,7 @@ import { WebNameElement } from "../../elements/web-name";
 import { NotificationService } from '../../services/notification.service';
 import { ToastService } from '../../services/toast-service';
 import { Notification } from '../../models/dto.model';
-import { currentUser } from '../../elements/constants';
+import { AuthService } from '../../services/auth-service';
 import { Loader } from '../../common-components/loader/loader';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 import { NotificationStatus } from '../../models/enum.model';
@@ -20,7 +20,9 @@ import { faBullhorn, faTriangleExclamation, faCircleCheck, faClose, faCheckDoubl
 export class NotificationPop {
     private notificationService = inject(NotificationService);
     private toast = inject(ToastService);
-    user = currentUser;
+    private authService = inject(AuthService);
+
+    user = this.authService.currentUser;
 
     faClose = faClose;
     faBoardcast = faBullhorn;
@@ -42,14 +44,20 @@ export class NotificationPop {
     }
 
     fetchNotifications() {
+        const currentUser = this.authService.currentUser();
+        if (!currentUser) {
+            this.notifications.set([]);
+            return;
+        }
+
         this.loading.set(true);
         this.notificationService.getAllNotifications().subscribe({
             next: (data) => {
                 const broadcasts = data.filter(n => {
                     if (n.userId == null) {
-                        return this.user.role === n.role || n.role == null;
+                        return currentUser.role === n.role || n.role == null;
                     }
-                    return n.userId === this.user.id;
+                    return n.userId === currentUser.id;
                 });
                 this.notifications.set(broadcasts);
                 this.loading.set(false);

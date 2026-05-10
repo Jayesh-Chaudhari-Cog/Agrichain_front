@@ -23,12 +23,17 @@
                             }
                         </div>
                         <div class="notification-content">
-                            <p class="notification-subject">{{ n.subject }}</p>
+                            <div class="notification-content-header">
+                                <p class="notification-subject">{{ n.subject }}</p>
+                                @if(n.userId === null) {
+                                    <p class="notification-role role-badge shine">{{ n.role == null ? 'ALL' : n.role }}</p>
+                                }
+                            </div>
                             <hr class="notification-hr"/>
                             <p class="notification-message">{{ n.message }}</p>
                             <div class="notification-meta">
                                 <p class="notification-date">{{ n.createdDate }}</p>
-                                @if(n.userId != null && n.userId == user.id) {
+                                @if(n.userId != null && n.userId == user()?.id) {
                                     <button class="btn btn-read" (click)="markAsRead(n.notificationID)" [disabled]="n.status === 'READ'" title="Mark as Read">
                                         <fa-icon [icon]="faRead"/>
                                     </button>

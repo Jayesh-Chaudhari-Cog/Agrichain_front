@@ -5,7 +5,7 @@
             <fa-icon [icon]="faBell" class="bell-icon"/>
         </button>
         <div class="header-profile" [routerLink]="'/dashboard/profile'">
-            <p>{{ user.name }}</p>
+            <p>{{ user()?.name }}</p>
             <fa-icon [icon]="faDown" />
         </div>
         <button (click)="this.authService.logout()" class="btn btn-logout" title="Logout">

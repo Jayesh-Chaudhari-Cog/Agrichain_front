@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, inject } from '@angular/core';
+import { Component, OnInit, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth-service';
@@ -7,7 +7,6 @@ import { User } from '../../models/user.model';
 import { UserRole, UserStatus } from '../../models/enum.model';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
-import { currentUser } from '../../elements/constants';
 
 @Component({
   selector: 'app-profile',
@@ -23,7 +22,7 @@ export class ProfilePage implements OnInit {
   faEdit = faEdit;
 
   isEditing = signal(false);
-  userData = signal<User | null>(null);
+  userData = computed(() => this.authService.currentUser());
   editForm: User = {
     id: 0,
     name: '',
@@ -38,9 +37,9 @@ export class ProfilePage implements OnInit {
   }
 
   loadUser() {
-    if (currentUser && Object.keys(currentUser).length > 0) {
-      this.userData.set(currentUser);
-      this.editForm = { ...currentUser };
+    const current = this.authService.currentUser();
+    if (current) {
+      this.editForm = { ...current };
     }
   }
 
@@ -57,7 +56,6 @@ export class ProfilePage implements OnInit {
   onSave() {
     this.authService.updateUser(this.editForm).subscribe({
       next: () => {
-        this.userData.set({ ...this.editForm });
         this.isEditing.set(false);
         this.toast.show('Profile updated successfully!', 'success');
       },

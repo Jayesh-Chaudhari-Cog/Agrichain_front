@@ -93,8 +93,16 @@
     display: flex;
     flex-direction: column;
 }
+.notification-content-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 .notification-subject, .notification-message {
     font-size: calc(var(--font-si));
+}
+.notification-role {
+    padding: 0rem 0.6rem;
 }
 .notification-subject {
     font-weight: bold;
