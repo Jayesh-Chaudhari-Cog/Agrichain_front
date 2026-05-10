@@ -2,12 +2,12 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PopupService } from '../../services/popup.service';
 import { faExclamationTriangle, faExclamationCircle, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { FaIconComponent, FaStackItemSizeDirective } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-popup',
   standalone: true,
-  imports: [CommonModule, FaIconComponent],
+  imports: [CommonModule, FaIconComponent, FaStackItemSizeDirective],
   templateUrl: './popup.html',
   styleUrl: './popup.css'
 })

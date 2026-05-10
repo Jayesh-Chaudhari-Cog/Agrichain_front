@@ -9,7 +9,7 @@
                     <fa-icon [icon]="faWarning" style="color: yellow;"/>
                 }
                 @if (popupService.config().type === 'info') {
-                    <fa-icon [icon]="faInfo" />
+                    <fa-icon [icon]="faInfo" style="color: var(--trader-blue);"/>
                 }
             </div>
             <h3 class="popup-title">{{ popupService.config().title }}</h3>
