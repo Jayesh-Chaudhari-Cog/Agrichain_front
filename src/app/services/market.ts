@@ -10,17 +10,11 @@ import { OrderDTO } from '../models/dto.model';
 export class MarketService {
   private gatewayUrl = 'http://localhost:8090'; 
 
+  private baseUrl = 'http://localhost:8090/disbursements'; // Adjust port as needed
   // Add these to your existing MarketService class
 private transUrl = `${this.gatewayUrl}/transactions`; // Routed via Gateway
 
-// --- MARKET EXTENSIONS ---
 
-/** Fetches audit logs from CropMarketController */
-// getAllLogs(): Observable<any[]> {
-//   return this.http.get<any[]>(`${this.gatewayUrl}/market/audit-logs`);
-// }
-
-/** Places a new order in the Market Service */
 placeOrder(orderDto: any): Observable<any> {
   return this.http.post<any>(`${this.gatewayUrl}/market/placeorder`, orderDto);
 }
@@ -56,8 +50,6 @@ finalizeTransaction(transactionId: number): Observable<any> {
 
   // 2. Documents (Added these back to fix OfficerHome errors)
   getAllDocuments(): Observable<any[]> {
-  // Use the direct path that the Registration Service expects
-  // Path: http://localhost:8090/documents/all
   return this.http.get<any[]>(`${this.gatewayUrl}/documents/all`);
 }
 
@@ -65,11 +57,7 @@ finalizeTransaction(transactionId: number): Observable<any> {
     return this.http.get<any[]>(`${this.gatewayUrl}/documents/all`); // or specific pending endpoint
   }
 
-  // verifyDocument(documentId: number, status: string): Observable<any> {
-  //   const params = new HttpParams().set('status', status);
-  //   return this.http.patch(`${this.gatewayUrl}/documents/${documentId}/verify`, null, { params });
-  // }
-
+ 
   verifyDocument(id: number, status: string): Observable<any> {
   // Ensure the URL matches your Backend @PutMapping or @PostMapping
   return this.http.patch(`${this.gatewayUrl}/documents/${id}/verify?status=${status}`, {});
@@ -113,29 +101,22 @@ approveCrop(id: number, status: string, reason: string): Observable<any> {
   });
 }
 
-// Double check that your getPendingDocuments is also there
-// getPendingDocuments(): Observable<any[]> {
-//   return this.http.get<any[]>(`${this.gatewayUrl}/documents/all`);
-// }
-
-  // 3. Subsidies (Added to fix OfficerHome errors)
-  // inside market.ts
-
-// 1. Fetching the list
-// getPendingSubsidies(): Observable<any[]> {
-//   // Ensure this matches your @RequestMapping on the Disbursement Controller
-//   // Usually, you'd want a specific endpoint for 'PENDING' status
-//   return this.http.get<any[]>(`${this.gatewayUrl}/disbursements/pending`);
-// }
-
-// 2. Reviewing (Approving/Rejecting)
-// Matches Java: @PatchMapping("/{id}/review") with @RequestParam DisbursementStatus status
-  reviewSubisdy(id: number, status: string): Observable<any> {
-    const params = new HttpParams().set('status', status);
-    return this.http.patch(`${this.gatewayUrl}/disbursements/${id}/review`, null, { params });
-  }
-
   getOrdersByTrader(traderId: number): Observable<OrderDTO[]> {
     return this.http.get<OrderDTO[]>(`${this.gatewayUrl}/market/orders/trader/${traderId}`);
   }
+
+  getSubsidies(): Observable<any[]> {
+    return this.http.get<any[]>(this.baseUrl);
+  }
+
+  // Uses the exact Enum strings: 'VALIDATED' or 'REJECTED'
+  updateSubsidyStatus(id: number, status: string): Observable<any> {
+    return this.http.patch(`${this.baseUrl}/${id}/status?status=${status}`, {});
+  }
+
+  // This was missing! It must match the controller @PatchMapping("/{id}/review")
+  reviewDisbursement(id: number, status: string): Observable<any> {
+    return this.http.patch(`${this.baseUrl}/${id}/review?status=${status}`, {});
+  }
+  
 }

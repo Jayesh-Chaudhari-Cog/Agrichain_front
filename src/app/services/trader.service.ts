@@ -7,10 +7,17 @@ export class TraderApiService {
   private http = inject(HttpClient);
 
   // Endpoint configuration
-  private marketApi = 'http://localhost:8081/market';
-  private transApi = 'http://localhost:8082/transactions';
+  private marketApi = 'http://localhost:8090/market';
+  private transApi = 'http://localhost:8090/transactions';
 
   // --- MARKET SERVICE CALLS ---
+
+  // src/app/services/market.service.ts
+  getListingsByStatus(status: string): Observable<any[]> {
+    // Path must match: /market/listings/status/{status}
+    return this.http.get<any[]>(`${this.marketApi}/market/listings/status/${status}`);
+  }
+
 
   getApprovedListings(): Observable<any[]> {
     return this.http.get<any[]>(`${this.marketApi}/listings/status/APPROVED`);

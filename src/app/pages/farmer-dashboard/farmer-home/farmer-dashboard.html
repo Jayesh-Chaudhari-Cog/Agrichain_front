@@ -75,29 +75,29 @@
     <div class="add-crop-modal">
       <h2 class="grad-text">List New Crop</h2>
       
-      <div class="form-group">
-        <label>Crop Type</label>
-        <input type="text" [(ngModel)]="newCrop.cropType" placeholder="e.g. Paddy, Corn">
+      <div class="input-box">
+        <label class="input-label">Crop Type</label>
+        <input class="input-field" type="text" [(ngModel)]="newCrop.cropType" placeholder="e.g. Paddy, Corn">
       </div>
 
-      <div class="form-group">
-        <label>Quantity (Quintal)</label>
-        <input type="number" [(ngModel)]="newCrop.quantity" placeholder="0">
+      <div class="input-box">
+        <label class="input-label">Quantity (Quintal)</label>
+        <input class="input-field" type="number" [(ngModel)]="newCrop.quantity" placeholder="0">
       </div>
 
-      <div class="form-group">
-        <label>Price (per Quintal)</label>
-        <input type="number" [(ngModel)]="newCrop.price" placeholder="₹">
+      <div class="input-box">
+        <label class="input-label">Price (per Quintal)</label>
+        <input class="input-field" type="number" [(ngModel)]="newCrop.price" placeholder="₹">
       </div>
 
-      <div class="form-group">
-        <label>Location</label>
-        <input type="text" [(ngModel)]="newCrop.location" placeholder="Enter District">
+      <div class="input-box">
+        <label class="input-label">Location</label>
+        <input class="input-field" type="text" [(ngModel)]="newCrop.location" placeholder="Enter District">
       </div>
 
-      <div class="modal-actions">
+      <div class="form-buttons-box">
         <button class="btn btn-primary" (click)="submitCrop()">Submit Listing</button>
-        <button class="btn btn-cancel" (click)="showAddForm.set(false)">Cancel</button>
+        <button class="btn btn-danger" (click)="showAddForm.set(false)">Cancel</button>
       </div>
     </div>
   </div>
