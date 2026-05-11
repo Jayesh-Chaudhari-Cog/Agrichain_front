@@ -69,3 +69,29 @@ export interface ComplianceDTO {
     date: string;
     notes: string;
 }
+
+export interface DisbursementDTO {
+    disbursementId?: number;
+    farmerId: number;
+    programId: number;
+    disbursementAmount: number;
+}
+
+export interface Disbursement {
+    disbursementId: number;
+    farmerId: number;
+    programId: number;
+    disbursementAmount: number;
+    subsidyProgram?: {
+        programID: number;
+        title: string;
+        description: string;
+        startDate: string;
+        endDate: string;
+        allottedBudget: number;
+        consumedBudget: number;
+        subsidyStatus: 'PENDING' | 'VALIDATED' | 'REJECTED';
+    };
+    status?: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'REJECTED';
+    createdDate?: string;
+}

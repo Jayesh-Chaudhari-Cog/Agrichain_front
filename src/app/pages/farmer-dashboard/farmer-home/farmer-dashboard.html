@@ -72,6 +72,11 @@
   </table>
 </div>
 
+  <!-- Subsidies Tab -->
+  <div *ngIf="activeTab() === 'subsidies'">
+    <app-farmer-subsidy></app-farmer-subsidy>
+  </div>
+
   <div class="form-overlay" *ngIf="showAddForm()">
     <div class="add-crop-modal">
       <h2 class="grad-text">List New Crop</h2>
