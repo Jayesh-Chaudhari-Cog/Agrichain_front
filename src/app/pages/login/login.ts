@@ -109,7 +109,7 @@ export class LoginPage {
 				this.toast.show('Please enter password', 'alert');
 				return;
 			}
-			if(this.validPass()) {
+			if(!this.validPass()) {
 				this.toast.show('this Password is not valid', 'alert');
 				return;
 			}
