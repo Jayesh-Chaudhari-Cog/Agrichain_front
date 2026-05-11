@@ -26,8 +26,6 @@
 
   <div class="console-body">
     <div *ngIf="activeModule === 'dashboard'" class="fade-in">
-
-
       <h2 class="panel-title">Verification & Management Modules</h2>
       <div class="features-box-grid">
         <div class="feature-box" (click)="setModule('crops')">
@@ -72,14 +70,13 @@
     </div>
 
     <button class="back-dashboard-btn" *ngIf="activeModule !== 'dashboard'" (click)="setModule('dashboard')">
-      ← Back
+      ← Back to Dashboard
     </button>
 
     <div *ngIf="activeModule === 'crops'" class="fade-in inner-module-spacing">
       <header class="section-header">
         <h2 class="grad-text">Crop Listing Validation Queue</h2>
       </header>
-
       <div class="card-grid-flex">
         <div class="data-card" *ngFor="let item of pendingListings">
           <div class="card-badge-container">
@@ -87,14 +84,11 @@
             <span class="status-badge pending">Pending</span>
           </div>
           <div class="card-body">
-            <div class="info-row"><span class="label">Farmer ID:</span><span class="value">{{item.farmerId}}</span>
-            </div>
+            <div class="info-row"><span class="label">Farmer ID:</span><span class="value">{{item.farmerId}}</span></div>
             <div class="info-row"><span class="label">Location:</span><span class="value">{{item.location}}</span></div>
-            <div class="info-row"><span class="label">Crop Type:</span><span
-                class="value highlight">{{item.cropType}}</span></div>
+            <div class="info-row"><span class="label">Crop Type:</span><span class="value highlight">{{item.cropType}}</span></div>
             <div class="info-row"><span class="label">Price:</span><span class="value">₹{{item.price}} / kg</span></div>
-            <div class="info-row"><span class="label">Quantity:</span><span class="value">{{item.quantity}} Kgs</span>
-            </div>
+            <div class="info-row"><span class="label">Quantity:</span><span class="value">{{item.quantity}} Kgs</span></div>
           </div>
           <div class="card-actions">
             <button class="btn-cyan action-btn" (click)="approveCrop(item.listingId!)">Approve</button>
@@ -111,7 +105,6 @@
       <header class="section-header">
         <h2 class="grad-text">Document Verification Console</h2>
       </header>
-
       <div class="card-grid-flex">
         <ng-container *ngFor="let doc of listingsWithDocs">
           <div class="data-card doc-card" *ngIf="doc.verificationStatus !== 'VERIFIED'">
@@ -137,13 +130,42 @@
 
     <div *ngIf="activeModule === 'subsidies'" class="fade-in inner-module-spacing">
       <header class="section-header">
-        <h2>Subsidy Verification</h2>
+        <h2 class="grad-text">Pending Subsidy Disbursements</h2>
       </header>
-      <div class="table-container">
-        <div class="module-placeholder-info">
-          <p>Evaluating active parameters against budgets.</p>
-          <div class="stat-highlight">Track allocation: <strong>₹45,00,000 Disbursed</strong></div>
+
+      <div class="card-grid-flex">
+        <div class="data-card" *ngFor="let sub of subsidies()">
+          <div class="card-badge-container">
+            <span class="id-badge">App #{{sub.disbursementId}}</span>
+            <span class="status-pill" [ngClass]="sub.disbursementStatus?.toLowerCase()">
+              {{ sub.disbursementStatus }}
+            </span>
+          </div>
+          
+          <div class="card-body">
+            <div class="info-row">
+              <span class="label">Program:</span>
+              <span class="value highlight">{{sub.subsidyProgram?.title || 'System Subsidy'}}</span>
+            </div>
+            <div class="info-row">
+              <span class="label">Farmer ID:</span>
+              <span class="value">F-{{sub.farmerId}}</span>
+            </div>
+            <div class="info-row">
+              <span class="label">Amount:</span>
+              <span class="value highlight-amount">₹{{sub.disbursementAmount | number}}</span>
+            </div>
+          </div>
+
+          <div class="card-actions" *ngIf="sub.disbursementStatus === 'PENDING'">
+            <button class="btn-cyan action-btn" (click)="reviewSubsidy(sub.disbursementId, 'COMPLETED')">Approve</button>
+            <button class="btn btn-danger action-btn" (click)="reviewSubsidy(sub.disbursementId, 'REJECTED')">Reject</button>
+          </div>
         </div>
+      </div>
+
+      <div class="empty-state" *ngIf="subsidies().length === 0">
+        <p>No subsidy applications awaiting review.</p>
       </div>
     </div>
 
@@ -180,4 +202,6 @@
     </div>
 
   </div>
+
 </div>
+    
