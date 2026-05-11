@@ -96,6 +96,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../services/auth-service';
+import { FarmerSubsidy } from '../farmer-subsidy/farmer-subsidy';
 
 // Interface to match your Backend CropListingDTO
 interface CropListing {
@@ -110,7 +111,7 @@ interface CropListing {
 @Component({
   selector: 'app-farmer-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, FarmerSubsidy],
   templateUrl: './farmer-dashboard.html',
   styleUrl: './farmer-dashboard.css'
 })
@@ -177,7 +178,9 @@ export class FarmerDashboardPage implements OnInit {
     this.showAddForm.set(true); 
   }
 
-  onApplySubsidy() { console.log("Opening Subsidy Program List..."); }
+  onApplySubsidy() { 
+    this.setActiveTab('subsidies');
+  }
 
   submitCrop() {
     const user = this.authService.currentUser();
