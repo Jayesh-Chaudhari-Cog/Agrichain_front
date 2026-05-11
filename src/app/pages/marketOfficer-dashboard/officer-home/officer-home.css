@@ -1,13 +1,3 @@
-:host {
-  /* Enforcing exact Cyan theme shade guidelines */
-  --accent-color: #00ACC1;
-  --accent-transparent: #00ACC125;
-  --accent-dark: #007FAA;
-  --accent-bg: #B2EBF2;
-  --bg-light: #f7fbfc;
-  --white: #ffffff;
-}
-
 .console-body {
   padding: 40px 50px;
 }

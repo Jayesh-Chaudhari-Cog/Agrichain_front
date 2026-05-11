@@ -6,28 +6,27 @@
     </div>
   </section>
 
+  <section class="summary-grid">
+    <div class="summary-card">
+      <div class="stat-icon yellow">🕒</div>
+      <p>Items Awaiting Action</p>
+      <strong>{{stats.pendingCrops + stats.awaitingDocs + stats.subsidyApps}}</strong>
+    </div>
+    <div class="summary-card">
+      <div class="stat-icon blue">👤</div>
+      <p>Active System Farmers</p>
+      <strong>{{stats.totalFarmersCount}}</strong>
+    </div>
+    <div class="summary-card">
+      <div class="stat-icon cyan">📈</div>
+      <p>Processed Today</p>
+      <strong>{{stats.totalApprovedToday}}</strong>
+    </div>
+  </section>
+
   <div class="console-body">
     <div *ngIf="activeModule === 'dashboard'" class="fade-in">
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-icon yellow">🕒</div>
-          <div class="stat-info">
-            <span>Items Awaiting Action</span>
-            <h3>{{stats.pendingCrops + stats.awaitingDocs + stats.subsidyApps}}</h3>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon blue">👤</div>
-          <div class="stat-info">
-            <span>Active System Farmers</span>
-            <h3>{{stats.totalFarmersCount}}</h3>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon cyan">📈</div>
-          <div class="stat-info"><span>Processed Today</span> <h3>{{stats.totalApprovedToday}}</h3></div>
-        </div>
-      </div>
+
 
       <h2 class="panel-title">Verification & Management Modules</h2>
       <div class="features-box-grid">
@@ -88,11 +87,14 @@
             <span class="status-badge pending">Pending</span>
           </div>
           <div class="card-body">
-            <div class="info-row"><span class="label">Farmer ID:</span><span class="value">{{item.farmerId}}</span></div>
+            <div class="info-row"><span class="label">Farmer ID:</span><span class="value">{{item.farmerId}}</span>
+            </div>
             <div class="info-row"><span class="label">Location:</span><span class="value">{{item.location}}</span></div>
-            <div class="info-row"><span class="label">Crop Type:</span><span class="value highlight">{{item.cropType}}</span></div>
+            <div class="info-row"><span class="label">Crop Type:</span><span
+                class="value highlight">{{item.cropType}}</span></div>
             <div class="info-row"><span class="label">Price:</span><span class="value">₹{{item.price}} / kg</span></div>
-            <div class="info-row"><span class="label">Quantity:</span><span class="value">{{item.quantity}} Kgs</span></div>
+            <div class="info-row"><span class="label">Quantity:</span><span class="value">{{item.quantity}} Kgs</span>
+            </div>
           </div>
           <div class="card-actions">
             <button class="btn-cyan action-btn" (click)="approveCrop(item.listingId!)">Approve</button>
@@ -110,31 +112,33 @@
         <h2 class="grad-text">Document Verification Console</h2>
       </header>
 
-<div class="card-grid-flex">
-  <ng-container *ngFor="let doc of listingsWithDocs">
-    <div class="data-card doc-card" *ngIf="doc.verificationStatus !== 'VERIFIED'">
-      <div class="card-badge-container">
-        <span class="id-badge">Doc #{{doc.id}}</span>
-        <span class="value">F-{{doc.farmerId}}</span>
+      <div class="card-grid-flex">
+        <ng-container *ngFor="let doc of listingsWithDocs">
+          <div class="data-card doc-card" *ngIf="doc.verificationStatus !== 'VERIFIED'">
+            <div class="card-badge-container">
+              <span class="id-badge">Doc #{{doc.id}}</span>
+              <span class="value">F-{{doc.farmerId}}</span>
+            </div>
+            <div class="doc-type">
+              <h3>{{doc.docType}}</h3>
+            </div>
+            <a [href]="getFileUrl(doc)" target="_blank" class="view-btn">📄 View Document</a>
+            <div class="card-actions">
+              <button class="btn-cyan action-btn" (click)="approveDoc(doc.id)">Verify</button>
+              <button class="btn btn-danger action-btn" (click)="rejectDoc(doc.id)">Reject</button>
+            </div>
+          </div>
+        </ng-container>
       </div>
-      <div class="doc-type">
-        <h3>{{doc.docType}}</h3>
-      </div>
-      <a [href]="getFileUrl(doc)" target="_blank" class="view-btn">📄 View Document</a>
-      <div class="card-actions">
-        <button class="btn-cyan action-btn" (click)="approveDoc(doc.id)">Verify</button>
-        <button class="btn btn-danger action-btn" (click)="rejectDoc(doc.id)">Reject</button>
-      </div>
-    </div>
-  </ng-container>
-</div>
       <div class="empty-state" *ngIf="listingsWithDocs.length === 0">
         <p>No documents pending.</p>
       </div>
     </div>
 
     <div *ngIf="activeModule === 'subsidies'" class="fade-in inner-module-spacing">
-      <header class="section-header"><h2>Subsidy Verification</h2></header>
+      <header class="section-header">
+        <h2>Subsidy Verification</h2>
+      </header>
       <div class="table-container">
         <div class="module-placeholder-info">
           <p>Evaluating active parameters against budgets.</p>
@@ -144,11 +148,21 @@
     </div>
 
     <div *ngIf="activeModule === 'farmers'" class="fade-in inner-module-spacing">
-      <header class="section-header"><h2>Farmers Directory</h2></header>
+      <header class="section-header">
+        <h2>Farmers Directory</h2>
+      </header>
       <div class="table-container">
         <table class="agri-table">
           <thead>
-            <tr><th>ID</th><th>Name</th><th>Email</th><th>Gender</th><th>DOB</th><th>City</th><th>Contact</th></tr>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Gender</th>
+              <th>DOB</th>
+              <th>City</th>
+              <th>Contact</th>
+            </tr>
           </thead>
           <tbody>
             <tr *ngFor="let farmer of allFarmers">
