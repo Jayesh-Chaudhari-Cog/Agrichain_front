@@ -1,4 +1,4 @@
-import { Component, signal, inject, OnInit } from '@angular/core';
+import { Component, signal, inject, OnInit, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
@@ -27,18 +27,12 @@ export class FarmerDashboardPage implements OnInit {
 	private authService = inject(AuthService);
 	private http = inject(HttpClient);
 
-	isPending = signal(false);
+	isPending = computed(() => !this.authService.isFarmerApproved());
+
 	farmerName = signal('');
 	status = signal('');
 
 	ngOnInit() {
-		const farmerData = JSON.parse(localStorage.getItem(FARMER_REGI) || '{}');
-
-		if (farmerData.status != 'VERIFIED') {
-			this.isPending.set(true);
-		}
-		this.farmerName.set(farmerData.name);
-		this.status.set(farmerData.status);
 		this.loadFarmerData();
 	}
 

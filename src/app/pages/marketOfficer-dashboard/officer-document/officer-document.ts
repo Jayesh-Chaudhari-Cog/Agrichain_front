@@ -16,8 +16,8 @@ export class OfficerDocument implements OnInit {
   constructor(private marketService: MarketService) {}
 
   ngOnInit(): void {
-  console.log("Component Initialized!"); // Add this log
-  this.refreshQueue(); // If this line is missing, NO request will ever go out
+  console.log("Component Initialized!");
+  this.refreshQueue();
 }
 
   refreshQueue() {
@@ -34,7 +34,6 @@ export class OfficerDocument implements OnInit {
     this.selectedListing = doc;
   }
 
-  // ADD THIS METHOD TO FIX THE HTML ERROR
   getFileUrl(doc: any): string {
     if (!doc || !doc.fileName) return '#';
     return this.marketService.getFileUrl(doc.fileName);

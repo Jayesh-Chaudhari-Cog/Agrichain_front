@@ -1,4 +1,4 @@
-import { Component, signal, inject, OnInit } from '@angular/core';
+import { Component, signal, inject, OnInit, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SubsidyService } from '../../../services/subsidy.service';
@@ -23,7 +23,7 @@ export class FarmerSubsidy implements OnInit {
   private toastService = inject(ToastService);
   private jwtHelper = new JwtHelperService();
 
-  isPending = signal(false);
+  isPending = computed(() => !this.authService.isFarmerApproved());
 
   // Data signals
   subsidyPrograms = signal<SubsidyProgram[]>([]);
@@ -40,13 +40,6 @@ export class FarmerSubsidy implements OnInit {
   requestedAmount = signal<number | null>(null);
 
   ngOnInit() {
-    const farmerData = JSON.parse(localStorage.getItem(FARMER_REGI) || '{}');
-
-    if (farmerData.status != 'VERIFIED') {
-      this.isPending.set(true);
-    }
-
-
     const user = this.authService.currentUser();
     if (user && user.id) {
       this.farmerUserId.set(user.id);

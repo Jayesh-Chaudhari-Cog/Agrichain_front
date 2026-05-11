@@ -28,7 +28,7 @@
 //   }
 // }
 
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth-service';
@@ -46,16 +46,11 @@ export class FarmerListings implements OnInit {
   private http = inject(HttpClient);
   private authService = inject(AuthService);
 
-  isPending = signal(false);
+  isPending = computed(() => !this.authService.isFarmerApproved());
 
   myListings = signal<any[]>([]);
 
   ngOnInit() {
-    const farmerData = JSON.parse(localStorage.getItem(FARMER_REGI) || '{}');
-
-    if (farmerData.status != 'VERIFIED') {
-      this.isPending.set(true);
-    }
     this.fetchMyListings();
   }
 

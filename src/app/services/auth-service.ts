@@ -7,7 +7,7 @@ import { Farmer, User } from '../models/user.model';
 import { API_URL, TOKEN_KEY, USER_PATH, USER_INFO, FARMER_REGI, FARMER_DASHBOARD } from '../elements/constants';
 import { ThemeService } from './theme';
 import { ToastService } from './toast-service';
-import { UserRole } from '../models/enum.model';
+import { FarmerStatus, UserRole } from '../models/enum.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -19,6 +19,9 @@ export class AuthService {
 
 	private _currentUser = signal<User | null>(null);
 	readonly currentUser = this._currentUser.asReadonly();
+
+	private _isFarmerApproved = signal(false);
+	readonly isFarmerApproved = this._isFarmerApproved.asReadonly();
 
 	onLogin(credentials: any) {
 		return this.http.post<{ token: string, user?: any }>(`${API_URL}${USER_PATH}/login`, credentials).pipe(
@@ -45,10 +48,11 @@ export class AuthService {
 			const farmer = await firstValueFrom(
 				this.http.get<Farmer>(`${API_URL}farmers/get-by-userid/${userId}`)
 			);
-			if(farmer) {
+			if (farmer) {
 				localStorage.setItem(FARMER_REGI, JSON.stringify(farmer));
 			}
 			if (farmer && farmer.address && farmer.landDetails && farmer.dob) {
+				this._isFarmerApproved.set(farmer.status === FarmerStatus.APPROVED);
 				return true;
 			}
 			return false;
@@ -98,6 +102,8 @@ export class AuthService {
 	constructor() {
 		const token = localStorage.getItem(TOKEN_KEY);
 		const savedUserInfo = localStorage.getItem(USER_INFO);
+		const savedFarmerInfo = localStorage.getItem(FARMER_REGI);
+
 		if (token && savedUserInfo) {
 			if (this.jwtHelper.isTokenExpired(token)) {
 				this.toast.show('Session Expired! Login again', 'alert')
@@ -109,6 +115,16 @@ export class AuthService {
 				if (currentUser) {
 					this.themeService.themeChange(currentUser.role);
 				}
+
+				if (savedFarmerInfo) {
+					const farmer = JSON.parse(savedFarmerInfo);
+					this._isFarmerApproved.set(farmer.status === FarmerStatus.APPROVED);
+				}
+
+				if (currentUser?.role === UserRole.FARMER) {
+					this.isFarmerRegistered(currentUser.id);
+				}
+
 			} catch (e) {
 				this.logout();
 			}

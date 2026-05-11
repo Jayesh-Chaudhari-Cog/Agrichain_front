@@ -79,9 +79,19 @@ finalizeTransaction(transactionId: number): Observable<any> {
     return `${this.gatewayUrl}/documents/files/${fileName}`;
   }
 
+  getDocumentFileUrl(document: any): string {
+    // Assuming documents are served by ID since they're stored as BLOBs
+    const docId = document.documentId || document.id;
+    return `${this.gatewayUrl}/documents/${docId}/file`;
+  }
+
   // Make sure this method exists
 getAllFarmers(): Observable<any[]> {
   return this.http.get<any[]>(`${this.gatewayUrl}/farmers`);
+}
+
+getFarmerById(id: number): Observable<any> {
+  return this.http.get<any>(`${this.gatewayUrl}/farmers/${id}`);
 }
 
 

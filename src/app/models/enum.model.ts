@@ -15,6 +15,14 @@ export enum UserStatus {
   SUSPENDED = 'SUSPENDED'
 }
 
+export enum FarmerStatus {
+    ACTIVE = 'ACTIVE',
+    PENDING_VERIFICATION = 'PENDING_VERIFICATION',
+    APPROVED = 'APPROVED',
+    REJECTED = 'REJECTED',
+    INACTIVE = 'INACTIVE'
+}
+
 export enum CropListingStatus {
   PENDING = 'PENDING',
   VALIDATED = 'VALIDATED',

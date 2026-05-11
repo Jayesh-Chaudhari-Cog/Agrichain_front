@@ -5,9 +5,6 @@
     position: relative;
     padding: 0.5rem;
     background-color: var(--bg);
-    /* background: url('/welcome.jpg');
-    background-position: center;
-    background-size: cover; */
 }
 
 .login-signup-container {
@@ -52,7 +49,7 @@
     background-color: var(--accent-color);
     box-shadow: 0 0 1rem var(--accent-color);
     z-index: 8;
-    animation: login-ball-ani 0.6s linear;
+    animation: ballPulse 3s linear infinite;
 }
 .login-ball1, .login-wave1 {
     top: 100%;
@@ -62,24 +59,21 @@
     top: 0%;
     left: 50%;
 }
-@keyframes login-ball-ani {
-    0% {
-        width: 0%;
+@keyframes ballPulse{
+    30%, 65%, 100% {
+        width: calc(var(--ball-ani-size));
     }
-    90% {
+    35%, 60% {
         width: calc(var(--ball-ani-size) + 5%);
     }
-    95% {
+    45% {
         width: calc(var(--ball-ani-size) - 5%);
-    }
-    100% {
-        width: var(--ball-ani-size);
     }
 }
 .login-wave1, .login-wave2 {
     width: 0%;
     --wave-length: 4rem;
-    background: radial-gradient(circle at 50% 50%, transparent calc(100% - calc(var(--wave-length) * 3)), rgba(255, 255, 255, 0.5) calc(100% - var(--wave-length)));
+    background: radial-gradient(circle at 50% 50%, transparent calc(100% - calc(var(--wave-length) * 3)), rgba(255, 255, 255, 0.7) calc(100% - var(--wave-length)));
     z-index: 7;
     animation: login-wave-ani 3s linear infinite;
 }
@@ -100,8 +94,7 @@
 }
 .login-signup-container.active-signup .side-info-container{
     left: 50%;
-    background: linear-gradient(to right bottom, transparent, rgba(0, 0, 0, 0.4)),
-                linear-gradient(to right bottom, var(--accent-bg), var(--accent-color));
+    background: linear-gradient(to bottom, var(--accent-color), var(--accent-dark));
 }
 
 .side-info-container, .login-form-container {
@@ -126,8 +119,7 @@
     color: white;
     background-color: var(--accent-bg);
     z-index: 5;
-    background: linear-gradient(to right bottom, rgba(0, 0, 0, 0.35), transparent),
-                linear-gradient(to right bottom, var(--accent-bg), var(--accent-color));
+    background: linear-gradient(to bottom, var(--accent-dark), var(--accent-color));
     --ball-ani-size: 100%;
 }
 .side-info-welcome {

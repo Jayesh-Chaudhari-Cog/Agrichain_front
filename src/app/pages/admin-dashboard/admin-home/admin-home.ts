@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { ReportService } from '../../../services/report.service';
 import { NotificationService } from '../../../services/notification.service';
 import { UserService } from '../../../services/user-service';
-import { UserRole } from '../../../models/enum.model';
+import { CropListingStatus, UserRole } from '../../../models/enum.model';
 import { MarketService } from '../../../services/market';
+import Chart from 'chart.js/auto';
 
 @Component({
 	selector: 'admin-home',
@@ -16,6 +17,7 @@ export class AdminHome implements OnInit {
 
 	readonly totalReports = signal(0);
 	readonly totalNotifications = signal(0);
+	chart: any;
 
 	readonly totalUsers = signal(0);
 	totalPercent = computed(() => 100 / this.totalUsers());
@@ -35,7 +37,7 @@ export class AdminHome implements OnInit {
 		officer: '#abeeee',
 		manager: '#abffff',
 		admin: 'var(--admin-purple)'
-		};
+	};
 	readonly chartGradient = computed(() => {
 		const total = this.totalUsers();
 		if (total === 0) return 'lightgray';
@@ -69,6 +71,7 @@ export class AdminHome implements OnInit {
 
 	ngOnInit(): void {
 		this.fetchData();
+
 	}
 
 	fetchData() {
@@ -108,6 +111,40 @@ export class AdminHome implements OnInit {
 			this.totalAdmins.set(counts[UserRole.ADMIN]);
 		});
 
-		// this.marketService.getAll
+		this.marketService.getListingsByStatus(CropListingStatus.VALIDATED).subscribe(listings => {
+			this.createChart(listings);
+		});
+	}
+
+	createChart(data: any[]) {
+		// 1. Process data: Count occurrences of each crop name
+		const counts: { [key: string]: number } = {};
+		data.forEach(item => {
+			counts[item.cropName] = (counts[item.cropName] || 0) + 1;
+		});
+
+		const labels = Object.keys(counts);
+		const values = Object.values(counts);
+
+		// 2. Initialize Chart.js
+		this.chart = new Chart('CropChart', {
+			type: 'bar', // or 'pie', 'doughnut'
+			data: {
+				labels: labels,
+				datasets: [{
+					label: 'Number of Listings',
+					data: values,
+					backgroundColor: ['#4CAF50', '#FF9800', '#2196F3', '#9C27B0', '#F44336'],
+					borderWidth: 1
+				}]
+			},
+			options: {
+				responsive: true,
+				maintainAspectRatio: false,
+				plugins: {
+					legend: { display: false }
+				}
+			}
+		});
 	}
 }
