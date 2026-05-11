@@ -1,38 +1,46 @@
 <div class="a-page">
   <section class="section-header">
-		<div class="section-header-subsection">
-			<h1 class="grad-text">Crop Listings</h1>
-			<p>Browse the crop listings.</p>
-		</div>
-	</section>
+    <div class="section-header-subsection">
+      <h1 class="grad-text">Crop Market</h1>
+      <p>Browse all available verified crop listings.</p>
+    </div>
+  </section>
 
-  <div class="table-cover">
-    <table class="a-table">
-      <thead>
-        <tr class="bg-gray-100 border-b">
-          <th class="p-3">Crop Name</th>
-          <th class="p-3">Quantity</th>
-          <th class="p-3">Price</th>
-          <th class="p-3">Location</th>
-          <th class="p-3">Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="border-b hover:bg-gray-50">
-          <td class="p-3 font-medium">Organic Wheat</td>
-          <td class="p-3">500 kg</td>
-          <td class="p-3">$1.50/kg</td>
-          <td class="p-3">Salem, TN</td>
-          <td class="p-3"><span class="bg-green-100 text-green-700 px-2 py-1 rounded text-sm">Available</span></td>
-        </tr>
-        <tr class="border-b hover:bg-gray-50">
-          <td class="p-3 font-medium">Basmati Rice</td>
-          <td class="p-3">1200 kg</td>
-          <td class="p-3">$2.10/kg</td>
-          <td class="p-3">Erode, TN</td>
-          <td class="p-3"><span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-sm">Low Stock</span></td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="crop-card-grid">
+    <div class="data-card" *ngFor="let item of listings()">
+      
+      <div class="card-header-info">
+        <span class="id-tag">#{{item.listingId}}</span>
+        <span class="status-tag">VALIDATED</span>
+      </div>
+
+      <div class="card-content">
+        <h3 class="crop-name">{{item.cropType}}</h3>
+        
+        <div class="detail-item">
+          <span class="detail-label">Farmer ID:</span>
+          <span class="detail-value">F-{{item.farmerId}}</span>
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-label">Location:</span>
+          <span class="detail-value">{{item.location}}</span>
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-label">Available:</span>
+          <span class="detail-value">{{item.quantity}} Kgs</span>
+        </div>
+
+        <div class="price-highlight-box">
+          <span class="price-label">Price:</span>
+          <span class="price-amount">₹{{item.price}} / kg</span>
+        </div>
+      </div>
+      </div>
+  </div>
+
+  <div class="empty-state" *ngIf="listings().length === 0">
+    <p>No crops are currently available.</p>
   </div>
 </div>
