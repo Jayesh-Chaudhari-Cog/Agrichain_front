@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReportService } from '../../../services/report.service';
 import { NotificationService } from '../../../services/notification.service';
@@ -17,6 +17,7 @@ export class AdminHome implements OnInit {
 	readonly totalNotifications = signal(0);
 
 	readonly totalUsers = signal(0);
+	totalPercent = computed(() => 100 / this.totalUsers());
 	readonly totalFarmers = signal(0);
 	readonly totalTraders = signal(0);
 	readonly totalOfficers = signal(0);
@@ -24,6 +25,39 @@ export class AdminHome implements OnInit {
 	readonly totalCompliance = signal(0);
 	readonly totalAuditors = signal(0);
 	readonly totalAdmins = signal(0);
+
+	readonly colors = {
+		farmer: 'var(--farmer-green)',
+		trader: 'var(--trader-blue)',
+		compliance: '#00ced1',
+		auditor: '#00ffff',
+		officer: '#abeeee',
+		manager: '#abffff',
+		admin: 'var(--admin-purple)'
+		};
+	readonly chartGradient = computed(() => {
+		const total = this.totalUsers();
+		if (total === 0) return 'lightgray';
+
+		const p = (val: number) => (val / total) * 100;
+
+		const s1 = p(this.totalFarmers());
+		const s2 = s1 + p(this.totalTraders());
+		const s3 = s2 + p(this.totalCompliance());
+		const s4 = s3 + p(this.totalAuditors());
+		const s5 = s4 + p(this.totalOfficers());
+		const s6 = s5 + p(this.totalManagers());
+
+		return `conic-gradient(
+		${this.colors.farmer} 0% ${s1}%,
+		${this.colors.trader} ${s1}% ${s2}%,
+		${this.colors.compliance} ${s2}% ${s3}%,
+		${this.colors.auditor} ${s3}% ${s4}%,
+		${this.colors.officer} ${s4}% ${s5}%,
+		${this.colors.manager} ${s5}% ${s6}%,
+		${this.colors.admin} ${s6}% 100%
+  		)`;
+	});
 
 	readonly totalTransactions = signal(0);
 	readonly transactionAmount = signal(0);
@@ -82,6 +116,7 @@ export class AdminHome implements OnInit {
 		});
 
 		this.userService.getAllUsers().subscribe(users => {
+			this.totalUsers.set(users.length);
 			const counts = {
 				[UserRole.FARMER]: 0,
 				[UserRole.TRADER]: 0,

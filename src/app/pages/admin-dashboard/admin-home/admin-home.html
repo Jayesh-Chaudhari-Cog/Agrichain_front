@@ -36,11 +36,54 @@
 	<div class="analytics-grid">
 		<section class="analytics-panel card-section">
 			<header>
+				<h2>User Roles</h2>
+				<p>Percentage of all user roles</p>
+			</header>
+			<div class="donut-chart-container">
+				<div class="donut-chart" [style.background]="chartGradient()">
+					<div class="donut-hole"></div>
+				</div>
+			</div>
+			<div class="chart-bottom-info">
+				<div class="chart-info-item">
+					<span class="dot" style="background: var(--farmer-green)"></span>
+					<span class="label">Farmers ({{ totalFarmers() }})</span>
+				</div>
+				<div class="chart-info-item">
+					<span class="dot" style="background: var(--trader-blue)"></span>
+					<span class="label">Traders ({{ totalTraders() }})</span>
+				</div>
+				<div class="chart-info-item">
+					<span class="dot" style="background: #00ced1"></span>
+					<span class="label">Compliance ({{ totalCompliance() }})</span>
+				</div>
+				<div class="chart-info-item">
+					<span class="dot" style="background: #00ffff"></span>
+					<span class="label">Auditors ({{ totalAuditors() }})</span>
+				</div>
+				<div class="chart-info-item">
+					<span class="dot" style="background: #afeeee"></span>
+					<span class="label">Officers ({{ totalOfficers() }})</span>
+				</div>
+				<div class="chart-info-item">
+					<span class="dot" style="background: #e0ffff"></span>
+					<span class="label">Managers ({{ totalManagers() }})</span>
+				</div>
+				<div class="chart-info-item">
+					<span class="dot" style="background: var(--admin-purple)"></span>
+					<span class="label">Admins ({{ totalAdmins() }})</span>
+				</div>
+			</div>
+		</section>
+
+		<section class="analytics-panel card-section">
+			<header>
 				<h2>Transaction Success</h2>
 				<p>Percentage of successful operations</p>
 			</header>
 			<div class="donut-chart-container">
-				<div class="donut-chart" [style.background]="'conic-gradient(var(--farmer-green) ' + transactionSuccess() + '%, var(--accent-transparent) 0)'">
+				<div class="donut-chart"
+					[style.background]="'conic-gradient(var(--farmer-green) ' + transactionSuccess() + '%, var(--accent-transparent) 0)'">
 					<div class="donut-hole">
 						<strong>{{ transactionSuccess() }}%</strong>
 					</div>
@@ -55,13 +98,13 @@
 			</header>
 			<div class="chart-card">
 				@for(metric of metrics(); track metric.label) {
-					<div class="chart-row">
-						<span class="row-label">{{ metric.label }}</span>
-						<div class="bar-track">
-							<span class="bar-fill" [style.width.%]="metric.value"></span>
-						</div>
-						<span class="row-value">{{ metric.value }}%</span>
+				<div class="chart-row">
+					<span class="row-label">{{ metric.label }}</span>
+					<div class="bar-track">
+						<span class="bar-fill" [style.width.%]="metric.value"></span>
 					</div>
+					<span class="row-value">{{ metric.value }}%</span>
+				</div>
 				}
 			</div>
 		</section>
