@@ -106,7 +106,7 @@ app-welcome, app-login {
     display: flex;
     justify-content: center;
     flex-direction: column;
-    padding: 0.5rem;
+    padding: 1rem;
     gap: 0.5rem;
 }
 .input-box {
@@ -120,6 +120,7 @@ app-welcome, app-login {
     font-size: 1rem;
     font-weight: 600;
     transition: all 0.3s;
+    cursor: pointer;
 }
 .form-buttons-box {
     display: flex;
@@ -147,6 +148,13 @@ app-welcome, app-login {
 .input-field:focus {
     border: none;
     outline: 2px solid var(--accent-dark);
+}
+.input-field:disabled {
+    opacity: 0.8;
+    cursor: not-allowed;
+    border-radius: 0.2rem;
+    border: 1px solid #888;
+    color: #888;
 }
 
 .btn {
