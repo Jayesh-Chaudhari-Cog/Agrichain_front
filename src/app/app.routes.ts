@@ -29,6 +29,7 @@ import { roleGuard } from './core/guards/role-guard';
 import { DashboardRedirectComponent } from './core/guards/dashboard-redirect';
 import { FarmerListings } from './pages/farmer-dashboard/farmer-listings/farmer-listings';
 import { FarmerSubsidy } from './pages/farmer-dashboard/farmer-subsidy/farmer-subsidy';
+import { registrationGuard } from './core/guards/register-guard';
 
 export const routes: Routes = [
     {
@@ -61,16 +62,28 @@ export const routes: Routes = [
                 ]
             },
 
-            // FARMER SECTION (Updated to include Dashboard)
+            // FARMER SECTION
             {
                 path: 'farmer',
                 canActivate: [roleGuard],
                 data: { roles: ['FARMER'] },
                 children: [
-                    { path: 'home', component: FarmerDashboardPage },
                     { path: 'register', component: RegisterComponent },
-                    { path: 'listings', component: FarmerListings },
-                    { path: 'subsidies', component: FarmerSubsidy },
+                    {
+                        path: 'home',
+                        component: FarmerDashboardPage,
+                        canActivate: [registrationGuard]
+                    },
+                    {
+                        path: 'listings',
+                        component: FarmerListings,
+                        canActivate: [registrationGuard]
+                    },
+                    {
+                        path: 'subsidies',
+                        component: FarmerSubsidy,
+                        canActivate: [registrationGuard]
+                    },
                     { path: '', pathMatch: 'full', redirectTo: 'home' }
                 ]
             },

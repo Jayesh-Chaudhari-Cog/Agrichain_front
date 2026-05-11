@@ -120,7 +120,11 @@ export class LoginPage {
 			}
 			this.authService.onRegister(payload).subscribe({
 				next: () => {
-					this.toast.show('Registration successful! Please login.', 'success');
+					if(this.themeService.role_selected() === "FARMER" ) {
+						this.toast.show('Signup successful! login to fill register details.', 'success');
+					} else {
+						this.toast.show('Signup successful! Please login.', 'success');
+					}
 					this.onAccountMethodChange('login');
 				},
 				error: (err) => console.error("Signup failed", err)

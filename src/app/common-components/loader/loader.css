@@ -41,7 +41,7 @@
     align-items: center;
     justify-content: center;
     transform-origin: center;
-    animation: leaf-ani 3s linear infinite;
+    animation: leaf-ani 5s linear infinite;
 }
 .leaf1 {
     top: 37%;
@@ -53,13 +53,13 @@
     left: 0.75rem;
     bottom: 1.5rem;
     --leaf-value: -60deg;
-    animation-delay: 0.2s;
+    animation-delay: 0.3s;
 }
 .leaf3 {
     right: 0.6rem;
     bottom: 1.2rem;
     --leaf-value: 60deg;
-    animation-delay: 0.5s;
+    animation-delay: 0.6s;
 }
 
 .leaf-svg1 {
@@ -76,16 +76,16 @@
     0% {
         transform: rotate(var(--leaf-value)) scale(0);
     }
-    12% {
+    7% {
         transform: rotate(0deg) scale(1.2);
     }
-    15% {
+    12% {
         transform: scale(0.9);
     }
-    20%, 85% {
+    15%, 80% {
         transform: scale(1);
     }
     100% {
-        transform: translateY(5.2rem) rotate(var(--leaf-value));
+        transform: translateY(10rem) rotate(var(--leaf-value));
     }
 }

@@ -8,3 +8,16 @@ export interface User {
     role: UserRole;
     status: UserStatus;
 }
+
+export interface Farmer {
+    id: number,
+    userId: number,
+    name: string,
+    email: string,
+    dob: Date,
+    gender: string,
+    address: string,
+    contactInfo: string,
+    landDetails: string,
+    status: string
+}

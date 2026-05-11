@@ -7,11 +7,13 @@ import { ToastService } from '../../../services/toast-service';
 import { SubsidyProgram } from '../../../models/subsidy.model';
 import { Disbursement, DisbursementDTO } from '../../../models/dto.model';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { FARMER_REGI } from '../../../elements/constants';
+import { VerifyPending } from '../../../common-components/verify-pending/verify-pending';
 
 @Component({
   selector: 'app-farmer-subsidy',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, VerifyPending],
   templateUrl: './farmer-subsidy.html',
   styleUrl: './farmer-subsidy.css',
 })
@@ -20,6 +22,8 @@ export class FarmerSubsidy implements OnInit {
   private authService = inject(AuthService);
   private toastService = inject(ToastService);
   private jwtHelper = new JwtHelperService();
+
+  isPending = signal(false);
 
   // Data signals
   subsidyPrograms = signal<SubsidyProgram[]>([]);
@@ -36,6 +40,13 @@ export class FarmerSubsidy implements OnInit {
   requestedAmount = signal<number | null>(null);
 
   ngOnInit() {
+    const farmerData = JSON.parse(localStorage.getItem(FARMER_REGI) || '{}');
+
+    if (farmerData.status != 'VERIFIED') {
+      this.isPending.set(true);
+    }
+
+
     const user = this.authService.currentUser();
     if (user && user.id) {
       this.farmerUserId.set(user.id);
@@ -171,7 +182,7 @@ export class FarmerSubsidy implements OnInit {
       error: (err) => {
         console.error('Subsidy application failed:', err);
         const errorMsg = err.error?.message || 'Something went wrong.';
-        
+
         if (errorMsg.toLowerCase().includes('already applied')) {
           this.toastService.show('You have already applied for this program.', 'alert');
         } else if (errorMsg.toLowerCase().includes('budget')) {
@@ -206,7 +217,7 @@ export class FarmerSubsidy implements OnInit {
    */
   getApplicationStatusDisplay(status: string | undefined): string {
     if (!status) return 'Pending';
-    
+
     switch (status.toUpperCase()) {
       case 'PENDING':
         return 'Under Review';
@@ -226,13 +237,13 @@ export class FarmerSubsidy implements OnInit {
    */
   getStatusBadgeClass(status: string | undefined): string {
     if (!status) return 'status-pending';
-    
+
     const statusLower = status.toLowerCase();
     if (statusLower === 'pending') return 'status-pending';
     if (statusLower === 'in_progress') return 'status-in-progress';
     if (statusLower === 'completed') return 'status-completed';
     if (statusLower === 'rejected') return 'status-rejected';
-    
+
     return 'status-pending';
   }
 }

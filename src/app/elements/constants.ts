@@ -1,7 +1,8 @@
 export const API_URL = 'http://localhost:8090/';
 
 export const TOKEN_KEY = 'agrichain_token';
-export const USER_INFO = "currentUser"
+export const USER_INFO = "currentUser";
+export const FARMER_REGI = "farmer_registration";
 
 export const FARMER_DASHBOARD = '/dashboard/farmer/';
 export const ADMIN_DASHBOARD = '/dashboard/admin/';

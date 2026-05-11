@@ -2,11 +2,12 @@ import { Injectable, inject, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
-import { tap } from 'rxjs';
-import { User } from '../models/user.model';
-import { API_URL, TOKEN_KEY, USER_PATH, USER_INFO } from '../elements/constants';
+import { firstValueFrom, Observable, tap } from 'rxjs';
+import { Farmer, User } from '../models/user.model';
+import { API_URL, TOKEN_KEY, USER_PATH, USER_INFO, FARMER_REGI, FARMER_DASHBOARD } from '../elements/constants';
 import { ThemeService } from './theme';
 import { ToastService } from './toast-service';
+import { UserRole } from '../models/enum.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -21,16 +22,40 @@ export class AuthService {
 
 	onLogin(credentials: any) {
 		return this.http.post<{ token: string, user?: any }>(`${API_URL}${USER_PATH}/login`, credentials).pipe(
-			tap(response => {
+			tap(async response => {
 				this.saveToken(response.token);
-				console.log("token", response.token);
-				console.log("user", response.user);
 				if (response.user) {
 					this._currentUser.set(response.user);
 					localStorage.setItem(USER_INFO, JSON.stringify(response.user));
+
+					if (response.user.role === UserRole.FARMER) {
+						const registered = await this.isFarmerRegistered(response.user.id);
+						if (!registered) {
+							this.toast.show('Registration Page', 'info');
+							this.router.navigate([`${FARMER_DASHBOARD}register`]);
+						}
+					}
 				}
 			})
 		);
+	}
+
+	async isFarmerRegistered(userId: number): Promise<boolean> {
+		try {
+			const farmer = await firstValueFrom(
+				this.http.get<Farmer>(`${API_URL}farmers/get-by-userid/${userId}`)
+			);
+			if(farmer) {
+				localStorage.setItem(FARMER_REGI, JSON.stringify(farmer));
+			}
+			if (farmer && farmer.address && farmer.landDetails && farmer.dob) {
+				return true;
+			}
+			return false;
+		} catch (error) {
+			console.error("Error checking farmer registration", error);
+			return false;
+		}
 	}
 
 	onRegister(userData: any) {
@@ -62,18 +87,19 @@ export class AuthService {
 	logout(shouldRedirect: boolean = true) {
 		localStorage.removeItem(TOKEN_KEY);
 		localStorage.removeItem(USER_INFO);
+		localStorage.removeItem(FARMER_REGI);
 
 		this._currentUser.set(null);
 
-		if(shouldRedirect)
+		if (shouldRedirect)
 			this.router.navigate(['/login']);
 	}
-	
+
 	constructor() {
 		const token = localStorage.getItem(TOKEN_KEY);
 		const savedUserInfo = localStorage.getItem(USER_INFO);
 		if (token && savedUserInfo) {
-			if(this.jwtHelper.isTokenExpired(token)) {
+			if (this.jwtHelper.isTokenExpired(token)) {
 				this.toast.show('Session Expired! Login again', 'alert')
 				this.logout();
 			}

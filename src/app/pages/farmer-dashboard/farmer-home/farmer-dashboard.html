@@ -1,13 +1,8 @@
 <div class="a-page dashboard-wrapper">
-	<!-- <aside class="sidebar">
-    <h3 class="grad-text">AgriChain</h3>
-    <nav>
-      <a [class.active]="activeTab() === 'dashboard'" (click)="setActiveTab('dashboard')">Dashboard</a>
-      <a [class.active]="activeTab() === 'crops'" (click)="setActiveTab('crops')">Crop Listings</a>
-      <a [class.active]="activeTab() === 'subsidies'" (click)="setActiveTab('subsidies')">Subsidies</a>
-      <a [class.active]="activeTab() === 'settings'" (click)="setActiveTab('settings')">Settings</a>
-    </nav>
-  </aside> -->
+  @if(isPending()) {
+    <verify-pending />
+  }
+
 	<section class="section-header">
 		<div class="section-header-subsection">
 			<h1>Welcome back <span class="grad-text">{{ farmerName() }}</span></h1>
@@ -74,7 +69,6 @@
 
   <!-- Subsidies Tab -->
   <div *ngIf="activeTab() === 'subsidies'">
-    <app-farmer-subsidy></app-farmer-subsidy>
   </div>
 
   <div class="form-overlay" *ngIf="showAddForm()">
