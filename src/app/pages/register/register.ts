@@ -51,7 +51,7 @@ export class RegisterComponent {
 
         this.http.put(`${API_URL}farmers/register/${this.farmer.userId}`, formData)
             .subscribe(res => {
-                this.toast.show('Registration Successful!', 'success');
+                this.toast.show('Registration Successful. Awaiting verification!', 'success');
                 localStorage.setItem(FARMER_REGI, JSON.stringify(res));
                 this.router.navigate(['/dashboard/farmer/home']);
             });

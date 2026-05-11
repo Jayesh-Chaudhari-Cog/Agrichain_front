@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../services/auth-service';
 import { API_URL, FARMER_REGI } from '../../../elements/constants';
+import { VerifyPending } from '../../../common-components/verify-pending/verify-pending';
 
 // Interface to match your Backend CropListingDTO
 interface CropListing {
@@ -18,7 +19,7 @@ interface CropListing {
 @Component({
 	selector: 'app-farmer-dashboard',
 	standalone: true,
-	imports: [CommonModule, FormsModule],
+	imports: [CommonModule, FormsModule, VerifyPending],
 	templateUrl: './farmer-dashboard.html',
 	styleUrl: './farmer-dashboard.css'
 })
@@ -32,14 +33,13 @@ export class FarmerDashboardPage implements OnInit {
 
 	ngOnInit() {
 		const farmerData = JSON.parse(localStorage.getItem(FARMER_REGI) || '{}');
-		
-		if (farmerData.status !== 'VERIFIED') {
+
+		if (farmerData.status != 'VERIFIED') {
 			this.isPending.set(true);
-		} else {
-			this.farmerName.set(farmerData.name);
-			this.status.set(farmerData.status);
-			this.loadFarmerData();
 		}
+		this.farmerName.set(farmerData.name);
+		this.status.set(farmerData.status);
+		this.loadFarmerData();
 	}
 
 	listedCropsCount = signal(0);

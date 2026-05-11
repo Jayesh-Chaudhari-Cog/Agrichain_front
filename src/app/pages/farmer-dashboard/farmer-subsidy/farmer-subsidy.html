@@ -1,5 +1,7 @@
 <div class="a-page">
-    <!-- Section 1: Available Subsidy Programs -->
+    @if(isPending()) {
+        <verify-pending />
+    }
     <section class="section-header">
         <div class=" section-header-subsection">
             <h1 class="grad-text">Available Subsidy Programs</h1>

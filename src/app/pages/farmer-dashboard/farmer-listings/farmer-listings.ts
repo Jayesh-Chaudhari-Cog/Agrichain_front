@@ -10,10 +10,10 @@
 // })
 // export class FarmerListings implements OnInit {
 //   private http = inject(HttpClient);
-  
+
 //   // Replace this with the actual logged-in user ID from your AuthService
 //   currentFarmerId = 9; 
-  
+
 //   myListings = signal<any[]>([]);
 
 //   ngOnInit() {
@@ -32,21 +32,30 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth-service';
+import { VerifyPending } from '../../../common-components/verify-pending/verify-pending';
+import { FARMER_REGI } from '../../../elements/constants';
 
 @Component({
   selector: 'app-farmer-listings',
-  standalone: true, 
-  imports: [CommonModule],
+  standalone: true,
+  imports: [CommonModule, VerifyPending],
   templateUrl: './farmer-listings.html',
   styleUrl: './farmer-listings.css',
 })
 export class FarmerListings implements OnInit {
   private http = inject(HttpClient);
   private authService = inject(AuthService);
-  
+
+  isPending = signal(false);
+
   myListings = signal<any[]>([]);
 
   ngOnInit() {
+    const farmerData = JSON.parse(localStorage.getItem(FARMER_REGI) || '{}');
+
+    if (farmerData.status != 'VERIFIED') {
+      this.isPending.set(true);
+    }
     this.fetchMyListings();
   }
 
@@ -54,7 +63,7 @@ export class FarmerListings implements OnInit {
     // Access the signal value by calling it like a function ()
     // Use optional chaining (?.) because currentUser could be null
     const user = this.authService.currentUser();
-    const currentFarmerId = user?.id; 
+    const currentFarmerId = user?.id;
 
     if (currentFarmerId) {
       this.http.get<any[]>(`http://localhost:8090/market/listings/farmer/${currentFarmerId}`)

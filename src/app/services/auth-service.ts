@@ -45,12 +45,15 @@ export class AuthService {
 			const farmer = await firstValueFrom(
 				this.http.get<Farmer>(`${API_URL}farmers/get-by-userid/${userId}`)
 			);
+			if(farmer) {
+				localStorage.setItem(FARMER_REGI, JSON.stringify(farmer));
+			}
 			if (farmer && farmer.address && farmer.landDetails && farmer.dob) {
 				return true;
 			}
-			localStorage.setItem(FARMER_REGI, JSON.stringify(farmer));
 			return false;
 		} catch (error) {
+			console.error("Error checking farmer registration", error);
 			return false;
 		}
 	}
