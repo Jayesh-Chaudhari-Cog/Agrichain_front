@@ -23,14 +23,6 @@
 			<p>Notifications</p>
 			<strong>{{ totalNotifications() }}</strong>
 		</div>
-		<div class="summary-card">
-			<p>Transactions</p>
-			<strong>{{ totalTransactions() }}</strong>
-		</div>
-		<div class="summary-card">
-			<p>Total Volume</p>
-			<strong>${{ transactionAmount() | number }}</strong>
-		</div>
 	</section>
 
 	<div class="analytics-grid">
@@ -41,7 +33,9 @@
 			</header>
 			<div class="donut-chart-container">
 				<div class="donut-chart" [style.background]="chartGradient()">
-					<div class="donut-hole"></div>
+					<div class="donut-hole">
+						<strong>{{ totalUsers() }}</strong>
+					</div>
 				</div>
 			</div>
 			<div class="chart-bottom-info">
@@ -82,31 +76,12 @@
 				<p>Percentage of successful operations</p>
 			</header>
 			<div class="donut-chart-container">
-				<div class="donut-chart"
-					[style.background]="'conic-gradient(var(--farmer-green) ' + transactionSuccess() + '%, var(--accent-transparent) 0)'">
-					<div class="donut-hole">
-						<strong>{{ transactionSuccess() }}%</strong>
-					</div>
+				<div class="donut-chart">
 				</div>
-			</div>
-		</section>
-
-		<section class="analytics-panel card-section">
-			<header>
-				<h2>System Health</h2>
-				<p>Live indices computed from microservices</p>
-			</header>
-			<div class="chart-card">
-				@for(metric of metrics(); track metric.label) {
-				<div class="chart-row">
-					<span class="row-label">{{ metric.label }}</span>
-					<div class="bar-track">
-						<span class="bar-fill" [style.width.%]="metric.value"></span>
-					</div>
-					<span class="row-value">{{ metric.value }}%</span>
-				</div>
-				}
 			</div>
 		</section>
 	</div>
+	<section >
+		
+	</section>
 </div>

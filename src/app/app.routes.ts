@@ -6,7 +6,6 @@ import { AdminReports } from './pages/admin-dashboard/admin-reports/admin-report
 import { AdminNotifications } from './pages/admin-dashboard/admin-notifications/admin-notifications';
 import { TraderPage } from "./pages/trader-dashboard/trader-home/trader";
 import { TraderCroplistings } from './pages/trader-dashboard/trader-croplistings/trader-croplistings';
-import { TraderOrders } from './pages/trader-dashboard/trader-orders/trader-orders';
 import { PublicLayoutComponent } from './public-layout';
 import { AuthLayoutComponent } from './auth-layout';
 import { RegisterComponent } from './pages/register/register';
@@ -96,7 +95,6 @@ export const routes: Routes = [
                 children: [
                     { path: 'home', component: TraderPage },
                     { path: 'croplistings', component: TraderCroplistings },
-                    { path: 'orders', component: TraderOrders },
                     { path: '', pathMatch: 'full', redirectTo: 'home' }
                 ]
             },
