@@ -46,6 +46,9 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
                     case 500:
                         errorMessage = 'Internal Server Error. Please try again later.';
                         break;
+                    case 503:
+                        errorMessage = "Server Error!";
+                        break;
                     default:
                         errorMessage = error.error?.message || `Error status: ${error.status}`;
                         break;

@@ -8,7 +8,7 @@
 	</section>
 
 	@if (showForm()) {
-		<section class="card-form-section">
+		<section class="card-section">
 			<h2>Create Broadcast Notification</h2>
 			<form (ngSubmit)="submitForm()" class="form-container">
 				<div class="input-box">
@@ -65,7 +65,9 @@
 							</td>
 						</tr>
 					} @empty {
-						<p>No broadcast notifications found.</p>
+						<tr>
+							<td colspan="5" style="text-align: center;">No Reports found</td>
+						</tr>
 					}
 				</tbody>
 			</table>
