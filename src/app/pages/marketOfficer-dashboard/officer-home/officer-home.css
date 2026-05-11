@@ -392,15 +392,6 @@
   margin-top: 20px;
 }
 
-/* Standalone Variables fix */
-:host {
-  --accent-color: #00ACC1;
-  --accent-transparent: #00ACC125;
-  --accent-dark: #007FAA;
-  --accent-bg: #B2EBF2;
-  --white: #ffffff;
-}
-
 /* Existing utility styles from your original code */
 .fade-in { animation: fadeIn 0.3s ease-out; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
