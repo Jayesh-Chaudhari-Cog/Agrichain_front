@@ -116,11 +116,6 @@ export class AuthService {
 					this.themeService.themeChange(currentUser.role);
 				}
 
-				if (savedFarmerInfo) {
-					const farmer = JSON.parse(savedFarmerInfo);
-					this._isFarmerApproved.set(farmer.status === FarmerStatus.APPROVED);
-				}
-
 				if (currentUser?.role === UserRole.FARMER) {
 					this.isFarmerRegistered(currentUser.id);
 				}

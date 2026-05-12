@@ -8,35 +8,18 @@ import { OrderDTO } from '../models/dto.model';
   providedIn: 'root'
 })
 export class MarketService {
-  private gatewayUrl = 'http://localhost:8090'; 
+  private gatewayUrl = 'http://localhost:8090';
 
   private baseUrl = 'http://localhost:8090/disbursements'; // Adjust port as needed
   // Add these to your existing MarketService class
-private transUrl = `${this.gatewayUrl}/transactions`; // Routed via Gateway
+  private transUrl = `${this.gatewayUrl}/transactions`; // Routed via Gateway
 
 
-placeOrder(orderDto: any): Observable<any> {
-  return this.http.post<any>(`${this.gatewayUrl}/market/placeorder`, orderDto);
-}
+  placeOrder(orderDto: any): Observable<any> {
+    return this.http.post<any>(`${this.gatewayUrl}/market/placeorder`, orderDto);
+  }
 
-// --- TRANSACTION SERVICE CALLS ---
-
-/** Initiates a new transaction record */
-initiateTransaction(txRequest: any): Observable<any> {
-  return this.http.post<any>(`${this.transUrl}/initiate`, txRequest);
-}
-
-/** Fetches transactions for the trader by status (e.g., PENDING) */
-getTransactionsByStatus(status: string): Observable<any[]> {
-  return this.http.get<any[]>(`${this.transUrl}/status/${status}`);
-}
-
-/** Finalizes a payment - Maps to @PutMapping("/{id}/finalize") */
-finalizeTransaction(transactionId: number): Observable<any> {
-  return this.http.put<any>(`${this.transUrl}/${transactionId}/finalize`, {});
-}
-
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // 1. Listings (Updated to accept status and reason to fix TS2554)
   getListingsByStatus(status: string): Observable<any[]> {
@@ -50,18 +33,18 @@ finalizeTransaction(transactionId: number): Observable<any> {
 
   // 2. Documents (Added these back to fix OfficerHome errors)
   getAllDocuments(): Observable<any[]> {
-  return this.http.get<any[]>(`${this.gatewayUrl}/documents/all`);
-}
+    return this.http.get<any[]>(`${this.gatewayUrl}/documents/all`);
+  }
 
   getPendingDocuments(): Observable<any[]> {
     return this.http.get<any[]>(`${this.gatewayUrl}/documents/all`); // or specific pending endpoint
   }
 
- 
+
   verifyDocument(id: number, status: string): Observable<any> {
-  // Ensure the URL matches your Backend @PutMapping or @PostMapping
-  return this.http.patch(`${this.gatewayUrl}/documents/${id}/verify?status=${status}`, {});
-}
+    // Ensure the URL matches your Backend @PutMapping or @PostMapping
+    return this.http.patch(`${this.gatewayUrl}/documents/${id}/verify?status=${status}`, {});
+  }
 
   getFileUrl(fileName: string): string {
     return `${this.gatewayUrl}/documents/files/${fileName}`;
@@ -74,32 +57,32 @@ finalizeTransaction(transactionId: number): Observable<any> {
   }
 
   // Make sure this method exists
-getAllFarmers(): Observable<any[]> {
-  return this.http.get<any[]>(`${this.gatewayUrl}/farmers`);
-}
+  getAllFarmers(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.gatewayUrl}/farmers`);
+  }
 
-getFarmerById(id: number): Observable<any> {
-  return this.http.get<any>(`${this.gatewayUrl}/farmers/${id}`);
-}
+  getFarmerById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.gatewayUrl}/farmers/${id}`);
+  }
 
 
-// inside market.ts
-getAllLogs(): Observable<any[]> {
-  // Replace with your actual backend URL later
-  return this.http.get<any[]>(`${this.gatewayUrl}/market/audit-logs`);
-}
+  // inside market.ts
+  getAllLogs(): Observable<any[]> {
+    // Replace with your actual backend URL later
+    return this.http.get<any[]>(`${this.gatewayUrl}/market/audit-logs`);
+  }
 
-// inside market.ts
-// inside market.ts
-approveCrop(id: number, status: string, reason: string): Observable<any> {
-  // Use .patch to match your backend @PatchMapping
-  return this.http.patch(`${this.gatewayUrl}/market/listings/validate/${id}`, null, {
-    params: {
-      status: status,
-      reason: reason
-    }
-  });
-}
+  // inside market.ts
+  // inside market.ts
+  approveCrop(id: number, status: string, reason: string): Observable<any> {
+    // Use .patch to match your backend @PatchMapping
+    return this.http.patch(`${this.gatewayUrl}/market/listings/validate/${id}`, null, {
+      params: {
+        status: status,
+        reason: reason
+      }
+    });
+  }
 
   getOrdersByTrader(traderId: number): Observable<OrderDTO[]> {
     return this.http.get<OrderDTO[]>(`${this.gatewayUrl}/market/orders/trader/${traderId}`);
@@ -118,5 +101,5 @@ approveCrop(id: number, status: string, reason: string): Observable<any> {
   reviewDisbursement(id: number, status: string): Observable<any> {
     return this.http.patch(`${this.baseUrl}/${id}/review?status=${status}`, {});
   }
-  
+
 }

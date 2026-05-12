@@ -146,6 +146,15 @@ export class OfficerHome implements OnInit {
 			},
 			error: (err) => console.error("❌ Farmer Fetch Failed:", err)
 		});
+
+		// 4. Fetch Subsidies
+		this.marketService.getSubsidies().subscribe({
+			next: (data) => {
+				this.pendingSubsidies = data.filter(sub => sub.disbursementStatus === 'PENDING');
+				this.stats.subsidyApps = this.pendingSubsidies.length;
+			},
+			error: (err) => console.error("❌ Subsidy Fetch Failed:", err)
+		});
 	}
 
 	setModule(moduleName: 'dashboard' | 'crops' | 'documents' | 'subsidies' | 'farmers') {
@@ -242,8 +251,7 @@ export class OfficerHome implements OnInit {
 		console.log('farmer', farmer)
 		const approvePromises = farmer.documents.map((doc: any) => {
 			console.log('doc', doc)
-			return this.marketService.verifyDocument(doc.id, 'VERIFIED').toPromise();
-
+			return this.marketService.verifyDocument(doc.documentId, 'VERIFIED').toPromise();
 		}
 		);
 
@@ -266,7 +274,7 @@ export class OfficerHome implements OnInit {
 
 		// Reject all documents for this farmer
 		const rejectPromises = farmer.documents.map((doc: any) =>
-			this.marketService.verifyDocument(doc.id, 'REJECTED').toPromise()
+			this.marketService.verifyDocument(doc.documentId, 'REJECTED').toPromise()
 		);
 
 		Promise.all(rejectPromises).then(() => {
@@ -295,15 +303,15 @@ export class OfficerHome implements OnInit {
 		return this.marketService.getDocumentFileUrl(doc);
 	}
 
-	approveSubsidy(id: number) {
-		this.marketService.reviewSubisdy(id, 'APPROVED').subscribe({
+	approveSubsidy(id: number, status: string = 'APPROVED') {
+		this.marketService.reviewDisbursement(id, status).subscribe({
 			next: (res) => {
-				this.toast.show('Subsidy approved and funds disbursed!', 'success');
+				this.toast.show(`Subsidy ${status.toLowerCase()} successfully!`, 'success');
 				this.refreshAllData();
 			},
 			error: (err) => {
 				console.error('Disbursement failed', err);
-				this.toast.show('Failed to approve subsidy', 'alert');
+				this.toast.show('Failed to process subsidy', 'alert');
 			}
 		});
 	}
