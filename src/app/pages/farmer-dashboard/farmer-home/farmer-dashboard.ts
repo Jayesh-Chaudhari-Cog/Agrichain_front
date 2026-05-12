@@ -5,6 +5,9 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../services/auth-service';
 import { API_URL, FARMER_REGI } from '../../../elements/constants';
 import { VerifyPending } from '../../../common-components/verify-pending/verify-pending';
+import { UserService } from '../../../services/user-service';
+import { Farmer } from '../../../models/user.model';
+import { faL } from '@fortawesome/free-solid-svg-icons';
 
 // Interface to match your Backend CropListingDTO
 interface CropListing {
@@ -27,7 +30,7 @@ export class FarmerDashboardPage implements OnInit {
 	private authService = inject(AuthService);
 	private http = inject(HttpClient);
 
-	isPending = computed(() => !this.authService.isFarmerApproved());
+	isApproved = signal(false);
 
 	farmerName = signal('');
 	status = signal('');
@@ -55,7 +58,18 @@ export class FarmerDashboardPage implements OnInit {
 	loadFarmerData() {
 		const user = this.authService.currentUser();
 		if (user) {
-			this.farmerName.set(user.name || user.email);
+			this.farmerName.set(user.name);
+
+			this.http.get<Farmer>(`${API_URL}farmers/get-by-userid/${user.id}`)
+				.subscribe({
+					next: (data) => {
+						this.status.set(data.status);
+						this.isApproved.set(data.status === "APPROVED");
+					},
+					error: (err) => {
+						this.isApproved.set(false);
+					}
+				});
 
 			if (user.id) {
 				this.http.get<CropListing[]>(`${API_URL}market/listings/farmer/${user.id}`)

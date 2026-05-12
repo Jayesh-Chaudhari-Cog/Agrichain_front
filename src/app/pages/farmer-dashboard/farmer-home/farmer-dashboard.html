@@ -1,5 +1,5 @@
 <div class="a-page dashboard-wrapper">
-  @if(isPending()) {
+  @if(!this.isApproved()) {
     <verify-pending />
   }
 

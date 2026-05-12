@@ -33,7 +33,8 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth-service';
 import { VerifyPending } from '../../../common-components/verify-pending/verify-pending';
-import { FARMER_REGI } from '../../../elements/constants';
+import { API_URL, FARMER_REGI, USER_INFO } from '../../../elements/constants';
+import { Farmer, User } from '../../../models/user.model';
 
 @Component({
   selector: 'app-farmer-listings',
@@ -46,12 +47,22 @@ export class FarmerListings implements OnInit {
   private http = inject(HttpClient);
   private authService = inject(AuthService);
 
-  isPending = computed(() => !this.authService.isFarmerApproved());
+  isApproved = signal(false);
 
   myListings = signal<any[]>([]);
 
   ngOnInit() {
     this.fetchMyListings();
+    const user: User = JSON.parse(localStorage.getItem(USER_INFO) || '{}');
+    this.http.get<Farmer>(`${API_URL}farmers/get-by-userid/${user.id}`)
+            .subscribe({
+              next: (data) => {
+                this.isApproved.set(data.status === "APPROVED");
+              },
+              error: (err) => {
+                this.isApproved.set(false);
+              }
+            });
   }
 
   fetchMyListings() {

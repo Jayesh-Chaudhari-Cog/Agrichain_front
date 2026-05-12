@@ -9,9 +9,6 @@ import { User } from '../models/user.model';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-    private themeService = inject(ThemeService);
-    private toast = inject(ToastService);
-
     constructor(private http: HttpClient) { }
 
     getAllUsers(): Observable<User[]> {

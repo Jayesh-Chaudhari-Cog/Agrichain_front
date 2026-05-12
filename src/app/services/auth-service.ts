@@ -51,8 +51,7 @@ export class AuthService {
 			if (farmer) {
 				localStorage.setItem(FARMER_REGI, JSON.stringify(farmer));
 			}
-			if (farmer && farmer.address && farmer.landDetails && farmer.dob) {
-				this._isFarmerApproved.set(farmer.status === FarmerStatus.APPROVED);
+			if (farmer && farmer.address !== null && farmer.landDetails !== null && farmer.dob !== null) {
 				return true;
 			}
 			return false;
@@ -60,6 +59,19 @@ export class AuthService {
 			console.error("Error checking farmer registration", error);
 			return false;
 		}
+	}
+
+	isFarmerGotApproved(): any {
+		const user: User = JSON.parse(localStorage.getItem(USER_INFO) || '{}');
+		this.http.get<Farmer>(`${API_URL}farmers/get-by-userid/${user.id}`)
+			.subscribe({
+				next: (data) => {
+					return data.status === "APPROVED";
+				},
+				error: (err) => {
+					return false;
+				}
+			});
 	}
 
 	onRegister(userData: any) {
@@ -117,7 +129,7 @@ export class AuthService {
 				}
 
 				if (currentUser?.role === UserRole.FARMER) {
-					this.isFarmerRegistered(currentUser.id);
+					this.isFarmerGotApproved();
 				}
 
 			} catch (e) {

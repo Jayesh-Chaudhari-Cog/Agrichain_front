@@ -7,8 +7,10 @@ import { ToastService } from '../../../services/toast-service';
 import { SubsidyProgram } from '../../../models/subsidy.model';
 import { Disbursement, DisbursementDTO } from '../../../models/dto.model';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { FARMER_REGI } from '../../../elements/constants';
+import { API_URL, FARMER_REGI } from '../../../elements/constants';
 import { VerifyPending } from '../../../common-components/verify-pending/verify-pending';
+import { Farmer } from '../../../models/user.model';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-farmer-subsidy',
@@ -21,9 +23,9 @@ export class FarmerSubsidy implements OnInit {
   private subsidyService = inject(SubsidyService);
   private authService = inject(AuthService);
   private toastService = inject(ToastService);
-  private jwtHelper = new JwtHelperService();
+  private http = inject(HttpClient);
 
-  isPending = computed(() => !this.authService.isFarmerApproved());
+  isApproved = signal(false);
 
   // Data signals
   subsidyPrograms = signal<SubsidyProgram[]>([]);
@@ -45,6 +47,16 @@ export class FarmerSubsidy implements OnInit {
       this.farmerUserId.set(user.id);
       this.loadSubsidyPrograms();
       this.loadFarmerDisbursements();
+
+      this.http.get<Farmer>(`${API_URL}farmers/get-by-userid/${user.id}`)
+        .subscribe({
+          next: (data) => {
+            this.isApproved.set(data.status === "APPROVED");
+          },
+          error: (err) => {
+            this.isApproved.set(false);
+          }
+        });
     } else {
       this.toastService.show('Your session has expired. Please login again.', 'alert');
     }
