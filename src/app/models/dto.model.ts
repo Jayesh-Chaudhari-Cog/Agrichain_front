@@ -79,7 +79,7 @@ export interface DisbursementDTO {
 }
 
 export interface Disbursement {
-    disbursementId: number;
+    disbursementID: number;
     farmerId: number;
     programId: number;
     disbursementAmount: number;
@@ -94,5 +94,5 @@ export interface Disbursement {
         subsidyStatus: 'PENDING' | 'VALIDATED' | 'REJECTED';
     };
     status?: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'REJECTED';
-    createdDate?: string;
+    disbursementDate?: string;
 }

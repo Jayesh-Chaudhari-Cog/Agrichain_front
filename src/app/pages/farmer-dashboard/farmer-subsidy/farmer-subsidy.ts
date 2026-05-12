@@ -11,11 +11,12 @@ import { API_URL, FARMER_REGI } from '../../../elements/constants';
 import { VerifyPending } from '../../../common-components/verify-pending/verify-pending';
 import { Farmer } from '../../../models/user.model';
 import { HttpClient } from '@angular/common/http';
+import { Loader } from "../../../common-components/loader/loader";
 
 @Component({
   selector: 'app-farmer-subsidy',
   standalone: true,
-  imports: [CommonModule, FormsModule, VerifyPending],
+  imports: [CommonModule, FormsModule, VerifyPending, Loader],
   templateUrl: './farmer-subsidy.html',
   styleUrl: './farmer-subsidy.css',
 })
@@ -45,7 +46,8 @@ export class FarmerSubsidy implements OnInit {
   ngOnInit() {
     const user = this.authService.currentUser();
     if (user && user.id) {
-      this.farmerUserId.set(user.id);
+      const farmer: Farmer = JSON.parse(localStorage.getItem(FARMER_REGI) || '{}');
+      this.farmerUserId.set(farmer?.farmerId);
       this.loadSubsidyPrograms();
       this.loadFarmerDisbursements();
 
@@ -226,7 +228,7 @@ export class FarmerSubsidy implements OnInit {
    */
   getApplicationStatusDisplay(status: string | undefined): string {
     if (!status) return 'Pending';
-
+    
     switch (status.toUpperCase()) {
       case 'PENDING':
         return 'Under Review';
@@ -246,7 +248,6 @@ export class FarmerSubsidy implements OnInit {
    */
   getStatusBadgeClass(status: string | undefined): string {
     if (!status) return 'status-pending';
-
     const statusLower = status.toLowerCase();
     if (statusLower === 'pending') return 'status-pending';
     if (statusLower === 'in_progress') return 'status-in-progress';
