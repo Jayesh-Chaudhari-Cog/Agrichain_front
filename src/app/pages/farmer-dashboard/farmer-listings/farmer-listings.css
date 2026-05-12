@@ -2,15 +2,14 @@
 .listings-flex-container {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fit, 300px);
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1rem;
   padding: 1rem 0;
 }
 
 /* The Card (Child) */
 .listing-card {
-  flex: 0 1 calc(25% - 20px); /* 25% width minus gap = 4 items per row */
-  min-width: 280px;           /* Prevents cards from getting too thin */
+  min-width: 280px;
   background: #ffffff;
   border: 1px solid #e0e0e0;
   border-radius: 12px;
