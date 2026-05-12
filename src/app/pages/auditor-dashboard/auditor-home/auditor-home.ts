@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuditService } from '../../../services/audit.service';
@@ -18,7 +18,7 @@ export class AuditorHome implements OnInit {
   private auditService = inject(AuditService);
 
   // CRITICAL: This was missing! The HTML table needs this.
-  allAudits: AuditDTO[] = [];
+  allAudits = signal<AuditDTO[]>([]);
 
   stats = {
     total: 0,
@@ -36,7 +36,7 @@ export class AuditorHome implements OnInit {
     this.auditService.getAllAudits().subscribe({
       next: (audits: AuditDTO[]) => {
         // 1. Store the full list for the table
-        this.allAudits = audits;
+        this.allAudits.set(audits);
 
         if (audits && audits.length > 0) {
           this.stats.total = audits.length;

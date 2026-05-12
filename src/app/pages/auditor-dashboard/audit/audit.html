@@ -72,8 +72,8 @@
     <div class="card-header bg-dark text-white">
       <h3 class="mb-0">Recent Records</h3>
     </div>
-    <div class="table-responsive">
-      <table class=" align-middle mb-0">
+    <div class="table-cover">
+      <table class="a-table align-middle mb-0">
         <thead class="table-light">
           <tr>
             <th>ID</th>
@@ -85,7 +85,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let audit of audits">
+          <tr *ngFor="let audit of audits()">
             <td><strong>#{{audit.auditId}}</strong></td>
             <td><span class="badge bg-secondary">{{audit.scope}}</span></td>
             <td>
@@ -107,7 +107,7 @@
               </button>
             </td>
           </tr>
-          <tr *ngIf="audits.length === 0">
+          <tr *ngIf="audits().length === 0">
             <td colspan="5" class="text-center py-4 text-muted">No audit records found.</td>
           </tr>
         </tbody>

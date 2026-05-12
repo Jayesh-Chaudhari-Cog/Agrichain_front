@@ -1,12 +1,14 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, RouterModule } from '@angular/router'; 
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { AuditService } from '../../../services/audit.service';
 import { AuditScope, AuditStatus } from '../../../models/enum.model';
 import { AuditDTO } from '../../../models/dto.model';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
+import { PopupService } from '../../../services/popup.service';
+import { ToastService } from '../../../services/toast-service';
 
 @Component({
   selector: 'app-audit',
@@ -19,10 +21,12 @@ export class AuditComponent implements OnInit {
   // Using inject for cleaner dependency management
   private auditService = inject(AuditService);
   private route = inject(ActivatedRoute);
+  private popupService = inject(PopupService);
+  private toast = inject(ToastService);
 
   faTrash = faTrash;
   faEdit = faEdit;
-  audits: AuditDTO[] = [];
+  audits = signal<AuditDTO[]>([]);
   viewOnly = false; // Flag to hide the entry form based on navigation
   selectedAuditId: number | null = null;
   isEditing = false;
@@ -30,10 +34,10 @@ export class AuditComponent implements OnInit {
   // Initializing with Enums to fix the errors in image_956994.png
   newAudit: AuditDTO = {
     officerId: 101,
-    scope: AuditScope.PROGRAM, 
+    scope: AuditScope.PROGRAM,
     findings: '',
     date: new Date().toISOString().split('T')[0],
-    status: AuditStatus.OPEN 
+    status: AuditStatus.OPEN
   };
 
   ngOnInit(): void {
@@ -41,14 +45,14 @@ export class AuditComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.viewOnly = params['mode'] === 'view';
     });
-    
+
     this.loadAudits();
   }
 
   loadAudits(): void {
     this.auditService.getAllAudits().subscribe({
       next: (data) => {
-        this.audits = data;
+        this.audits.set(data);
       },
       error: (err) => {
         console.error('Error fetching audits:', err);
@@ -58,7 +62,7 @@ export class AuditComponent implements OnInit {
 
   submitAudit(): void {
     const auditToSave: AuditDTO = {
-      officerId: Number(this.newAudit.officerId), 
+      officerId: Number(this.newAudit.officerId),
       scope: this.newAudit.scope,
       findings: this.newAudit.findings,
       date: this.newAudit.date,
@@ -87,7 +91,7 @@ export class AuditComponent implements OnInit {
         console.log('Audit created successfully:', response);
         alert('Audit saved successfully!');
         this.loadAudits(); // Refresh the records table
-        this.resetForm(); 
+        this.resetForm();
       },
       error: (err) => {
         console.error('Error creating audit:', err);
@@ -109,18 +113,23 @@ export class AuditComponent implements OnInit {
     };
   }
 
-  deleteAudit(auditId: number | undefined): void {
+  async deleteAudit(auditId: number | undefined): Promise<void> {
     if (auditId == null) {
       return;
     }
-
-    if (!confirm('Are you sure you want to delete this audit record?')) {
+    const confirmed = await this.popupService.confirm({
+            title: 'Delete Record?',
+            message: 'Are you sure you want to delete this record? This action cannot be undone.',
+            confirmText: 'Delete',
+            cancelText: 'Cancel',
+            type: 'danger'
+          });
+    if (!confirmed) {
       return;
     }
-
     this.auditService.deleteAudit(auditId).subscribe({
       next: () => {
-        alert('Audit record deleted successfully.');
+        this.toast.show('Audit deleted successfully!', 'success');
         if (this.selectedAuditId === auditId) {
           this.resetForm();
         }
@@ -128,7 +137,7 @@ export class AuditComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error deleting audit:', err);
-        alert('Unable to delete audit. Please try again.');
+        this.toast.show('Unable to delete audit.', 'alert');
       }
     });
   }
