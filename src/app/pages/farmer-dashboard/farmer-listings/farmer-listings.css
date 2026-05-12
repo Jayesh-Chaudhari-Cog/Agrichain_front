@@ -1,10 +1,10 @@
 /* Parent Container */
 .listings-flex-container {
-  display: flex;
-  flex-wrap: wrap;       /* Allows items to move to next line */
-  gap: 20px;            /* Space between cards */
-  justify-content: flex-start; /* Aligns cards to the left */
-  padding: 20px 0;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 300px);
+  gap: 1rem;
+  padding: 1rem 0;
 }
 
 /* The Card (Child) */

@@ -61,19 +61,6 @@ export class AuthService {
 		}
 	}
 
-	isFarmerGotApproved(): any {
-		const user: User = JSON.parse(localStorage.getItem(USER_INFO) || '{}');
-		this.http.get<Farmer>(`${API_URL}farmers/get-by-userid/${user.id}`)
-			.subscribe({
-				next: (data) => {
-					return data.status === "APPROVED";
-				},
-				error: (err) => {
-					return false;
-				}
-			});
-	}
-
 	onRegister(userData: any) {
 		return this.http.post(`${API_URL}${USER_PATH}/register`, userData);
 	}
@@ -126,10 +113,6 @@ export class AuthService {
 				const currentUser = this._currentUser();
 				if (currentUser) {
 					this.themeService.themeChange(currentUser.role);
-				}
-
-				if (currentUser?.role === UserRole.FARMER) {
-					this.isFarmerGotApproved();
 				}
 
 			} catch (e) {

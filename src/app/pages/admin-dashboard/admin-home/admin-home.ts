@@ -117,7 +117,6 @@ export class AdminHome implements OnInit {
 	}
 
 	createChart(data: any[]) {
-		// 1. Process data: Count occurrences of each crop name
 		const counts: { [key: string]: number } = {};
 		data.forEach(item => {
 			counts[item.cropType] = (counts[item.cropType] || 0) + 1;

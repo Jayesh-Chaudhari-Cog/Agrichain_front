@@ -8,6 +8,7 @@ import { VerifyPending } from '../../../common-components/verify-pending/verify-
 import { UserService } from '../../../services/user-service';
 import { Farmer } from '../../../models/user.model';
 import { faL } from '@fortawesome/free-solid-svg-icons';
+import { ToastService } from '../../../services/toast-service';
 
 // Interface to match your Backend CropListingDTO
 interface CropListing {
@@ -29,6 +30,7 @@ interface CropListing {
 export class FarmerDashboardPage implements OnInit {
 	private authService = inject(AuthService);
 	private http = inject(HttpClient);
+	private toast = inject(ToastService);
 
 	isApproved = signal(false);
 
@@ -97,31 +99,30 @@ export class FarmerDashboardPage implements OnInit {
 	onApplySubsidy() { console.log("Opening Subsidy Program List..."); }
 
 	submitCrop() {
-		const user = this.authService.currentUser();
+		const farmer = JSON.parse(localStorage.getItem(FARMER_REGI) || '{}')
 
-		if (!user || !user.id) {
-			alert("Please log in first!");
+		if (!farmer || !farmer.farmerId) {
+			this.toast.show('Please Login as Farmer!', 'alert');
 			return;
 		}
 
 		const payload = {
 			...this.newCrop,
-			farmerId: user.id // Links listing to Harini's account
+			farmerId: farmer.farmerId
 		};
 
 		this.http.post('http://localhost:8090/market/createlisting', payload)
 			.subscribe({
 				next: (res) => {
-					alert("Crop listed successfully!");
+					this.toast.show('Crop listed successfully!', 'success');
 					this.showAddForm.set(false);
 					this.newCrop = { cropType: '', quantity: 0, price: 0, location: '' };
 
-					// REFRESH the list immediately after adding a new crop
 					this.loadFarmerData();
 				},
 				error: (err) => {
 					console.error("Listing failed", err);
-					alert("Error: Check if your Market Microservice is running.");
+					this.toast.show('Server error', 'alert');
 				}
 			});
 	}

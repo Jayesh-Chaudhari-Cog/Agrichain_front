@@ -66,10 +66,8 @@ export class FarmerListings implements OnInit {
   }
 
   fetchMyListings() {
-    // Access the signal value by calling it like a function ()
-    // Use optional chaining (?.) because currentUser could be null
-    const user = this.authService.currentUser();
-    const currentFarmerId = user?.id;
+    const farmer = JSON.parse(localStorage.getItem(FARMER_REGI) || '{}');
+    const currentFarmerId = farmer?.farmerId;
 
     if (currentFarmerId) {
       this.http.get<any[]>(`http://localhost:8090/market/listings/farmer/${currentFarmerId}`)
