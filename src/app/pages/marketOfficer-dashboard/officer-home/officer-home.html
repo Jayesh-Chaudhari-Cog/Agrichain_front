@@ -74,7 +74,7 @@
 			<header class="section-header">
 				<h2 class="grad-text">Crop Listing Validation Queue</h2>
 			</header>
-			<div class="card-grid-flex">
+			<div class="card-grid">
 				<div class="data-card" *ngFor="let item of pendingListings">
 					<div class="card-badge-container">
 						<span class="id-badge">#{{item.listingId}}</span>
@@ -87,9 +87,9 @@
 						<div class="info-row"><span class="label">Price:</span><span class="value">₹{{item.price}} / kg</span></div>
 						<div class="info-row"><span class="label">Quantity:</span><span class="value">{{item.quantity}} Kgs</span></div>
 					</div>
-					<div class="card-actions">
-						<button class="btn-cyan action-btn" (click)="approveCrop(item.listingId!)">Approve</button>
-						<button class="btn btn-danger action-btn" (click)="rejectCrop(item.listingId!)">Reject</button>
+					<div class="form-buttons-box">
+						<button class="btn btn-primary" (click)="approveCrop(item.listingId!)">Approve</button>
+						<button class="btn btn-danger" (click)="rejectCrop(item.listingId!)">Reject</button>
 					</div>
 				</div>
 			</div>
@@ -130,7 +130,7 @@
 			<header class="section-header">
 				<h2 class="grad-text">Pending Subsidy Disbursements</h2>
 			</header>
-			<div class="card-grid-flex">
+			<div class="card-grid">
 				<div class="data-card" *ngFor="let sub of pendingSubsidies">
 					<div class="card-badge-container">
 						<span class="id-badge">App #{{sub.disbursementId}}</span>
@@ -153,8 +153,8 @@
 						</div>
 					</div>
 					<div class="card-actions" *ngIf="sub.disbursementStatus === 'PENDING'">
-						<button class="btn-cyan action-btn" (click)="approveSubsidy(sub.disbursementId, 'APPROVED')">Approve</button>
-						<button class="btn btn-danger action-btn" (click)="approveSubsidy(sub.disbursementId, 'REJECTED')">Reject</button>
+						<button class="btn btn-primary" (click)="approveSubsidy(sub.disbursementID, 'COMPLETED')">Approve</button>
+						<button class="btn btn-danger" (click)="approveSubsidy(sub.disbursementID, 'REJECTED')">Reject</button>
 					</div>
 				</div>
 			</div>
