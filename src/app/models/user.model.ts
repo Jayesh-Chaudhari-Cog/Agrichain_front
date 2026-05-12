@@ -10,7 +10,7 @@ export interface User {
 }
 
 export interface Farmer {
-    id: number,
+    farmerId: number,
     userId: number,
     name: string,
     email: string,

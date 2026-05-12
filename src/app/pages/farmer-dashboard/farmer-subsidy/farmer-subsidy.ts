@@ -31,6 +31,7 @@ export class FarmerSubsidy implements OnInit {
   subsidyPrograms = signal<SubsidyProgram[]>([]);
   farmerDisbursements = signal<Disbursement[]>([]);
   farmerUserId = signal<number | null>(null);
+  farmerId = signal<number | null>(null);
   isLoadingPrograms = signal(false);
   isLoadingApplications = signal(false);
 
@@ -52,6 +53,7 @@ export class FarmerSubsidy implements OnInit {
         .subscribe({
           next: (data) => {
             this.isApproved.set(data.status === "APPROVED");
+            this.farmerId.set(data.farmerId);
           },
           error: (err) => {
             this.isApproved.set(false);
@@ -158,8 +160,10 @@ export class FarmerSubsidy implements OnInit {
    */
   submitSubsidyApplication() {
     const program = this.selectedProgram();
-    const farmerId = this.farmerUserId();
+    const farmerId = this.farmerId();
     const amount = this.requestedAmount();
+
+    console.log('Submitting application with:', { program, farmerId, amount });
 
     if (!program || !farmerId || !amount) {
       this.toastService.show('Please fill in all required fields.', 'alert');
