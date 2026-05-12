@@ -1,5 +1,6 @@
 .console-body {
-  padding: 40px 50px;
+  width: 100%;
+  padding: 1rem;
 }
 
 /* Quick Info Stats Ribbon */
@@ -256,19 +257,17 @@
 
 
 .card-grid {
+  width: 100%;
   display: grid;
-  /* 'auto-fill' creates as many columns as will fit */
-  /* 'minmax(300px, 1fr)' ensures cards are at least 300px but grow to fill space */
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 20px;
-  /* Space between the cards */
-  padding: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
 }
 
 .data-card {
   background: white;
-  border-radius: 15px;
-  padding: 20px;
+  border-radius: 1rem;
+  padding: 1rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   /* Ensure cards have a consistent height if desired */
   display: flex;
@@ -359,9 +358,11 @@
 }
 
 .card-grid {
+  width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  padding: 10px 0;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  padding: 0.5rem 0;
 }
 
 .data-card {
