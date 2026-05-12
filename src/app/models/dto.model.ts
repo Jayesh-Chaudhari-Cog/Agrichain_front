@@ -9,6 +9,7 @@ export interface CropListingDTO {
   location: string;
   status?: string;
   documentUrl?: string;
+  farmerNumber?: string;
 }
 
 export interface OrderDTO {
