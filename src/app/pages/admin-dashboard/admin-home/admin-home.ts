@@ -120,15 +120,14 @@ export class AdminHome implements OnInit {
 		// 1. Process data: Count occurrences of each crop name
 		const counts: { [key: string]: number } = {};
 		data.forEach(item => {
-			counts[item.cropName] = (counts[item.cropName] || 0) + 1;
+			counts[item.cropType] = (counts[item.cropType] || 0) + 1;
 		});
 
 		const labels = Object.keys(counts);
 		const values = Object.values(counts);
 
-		// 2. Initialize Chart.js
 		this.chart = new Chart('CropChart', {
-			type: 'bar', // or 'pie', 'doughnut'
+			type: 'bar',
 			data: {
 				labels: labels,
 				datasets: [{
