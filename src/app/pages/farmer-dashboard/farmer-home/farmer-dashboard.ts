@@ -59,6 +59,8 @@ export class FarmerDashboardPage implements OnInit {
 
 	loadFarmerData() {
 		const user = this.authService.currentUser();
+		const farmer = JSON.parse(localStorage.getItem(FARMER_REGI) || '{}');
+    	const currentFarmerId = farmer?.farmerId;
 		if (user) {
 			this.farmerName.set(user.name);
 
@@ -73,8 +75,8 @@ export class FarmerDashboardPage implements OnInit {
 					}
 				});
 
-			if (user.id) {
-				this.http.get<CropListing[]>(`${API_URL}market/listings/farmer/${user.id}`)
+			if (currentFarmerId) {
+				this.http.get<CropListing[]>(`${API_URL}market/listings/farmer/${currentFarmerId}`)
 					.subscribe({
 						next: (data) => {
 							this.recentListings.set(data);
