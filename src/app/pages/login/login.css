@@ -324,6 +324,7 @@
     }
     .login-wave1, .login-wave2 {
         --wave-length: 3rem;
+        background: radial-gradient(circle at 50% 50%, transparent calc(100% - calc(var(--wave-length) * 3)), rgba(255, 255, 255, 0.5) calc(100% - var(--wave-length)));
     }
     .login-ball1, .login-wave1 {
         top: 0%;
