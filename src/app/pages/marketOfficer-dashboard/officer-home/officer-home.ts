@@ -303,10 +303,10 @@ export class OfficerHome implements OnInit {
 		return this.marketService.getDocumentFileUrl(doc);
 	}
 
-	approveSubsidy(id: number, status: string = 'APPROVED') {
+	approveSubsidy(id: number, status: string = 'COMPLETED') {
 		this.marketService.reviewDisbursement(id, status).subscribe({
 			next: (res) => {
-				this.toast.show(`Subsidy ${status.toLowerCase()} successfully!`, 'success');
+				this.toast.show(`Subsidy Approved successfully!`, 'success');
 				this.refreshAllData();
 			},
 			error: (err) => {
