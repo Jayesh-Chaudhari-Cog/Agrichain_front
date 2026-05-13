@@ -11,27 +11,21 @@
     </div>
   </div>
 
-  <div class="audit-cards">
-    <div class="col-lg-3 col-sm-6">
-      <div class="card  ">
-        <h5 class="mb-2">Total Records</h5>
-        <p class="display-6 mb-0">{{ totalCount }}</p>
-      </div>
+  <div class="summary-grid">
+    <div class="summary-card">
+        <p >Total Records</p>
+        <strong >{{ totalCount }}</strong>
     </div>
 
-    <div *ngFor="let item of typeLabels" class="col-lg-3 col-sm-6">
-      <div class="card  ">
-        <h5 class="mb-2">{{ item.label }}</h5>
-        <p class="display-6 mb-0">{{ typeCounts[item.value] }}</p>
-      </div>
+    <div *ngFor="let item of typeLabels" class="summary-card">
+        <p >{{ item.label }}</p>
+        <strong >{{ typeCounts[item.value] }}</strong>
     </div>
     
 
-    <div *ngFor="let status of resultLabels" class="col-lg-3 col-sm-6">
-      <div class="card ">
-        <h5 class="mb-2">{{ status.label }}</h5>
-        <p class="display-6 mb-0">{{ resultCounts[status.value] }}</p>
-      </div>
+    <div *ngFor="let status of resultLabels" class="summary-card">
+        <p >{{ status.label }}</p>
+        <strong>{{ resultCounts[status.value] }}</strong>
     </div>
   </div>
 

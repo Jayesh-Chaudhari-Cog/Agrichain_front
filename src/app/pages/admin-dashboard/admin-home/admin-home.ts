@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, effect, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReportService } from '../../../services/report.service';
 import { NotificationService } from '../../../services/notification.service';
@@ -6,17 +6,24 @@ import { UserService } from '../../../services/user-service';
 import { CropListingStatus, UserRole } from '../../../models/enum.model';
 import { MarketService } from '../../../services/market';
 import Chart from 'chart.js/auto';
+import { AuditLogDto } from '../../../models/dto.model';
+import { AuditService } from '../../../services/audit.service';
+import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 
 @Component({
 	selector: 'admin-home',
-	imports: [CommonModule],
+	imports: [CommonModule, FaIconComponent],
 	templateUrl: './admin-home.html',
 	styleUrl: './admin-home.css'
 })
 export class AdminHome implements OnInit {
+	faLeft = faArrowLeft;
+	faRight = faArrowRight;
 
 	readonly totalReports = signal(0);
 	readonly totalNotifications = signal(0);
+	logs = signal<AuditLogDto[]>([]);
 	chart: any;
 
 	readonly totalUsers = signal(0);
@@ -66,12 +73,16 @@ export class AdminHome implements OnInit {
 		private reportService: ReportService,
 		private notificationService: NotificationService,
 		private userService: UserService,
-		private marketService: MarketService
-	) { }
+		private marketService: MarketService,
+		private auditService: AuditService
+	) {
+		effect(() => {
+			this.getAllLogs();
+		}, { allowSignalWrites: true });
+	}
 
 	ngOnInit(): void {
 		this.fetchData();
-
 	}
 
 	fetchData() {
@@ -113,6 +124,36 @@ export class AdminHome implements OnInit {
 
 		this.marketService.getListingsByStatus(CropListingStatus.VALIDATED).subscribe(listings => {
 			this.createChart(listings);
+		});
+
+		this.getAllLogs();
+	}
+
+	pageNum = signal(0);
+	pageSize = signal(10);
+	totalElements = signal(0);
+	isFirstPage = signal(true);
+	isLastPage = signal(false);
+
+	pageNext() {
+		if (!this.isLastPage()) {
+			this.pageNum.update(p => p + 1);
+		}
+	}
+	pagePrevious() {
+		if (this.pageNum() > 0) {
+			this.pageNum.update(p => p - 1);
+		}
+	}
+
+	getAllLogs() {
+		this.auditService.getAuditLogs(this.pageNum(), this.pageSize()).subscribe({
+			next: (response) => {
+				this.logs.set(response.content);
+				this.isFirstPage.set(response.first);
+            	this.isLastPage.set(response.last);
+			},
+			error: (err) => console.error('Error fetching logs', err)
 		});
 	}
 

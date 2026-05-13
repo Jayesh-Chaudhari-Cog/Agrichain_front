@@ -292,7 +292,7 @@ app-welcome, app-login {
 
 /* Table */
 .table-cover {
-    width: clamp(300px, 100%, 800px);
+    width: clamp(300px, 100%, 1200px);
 	min-width: 300px;
     border-radius: 0.5rem;
     position: relative;
@@ -313,7 +313,6 @@ app-welcome, app-login {
 }
 td, th {
     padding: 0.4rem 0.6rem;
-    text-align: center;
 }
 th:first-of-type {
     border-radius: 0.6rem 0 0 0;
@@ -331,16 +330,13 @@ th {
     background-color: var(--accent-color);
     border-left: 1px solid var(--accent-bg);
     border-right: 1px solid var(--accent-bg);
+    text-align: center;
     background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6)), linear-gradient(var(--accent-color), var(--accent-color));
 }
 td {
     border: 1px solid var(--accent-color);
     font-size: calc(var(--font-size) - 0.2rem);
 }
-td:nth-of-type(1), td:nth-of-type(2) {
-    text-align: left;
-}
-
 tr:nth-of-type(even) {
 	background-color: var(--accent-transparent);
 }
@@ -348,7 +344,7 @@ tr:nth-of-type(odd) {
     background-color: var(--primary-color);
 }
 tr:hover {
-    background-color: var(--accent-transparent);
+    background-color: #ddd;
     color: var(--accent-text);
 }
 /* summary-card */
@@ -365,6 +361,7 @@ tr:hover {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+    text-align: center;
 	background-color: var(--accent-bg);
 	border: 1px solid var(--accent-color);
 	border-top: 4px solid var(--accent-color);

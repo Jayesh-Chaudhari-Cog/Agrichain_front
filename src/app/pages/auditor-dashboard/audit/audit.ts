@@ -73,14 +73,13 @@ export class AuditComponent implements OnInit {
       auditToSave.auditId = this.selectedAuditId;
       this.auditService.updateAudit(this.selectedAuditId, auditToSave).subscribe({
         next: (response) => {
-          console.log('Audit updated successfully:', response);
-          alert('Audit updated successfully!');
+          this.toast.show('Audit updated succesfully', 'success');
           this.loadAudits();
           this.resetForm();
         },
         error: (err) => {
           console.error('Error updating audit:', err);
-          alert('Could not update audit. Please try again.');
+          this.toast.show('Could not update audit. Please try again.', 'alert');
         }
       });
       return;
@@ -88,15 +87,14 @@ export class AuditComponent implements OnInit {
 
     this.auditService.createAudit(auditToSave).subscribe({
       next: (response) => {
-        console.log('Audit created successfully:', response);
-        alert('Audit saved successfully!');
+        this.toast.show('Audit saved successfully!', 'success');
         this.loadAudits(); // Refresh the records table
         this.resetForm();
       },
       error: (err) => {
         console.error('Error creating audit:', err);
         // Reminder: Ensure @CrossOrigin is in your Java Controller
-        alert('Could not save audit. Is the backend running?');
+        this.toast.show('Could not save audit. Is the backend running?', 'alert');
       }
     });
   }

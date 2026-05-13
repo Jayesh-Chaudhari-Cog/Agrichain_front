@@ -80,7 +80,45 @@
 			</div>
 		</section>
 	</div>
-	<section>
+	<section class="table-cover">
+		<div class="pagination-controls">
+			<button class="btn btn-icon btn-info" (click)="pagePrevious()" [disabled]="pageNum() === 0">
+				<fa-icon [icon]="faLeft" />
+			</button>
 
+			<strong># {{ pageNum() + 1 }}</strong>
+
+			<button class="btn btn-icon btn-info" (click)="pageNext()" [disabled]="isLastPage()">
+				<fa-icon [icon]="faRight" />
+			</button>
+		</div>
+		<table class="a-table">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Action</th>
+					<th>Details</th>
+					<th>Performed by</th>
+					<th>Role</th>
+					<th>Time stamp</th>
+				</tr>
+			</thead>
+			<tbody>
+				@for(log of logs(); track log.id) {
+				<tr>
+					<td>{{ log.id }}</td>
+					<td>{{ log.action }}</td>
+					<td>{{ log.details }}</td>
+					<td>{{ log.performedBy }}</td>
+					<td>{{ log.role }}</td>
+					<td>{{ log.timestamp | date:'medium' }}</td>
+				</tr>
+				} @empty {
+				<tr>
+					<td colspan="6" style="text-align: center; padding: 0.8rem;">No audit logs found.</td>
+				</tr>
+				}
+			</tbody>
+		</table>
 	</section>
 </div>
