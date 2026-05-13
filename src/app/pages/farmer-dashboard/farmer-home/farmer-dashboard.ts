@@ -9,6 +9,7 @@ import { UserService } from '../../../services/user-service';
 import { Farmer } from '../../../models/user.model';
 import { faL } from '@fortawesome/free-solid-svg-icons';
 import { ToastService } from '../../../services/toast-service';
+import { Router } from '@angular/router';
 
 // Interface to match your Backend CropListingDTO
 interface CropListing {
@@ -31,6 +32,7 @@ export class FarmerDashboardPage implements OnInit {
 	private authService = inject(AuthService);
 	private http = inject(HttpClient);
 	private toast = inject(ToastService);
+	private route = inject(Router);
 
 	isApproved = signal(false);
 
@@ -60,7 +62,8 @@ export class FarmerDashboardPage implements OnInit {
 	loadFarmerData() {
 		const user = this.authService.currentUser();
 		const farmer = JSON.parse(localStorage.getItem(FARMER_REGI) || '{}');
-    	const currentFarmerId = farmer?.farmerId;
+		const currentFarmerId = farmer?.farmerId;
+
 		if (user) {
 			this.farmerName.set(user.name);
 
@@ -68,6 +71,7 @@ export class FarmerDashboardPage implements OnInit {
 				.subscribe({
 					next: (data) => {
 						this.status.set(data.status);
+						this.fetchListings(data.farmerId);
 						this.isApproved.set(data.status === "APPROVED");
 					},
 					error: (err) => {
@@ -75,18 +79,20 @@ export class FarmerDashboardPage implements OnInit {
 					}
 				});
 
-			if (currentFarmerId) {
-				this.http.get<CropListing[]>(`${API_URL}market/listings/farmer/${currentFarmerId}`)
-					.subscribe({
-						next: (data) => {
-							this.recentListings.set(data);
-							this.listedCropsCount.set(data.length);
-						},
-						error: (err) => {
-							console.error("Failed to load listings:", err);
-						}
-					});
-			}
+		}
+	}
+	fetchListings(farmerId: number) {
+		if (farmerId) {
+			this.http.get<CropListing[]>(`${API_URL}market/listings/farmer/${farmerId}`)
+				.subscribe({
+					next: (data) => {
+						this.recentListings.set(data);
+						this.listedCropsCount.set(data.length);
+					},
+					error: (err) => {
+						console.error("Failed to load listings:", err);
+					}
+				});
 		}
 	}
 
@@ -98,7 +104,10 @@ export class FarmerDashboardPage implements OnInit {
 		this.showAddForm.set(true);
 	}
 
-	onApplySubsidy() { console.log("Opening Subsidy Program List..."); }
+	onApplySubsidy() {
+		console.log("Opening Subsidy Program List...");
+		this.route.navigate(['/dashboard/farmer/subsidies']);
+	}
 
 	submitCrop() {
 		const farmer = JSON.parse(localStorage.getItem(FARMER_REGI) || '{}')

@@ -6,8 +6,7 @@
 }
 
 .notification-role {
-	width: 100%;
-	background-color: var(--accent-dark);
+	margin: 0 auto;
 }
 
 .notification-details {

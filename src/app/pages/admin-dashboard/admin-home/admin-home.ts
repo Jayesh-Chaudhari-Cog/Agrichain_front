@@ -27,7 +27,6 @@ export class AdminHome implements OnInit {
 	chart: any;
 
 	readonly totalUsers = signal(0);
-	totalPercent = computed(() => 100 / this.totalUsers());
 	readonly totalFarmers = signal(0);
 	readonly totalTraders = signal(0);
 	readonly totalOfficers = signal(0);

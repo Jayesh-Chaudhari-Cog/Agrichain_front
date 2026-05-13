@@ -389,6 +389,7 @@ tr:hover {
     color: white;
     border-radius: 1rem;
     font-size: 1rem;
+    text-align: center;
     font-weight: bold;
     text-transform: uppercase;
 }
