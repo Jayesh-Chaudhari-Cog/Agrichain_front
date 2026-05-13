@@ -110,7 +110,7 @@
 					<td>{{ log.action }}</td>
 					<td>{{ log.details }}</td>
 					<td>{{ log.performedBy }}</td>
-					<td>{{ log.role }}</td>
+					<td><p class="audit-role role-badge shine">{{ log.role }}</p></td>
 					<td>{{ log.timestamp | date:'medium' }}</td>
 				</tr>
 				} @empty {
