@@ -9,6 +9,7 @@ import { UserService } from '../../../services/user-service';
 import { Farmer } from '../../../models/user.model';
 import { faL } from '@fortawesome/free-solid-svg-icons';
 import { ToastService } from '../../../services/toast-service';
+import { Router } from '@angular/router';
 
 // Interface to match your Backend CropListingDTO
 interface CropListing {
@@ -31,6 +32,7 @@ export class FarmerDashboardPage implements OnInit {
 	private authService = inject(AuthService);
 	private http = inject(HttpClient);
 	private toast = inject(ToastService);
+	private route = inject(Router);
 
 	isApproved = signal(false);
 
@@ -102,7 +104,10 @@ export class FarmerDashboardPage implements OnInit {
 		this.showAddForm.set(true);
 	}
 
-	onApplySubsidy() { console.log("Opening Subsidy Program List..."); }
+	onApplySubsidy() {
+		console.log("Opening Subsidy Program List...");
+		this.route.navigate(['/dashboard/farmer/subsidies']);
+	}
 
 	submitCrop() {
 		const farmer = JSON.parse(localStorage.getItem(FARMER_REGI) || '{}')
