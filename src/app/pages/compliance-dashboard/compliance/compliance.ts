@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, Signal, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router'; // For navigation
@@ -25,7 +25,7 @@ export class ComplianceComponent implements OnInit {
   faEdit = faEdit;
   faCheck = faCheckCircle;
 
-  compliances: ComplianceDTO[] = [];
+  compliances = signal<ComplianceDTO[]>([]);
   isEditing = false;
   selectedId: number | null = null;
 
@@ -44,7 +44,7 @@ export class ComplianceComponent implements OnInit {
 
   loadCompliances(): void {
     this.complianceService.getAllCompliances().subscribe({
-      next: (data) => this.compliances = data,
+      next: (data) => this.compliances.set(data),
       error: (err) => console.error('Error fetching data', err)
     });
   }

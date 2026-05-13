@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ComplianceService } from '../../../services/compliance.service';
@@ -15,7 +15,7 @@ import { ComplianceType, ComplianceResult } from '../../../models/enum.model';
 export class ComplianceHomeComponent {
   private complianceService = inject(ComplianceService);
 
-  compliances: ComplianceDTO[] = [];
+  compliances = signal<ComplianceDTO[]>([]);
   totalCount = 0;
   typeCounts: Record<ComplianceType, number> = {
     [ComplianceType.LISTING]: 0,
@@ -49,19 +49,19 @@ export class ComplianceHomeComponent {
   loadComplianceRecords(): void {
     this.complianceService.getAllCompliances().subscribe({
       next: (data) => {
-        this.compliances = data || [];
+        this.compliances.set(data || []);
         this.updateCounts();
       },
       error: (err) => {
         console.error('Unable to load compliance records', err);
-        this.compliances = [];
+        this.compliances.set([]);
         this.updateCounts();
       }
     });
   }
 
   updateCounts(): void {
-    this.totalCount = this.compliances.length;
+    this.totalCount = this.compliances().length;
     this.typeCounts = {
       [ComplianceType.LISTING]: 0,
       [ComplianceType.TRANSACTION]: 0,
@@ -74,14 +74,14 @@ export class ComplianceHomeComponent {
       [ComplianceResult.REVIEW]: 0
     };
 
-    this.compliances.forEach((item) => {
+    for(const item of this.compliances()) {
       if (item.type in this.typeCounts) {
         this.typeCounts[item.type] += 1;
       }
       if (item.result in this.resultCounts) {
         this.resultCounts[item.result] += 1;
       }
-    });
+    }
   }
 
   getResultBadgeClass(result: ComplianceResult): string {

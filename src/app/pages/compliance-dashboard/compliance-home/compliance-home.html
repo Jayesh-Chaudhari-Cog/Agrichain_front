@@ -44,7 +44,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let record of compliances">
+          <tr *ngFor="let record of compliances()">
             <td>#{{ record.complianceId }}</td>
             <td>{{ record.auditId }}</td>
             <td>{{ record.type }}</td>
@@ -54,7 +54,7 @@
             <td>{{ record.date }}</td>
             <td>{{ record.notes || '—' }}</td>
           </tr>
-          <tr *ngIf="compliances.length === 0">
+          <tr *ngIf="compliances().length === 0">
             <td colspan="6" class="text-center py-4 text-muted">No compliance records found yet.</td>
           </tr>
         </tbody>

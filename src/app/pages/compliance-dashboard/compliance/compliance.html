@@ -88,7 +88,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr *ngFor="let item of compliances">
+				<tr *ngFor="let item of compliances()">
 					<td><strong>#{{item.complianceId}}</strong></td>
 					<td>Audit #{{item.auditId}}</td>
 					<td>{{item.type}}</td>
@@ -112,7 +112,7 @@
 						</button>
 					</td>
 				</tr>
-				<tr *ngIf="compliances.length === 0">
+				<tr *ngIf="compliances().length === 0">
 					<td colspan="6" class="text-center py-4 text-muted">No records found.</td>
 				</tr>
 			</tbody>
