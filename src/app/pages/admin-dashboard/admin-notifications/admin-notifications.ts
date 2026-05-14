@@ -8,6 +8,7 @@ import { Loader } from "../../../common-components/loader/loader";
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { PopupService } from '../../../services/popup.service';
+import { ToastService } from '../../../services/toast-service';
 
 @Component({
 	selector: 'admin-notifications',
@@ -18,6 +19,7 @@ import { PopupService } from '../../../services/popup.service';
 export class AdminNotifications implements OnInit {
 	notifications = signal<Notification[]>([]);
 	loading = signal(false);
+	private toast = inject(ToastService);
 
 	faDelete = faTrash;
 
@@ -67,9 +69,13 @@ export class AdminNotifications implements OnInit {
 		this.notificationService.createNotification(payload).subscribe({
 			next: () => {
 				this.fetchNotifications();
+				this.toast.show('Notification Boardcasted', 'success');
 				this.showForm.set(false);
 			},
-			error: (err) => console.error('Error creating notification', err)
+			error: (err) => {
+				this.toast.show('Error creating notification', 'alert');
+				console.error('Error creating notification', err);
+			}
 		});
 	}
 

@@ -11,7 +11,7 @@ import { Loader } from '../../../common-components/loader/loader';
 @Component({
   selector: 'trader-croplistings',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, Loader],
   templateUrl: './trader-croplistings.html',
   styleUrl: './trader-croplistings.css'
 })

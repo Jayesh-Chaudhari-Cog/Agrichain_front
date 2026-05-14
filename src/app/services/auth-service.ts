@@ -78,10 +78,6 @@ export class AuthService {
 		localStorage.setItem(TOKEN_KEY, token);
 	}
 
-	private decodeAndStore(token: string) {
-		const decoded = this.jwtHelper.decodeToken(token);
-	}
-
 	isLoggedIn(): boolean {
 		const token = localStorage.getItem(TOKEN_KEY);
 		return token ? !this.jwtHelper.isTokenExpired(token) : false;
