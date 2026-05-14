@@ -1,6 +1,5 @@
 import { Component, signal, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { MarketService } from '../../../services/market'; // Adjust path based on your folder structure
 import { CropListingDTO } from '../../../models/dto.model';
 import { HttpClient } from '@angular/common/http';
@@ -12,7 +11,7 @@ import { Loader } from '../../../common-components/loader/loader';
 @Component({
   selector: 'trader-croplistings',
   standalone: true,
-  imports: [CommonModule, RouterLink, Loader],
+  imports: [CommonModule],
   templateUrl: './trader-croplistings.html',
   styleUrl: './trader-croplistings.css'
 })
