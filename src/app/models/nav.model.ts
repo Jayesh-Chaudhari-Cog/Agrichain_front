@@ -16,9 +16,7 @@ export const ROLE_CONFIG: Record<string, NavLink[]> = {
     ],
     OFFICER: [
         { label: 'Home', path: `${OFFICER_DASHBOARD}home` },
-        //{ label: 'Inventory', path: `${OFFICER_DASHBOARD}inventory` },
         { label: 'History', path: `${OFFICER_DASHBOARD}history` }
-        //{label: 'Documents', path: `${OFFICER_DASHBOARD}documents` } 
     ],
     TRADER:[
         { label: 'Home', path: `${TRADER_DASHBOARD}home` },

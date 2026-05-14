@@ -52,8 +52,8 @@ export class FarmerDashboardPage implements OnInit {
 	showAddForm = signal(false);
 	newCrop = {
 		cropType: '',
-		quantity: 0,
-		price: 0,
+		quantity: '',
+		price: '',
 		location: ''
 	};
 
@@ -127,7 +127,7 @@ export class FarmerDashboardPage implements OnInit {
 				next: (res) => {
 					this.toast.show('Crop listed successfully!', 'success');
 					this.showAddForm.set(false);
-					this.newCrop = { cropType: '', quantity: 0, price: 0, location: '' };
+					this.newCrop = { cropType: '', quantity: '', price: '', location: '' };
 
 					this.loadFarmerData();
 				},

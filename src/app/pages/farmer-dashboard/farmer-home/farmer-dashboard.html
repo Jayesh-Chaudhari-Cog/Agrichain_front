@@ -69,7 +69,7 @@
     </table>
   </div>
 
-  <!-- Subsidies Tab -->
+  
   <div *ngIf="activeTab() === 'subsidies'">
   </div>
 
@@ -84,12 +84,12 @@
 
       <div class="input-box">
         <label class="input-label">Quantity (Kg)</label>
-        <input class="input-field" type="number" [(ngModel)]="newCrop.quantity" placeholder="0">
+        <input class="input-field" type="number" [(ngModel)]="newCrop.quantity" placeholder="Enter quantity in Kg">
       </div>
 
       <div class="input-box">
         <label class="input-label">Price (per Kg)</label>
-        <input class="input-field" type="number" [(ngModel)]="newCrop.price" placeholder="₹">
+        <input class="input-field" type="number" [(ngModel)]="newCrop.price" placeholder="Enter price per Kg">
       </div>
 
       <div class="input-box">
