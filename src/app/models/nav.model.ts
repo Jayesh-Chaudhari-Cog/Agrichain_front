@@ -20,8 +20,12 @@ export const ROLE_CONFIG: Record<string, NavLink[]> = {
     ],
     TRADER:[
         { label: 'Home', path: `${TRADER_DASHBOARD}home` },
+<<<<<<< HEAD
         { label: 'Crop Listings', path: `${TRADER_DASHBOARD}croplistings` },
         { label: 'Transaction History', path: `${TRADER_DASHBOARD}transaction-history` }
+=======
+        { label: 'Crop Listings', path: `${TRADER_DASHBOARD}croplistings` }
+>>>>>>> 3a69c7932c51cb5bfa775fb20c2419cdcd61bcaa
     ],
     ADMIN: [
         { label: 'Home', path: `${ADMIN_DASHBOARD}home` },

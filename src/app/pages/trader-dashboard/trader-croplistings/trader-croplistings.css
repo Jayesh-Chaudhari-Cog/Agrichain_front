@@ -86,6 +86,7 @@
   .crop-card-grid {
     grid-template-columns: 1fr;
   }
+<<<<<<< HEAD
 }
 /* ── Buy Now additions ── */
 .card-footer {
@@ -139,3 +140,6 @@
 
 .buy-btn:hover { opacity: 0.88; }
 .buy-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+=======
+}
+>>>>>>> 3a69c7932c51cb5bfa775fb20c2419cdcd61bcaa
